@@ -1,0 +1,61 @@
+syn on
+
+set t_Co=256
+set smartindent
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set nu
+set wildchar=<Tab> wildmenu wildmode=full
+set foldmethod=indent
+set nofoldenable
+set pastetoggle=<F2>
+
+" Search Options
+set incsearch
+set ignorecase
+set smartcase
+set hlsearch
+
+" Key mapping
+nmap \q :nohlsearch<CR>
+nmap j gj
+nmap k gk
+nmap <c-l> :redraw!<CR>
+" nmap ; :CtrlPBuffer<CR>
+
+nmap <c-m> <c-y>,
+let g:tagbar_usearrows = 1
+nnoremap ; :TagbarToggle<CR>
+
+" mv between splits
+nmap <c-k> <C-W>l
+nmap <c-j> <C-W>h
+
+noremap <F12> <Esc>:syntax sync fromstart<CR>
+inoremap <F12> <C-o>:syntax sync fromstart<CR>
+
+" Script Stuff
+execute pathogen#infect()
+filetype plugin indent on
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" Load AutoComplete only for certain files
+au BufNewFile,BufRead *.partial set filetype=html
+autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
+autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag/plugin/closetag.vim
+autocmd FileType scala,html,css setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for HTML files "
+
+let coffee_compiler = '/usr/local/bin/iced'
+au BufWritePost *.coffee silent make!
+
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+
+execute pathogen#helptags()
+
+set laststatus=2
+
+colorscheme dante

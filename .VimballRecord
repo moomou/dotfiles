@@ -1,0 +1,1 @@
+DeleteTrailingWhitespace.vba: call delete('/Users/moomou/.vim/autoload/DeleteTrailingWhitespace.vim')|call delete('/Users/moomou/.vim/plugin/DeleteTrailingWhitespace.vim')|call delete('/Users/moomou/.vim/doc/DeleteTrailingWhitespace.txt')
