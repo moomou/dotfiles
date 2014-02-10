@@ -1,7 +1,24 @@
+function symlink() {
+    echo Setting up $1
+    if [ -d ~/$1 ]; then
+        rm -r ~/$1
+    fi
+    ln -s ./$1 ~/$1
+}
 
-# Setting up git complete
-curl https://raw.github.com/git/git/master/contrib/completion/git-completion.bash -o ~/.git-completion.bash
+# Override .vimrc & .vim folder
+symlink('.vim')
+ln -s ./.vimrc ~/.vimrc
 
-gitCompleteCmd='if [ -f ~/.git-completion.bash ]; then
-  . ~/.git-completion.bash
-fi'
+# Override .ssh config
+symlink('.ssh/config')
+
+# Link .gitconfig
+symlink('.gitconfig')
+
+# Link .sbtconfig
+symlink('.sbtconfig')
+
+# Link bash_*
+symlink('.bash_profile')
+symlink('.sbtconfig')
