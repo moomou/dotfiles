@@ -1,6 +1,12 @@
 # Shortcut for commands
-alias vi='mvim -v'
-alias vim='mvim -v'
+
+
+if [ "$(uname)" == "Darwin" ]; then
+    echo This is a Mac
+    alias vi='mvim -v'
+    alias vim='mvim -v'
+fi
+
 alias ctags='/usr/local/bin/ctags'
 
 # Quick folder jmp
