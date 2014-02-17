@@ -1,8 +1,5 @@
 # Shortcut for commands
-
-
 if [ "$(uname)" == "Darwin" ]; then
-    echo This is a Mac
     alias vi='mvim -v'
     alias vim='mvim -v'
 fi

@@ -52,7 +52,7 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 " Load AutoComplete only for certain files
 au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
-autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag/plugin/closetag.vim
+autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
 autocmd FileType scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for HTML files "
 
 " Bundles"
