@@ -42,6 +42,9 @@ nmap m :bn<CR>
 
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
+noremap <F3> <Esc>:Tab/
+inoremap <F3> <C-o>:Tab/
+
 filetype plugin indent on
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -54,7 +57,6 @@ autocmd FileType scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two
 
 " Bundles"
 Bundle 'closetag.vim'
-
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
 Bundle 'wincent/command-t'
@@ -67,6 +69,8 @@ Bundle 'jnwhiteh/vim-golang'
 Bundle 'tpope/vim-fugitive'
 Bundle 'Valloric/YouCompleteMe'
 Bundle 'mattn/emmet-vim'
+Bundle 'godlygeek/tabular'
+Bundle 'tpope/vim-surround'
 
 let coffee_compiler = '/usr/local/bin/iced'
 au BufWritePost *.coffee silent make!
