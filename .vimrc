@@ -59,7 +59,7 @@ autocmd FileType scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two
 Bundle 'closetag.vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'scrooloose/syntastic'
-Bundle 'wincent/command-t'
+Bundle 'wincent/Command-T'
 Bundle 'bling/vim-airline'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'ervandew/supertab'

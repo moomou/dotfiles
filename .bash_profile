@@ -10,11 +10,13 @@ alias ctags='/usr/local/bin/ctags'
 alias dev='cd ~/dev'
 alias course='cd ~/Documents/study'
 
-# Source the original
-source ~/.bashrc
-
 # Make vim the default
 export EDITOR=vim
+
+# Bash Completion
+if [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+fi
 
 # Git auto complete
 if [ -f ~/.git-completion.bash ]; then
@@ -38,8 +40,8 @@ function BashPrompt() {
    # ❤
    local success='\xE2\x9D\xA4\x20'
 
-   if [[ "$last_status" != "0" ]]; then
-       last_status="$(Color 8)$failure$reset"
+   if [[ "$last_status" != '0' ]]; then
+       last_status="$(Color 2)$failure$reset"
    else
        last_status="$(Color 1)$success$reset"
    fi
@@ -47,4 +49,7 @@ function BashPrompt() {
    echo -n -e $last_status;
 }
 
-export PROMPT_COMMAND='history -a; echo -n $(BashPrompt)'
+export PROMPT_COMMAND='echo -n $(BashPrompt)'
+
+# Source the original
+source ~/.bashrc
