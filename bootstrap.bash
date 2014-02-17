@@ -1,5 +1,7 @@
 #!/bin/bash -x
 
+echo "You should have Vim (+ruby) and git installed."
+
 function symlink {
     curDir=${PWD}
     echo Setting up $1
@@ -27,14 +29,6 @@ symlink ".sbtconfig"
 # Link bash_*
 symlink ".bash_profile"
 symlink ".sbtconfig"
-
-if [ "$(uname)" == "Darwin" ]; then
-    echo This is a Mac
-    brew install mvim
-else
-    echo You rock 
-    sudo apt-get install vim-nox
-fi
 
 # Setup vundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
