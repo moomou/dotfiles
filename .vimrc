@@ -1,5 +1,6 @@
 set nocompatible
 filetype off
+
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
@@ -27,6 +28,7 @@ nmap \q :nohlsearch<CR>
 nmap j gj
 nmap k gk
 nmap <c-l> :redraw!<CR>
+" nmap ; :CtrlPBuffer<CR>
 
 nmap <c-m> <c-y>,
 let g:tagbar_usearrows = 1
@@ -42,6 +44,16 @@ noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
 noremap <F3> <Esc>:Tab/
 inoremap <F3> <C-o>:Tab/
+
+filetype plugin indent on
+
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+
+" Load AutoComplete only for certain files
+au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
+autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
+autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
+autocmd FileType scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for HTML files "
 
 " Bundles"
 Bundle 'closetag.vim'
@@ -61,21 +73,14 @@ Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-surround'
 
 let coffee_compiler = '/usr/local/bin/iced'
+au BufWritePost *.coffee silent make!
+
+highlight OverLength ctermbg=red ctermfg=white guibg=#592929
+match OverLength /\%81v.\+/
+
 set laststatus=2
 colorscheme dante
 
 syntax enable
-
+filetype off
 filetype on
-filetype plugin indent on
-
-" Load AutoComplete only for certain files
-au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
-au BufWritePost *.coffee silent make!
-
-autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
-autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
-autocmd FileType scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for HTML files "
-
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
