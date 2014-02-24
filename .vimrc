@@ -44,8 +44,8 @@ nmap m :bn<CR>
 
 noremap <F12> <Esc>:syntax sync fromstart<CR>
 inoremap <F12> <C-o>:syntax sync fromstart<CR>
-noremap <F3> <Esc>:Tab/
-inoremap <F3> <C-o>:Tab/
+noremap <F3> <Esc>:%!xmllint --format --encode UTF-8
+inoremap <F3> <C-o>:%!xmllint --format --encode UTF-8
 
 filetype plugin indent on
 
