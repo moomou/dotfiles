@@ -24,6 +24,8 @@ set smartcase
 set hlsearch
 
 " Key mapping
+imap jk <Esc>
+
 nmap \q :nohlsearch<CR>
 nmap j gj
 nmap k gk

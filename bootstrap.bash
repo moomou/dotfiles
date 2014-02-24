@@ -6,7 +6,6 @@ function symlink {
     curDir=${PWD}
     echo Setting up $1
 
-    echo Deleting...
     yes | rm -r ~/$1 2> /dev/null
 
     # src -> dest
@@ -29,6 +28,11 @@ symlink ".sbtconfig"
 # Link bash_*
 symlink ".bash_profile"
 symlink ".sbtconfig"
+
+# Using .bashrc as custom config on different machines
+if [ "$BASHRC" = "1" ]; then
+    symlink ".bashrc"
+fi
 
 # Setup vundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle

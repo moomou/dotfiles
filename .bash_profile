@@ -8,7 +8,7 @@ alias ctags='/usr/local/bin/ctags'
 
 # Quick folder jmp
 alias dev='cd ~/dev'
-alias course='cd ~/Documents/study'
+alias study='cd ~/study'
 
 # Make vim the default
 export EDITOR=vim
