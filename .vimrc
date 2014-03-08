@@ -4,17 +4,22 @@ filetype off
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+" General Settings
 syn on
-set t_Co=256
+set nu
 set smartindent
+set expandtab
+set nofoldenable
+set hidden       " Hide buffer
+set autowrite    " autosave buffer changes
+set autowriteall " autosave buffer changes
+
+set t_Co=256
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
-set expandtab
-set nu
 set wildchar=<Tab> wildmenu wildmode=full
 set foldmethod=indent
-set nofoldenable
 set pastetoggle=<F2>
 
 " Search Options
@@ -42,10 +47,17 @@ nmap <c-j> <C-W>h
 nmap <S-m> :bp<CR>
 nmap m :bn<CR>
 
-noremap <F12> <Esc>:syntax sync fromstart<CR>
-inoremap <F12> <C-o>:syntax sync fromstart<CR>
-noremap <F3> <Esc>:%!xmllint --format --encode UTF-8
-inoremap <F3> <C-o>:%!xmllint --format --encode UTF-8
+noremap <F1> <Esc>:syntax sync fromstart<CR>
+inoremap <F1> <C-o>:syntax sync fromstart<CR>
+
+noremap <F2> <Esc>:'<,'>Tab/=/l1<CR>
+inoremap <F2> <C-o>:'<,'>Tab/=/l1<CR>
+
+noremap <F3> <Esc>:'<,'>Tab/:/l1<CR>
+inoremap <F3> <C-o>:'<,'>Tab/:/l1<CR>
+
+noremap <F4> <Esc>:%!xmllint --format --encode UTF-8
+inoremap <F4> <C-o>:%!xmllint --format --encode UTF-8
 
 filetype plugin indent on
 
@@ -77,8 +89,7 @@ Bundle 'tpope/vim-surround'
 let coffee_compiler = '/usr/local/bin/iced'
 au BufWritePost *.coffee silent make!
 
-highlight OverLength ctermbg=red ctermfg=white guibg=#592929
-match OverLength /\%81v.\+/
+set cc=100
 
 set laststatus=2
 colorscheme dante
