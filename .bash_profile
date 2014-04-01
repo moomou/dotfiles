@@ -53,3 +53,6 @@ export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
 # Source the original
 source ~/.bashrc
+
+# Source autoenv
+source /usr/local/opt/autoenv/activate.sh

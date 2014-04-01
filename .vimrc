@@ -50,14 +50,14 @@ nmap m :bn<CR>
 noremap <F1> <Esc>:syntax sync fromstart<CR>
 inoremap <F1> <C-o>:syntax sync fromstart<CR>
 
-noremap <F2> <Esc>:'<,'>Tab/=/l1<CR>
-inoremap <F2> <C-o>:'<,'>Tab/=/l1<CR>
+noremap <F3> <Esc>:'<,'>Tab/=/l1<CR>
+inoremap <F3> <C-o>:'<,'>Tab/=/l1<CR>
 
-noremap <F3> <Esc>:'<,'>Tab/:/l1<CR>
-inoremap <F3> <C-o>:'<,'>Tab/:/l1<CR>
+noremap <F4> <Esc>:'<,'>Tab/:/l1<CR>
+inoremap <F4> <C-o>:'<,'>Tab/:/l1<CR>
 
-noremap <F4> <Esc>:%!xmllint --format --encode UTF-8
-inoremap <F4> <C-o>:%!xmllint --format --encode UTF-8
+noremap <F5> <Esc>:silent %!xmllint --encode UTF-8 --format -
+inoremap <F5> <C-o>:silent %!xmllint --encode UTF-8 --format -
 
 filetype plugin indent on
 
@@ -68,6 +68,9 @@ au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
 autocmd FileType scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for HTML files "
+
+let coffee_compiler = '/usr/local/bin/iced'
+au BufWritePost *.coffee silent make!
 
 " Bundles"
 Bundle 'closetag.vim'
@@ -85,9 +88,7 @@ Bundle 'Valloric/YouCompleteMe'
 Bundle 'mattn/emmet-vim'
 Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-surround'
-
-let coffee_compiler = '/usr/local/bin/iced'
-au BufWritePost *.coffee silent make!
+Bundle 'valloric/MatchTagAlways'
 
 set cc=100
 
@@ -97,3 +98,6 @@ colorscheme dante
 syntax enable
 filetype off
 filetype on
+
+let g:pymode_rope_complete_on_dot = 0
+
