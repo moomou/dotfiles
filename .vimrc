@@ -47,6 +47,9 @@ nmap <c-j> <C-W>h
 nmap <S-m> :bp<CR>
 nmap m :bn<CR>
 
+" http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
+cmap w!! w !sudo tee > /dev/null %
+
 noremap <F1> <Esc>:syntax sync fromstart<CR>
 inoremap <F1> <C-o>:syntax sync fromstart<CR>
 
