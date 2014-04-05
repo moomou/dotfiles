@@ -89,6 +89,7 @@ Bundle 'mattn/emmet-vim'
 Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-surround'
 Bundle 'valloric/MatchTagAlways'
+Bundle 'elzr/vim-json'
 
 set cc=100
 
@@ -100,4 +101,3 @@ filetype off
 filetype on
 
 let g:pymode_rope_complete_on_dot = 0
-

@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 echo "You should have Vim (+ruby) and git installed."
 
@@ -36,4 +36,4 @@ fi
 
 # Setup vundle
 git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-vim +BundleInstall +qall
+echo "Now run: vi +BundleInstall +qall"

@@ -1,29 +1,29 @@
 [color]
-	ui = true
+    ui = true
 [credential]
-	helper = cache --timeout=36000
+    helper = cache --timeout=36000
 [alias]
-  st = status
-  ci = commit
-  bb = branch
-  co = checkout
-  df = diff
-  lg = log -p
-	switch = !legit switch \"$@\"
-	branches = !legit branches
-	sprout = !legit sprout \"$@\"
-	unpublish = !legit unpublish \"$@\"
-	harvest = !legit harvest \"$@\"
-	sync = !legit sync \"$@\"
-	publish = !legit publish \"$@\"
-	graft = !legit graft \"$@\"
+    st = status
+    ci = commit
+    bb = branch
+    co = checkout
+    df = diff
+    lg = log -p
+    switch = !legit switch \"$@\"
+    branches = !legit branches
+    sprout = !legit sprout \"$@\"
+    unpublish = !legit unpublish \"$@\"
+    harvest = !legit harvest \"$@\"
+    sync = !legit sync \"$@\"
+    publish = !legit publish \"$@\"
+    graft = !legit graft \"$@\"
 [user]
-  name = paul
-  email = ppymou@gmail.com
+    name = paul
+    email = ppymou@gmail.com
 [core]
-  editor = /usr/local/bin/mvim -v
+    editor = /usr/local/bin/mvim -v
 [grep]                                                                                                                           
-  linenumber = true 
+    linenumber = true 
 [filter "media"]
-	clean = git-media-clean %f
-	smudge = git-media-smudge %f
+    clean = git-media-clean %f
+    smudge = git-media-smudge %f
