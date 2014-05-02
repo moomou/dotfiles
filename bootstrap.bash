@@ -29,6 +29,8 @@ symlink ".sbtconfig"
 symlink ".bash_profile"
 symlink ".sbtconfig"
 
+symlink ".oh-my-zsh"
+
 # Using .bashrc as custom config on different machines
 if [ "$BASHRC" = "1" ]; then
     symlink ".bashrc"

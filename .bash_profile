@@ -1,7 +1,8 @@
 # Shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
-    alias vi='mvim -v'
-    alias vim='mvim -v'
+    alias vi='mvim -v -w /tmp/output.txt'
+    alias vim='mvim -v -w /tmp/output.txt'
+    alias ls='gls -X --color'
 fi
 
 alias ctags='/usr/local/bin/ctags'
@@ -35,10 +36,10 @@ function BashPrompt() {
    local last_status=$?
    local reset=$(ResetColor)
 
-   # 囧
-   local failure='\xe5\x9b\xa7'
-   # ❤
-   local success='\xE2\x9D\xA4\x20'
+   # 
+   local failure='（￣へ￣）'
+   # 
+   local success='(￣▽￣)ノ'
 
    if [[ "$last_status" != '0' ]]; then
        last_status="$(Color 2)$failure$reset"

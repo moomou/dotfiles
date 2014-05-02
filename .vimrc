@@ -62,6 +62,15 @@ inoremap <F4> <C-o>:'<,'>Tab/:/l1<CR>
 noremap <F5> <Esc>:silent %!xmllint --encode UTF-8 --format -
 inoremap <F5> <C-o>:silent %!xmllint --encode UTF-8 --format -
 
+noremap <F6> <Esc>:set ft=html<CR>
+inoremap <F6> <C-o>:set ft=html<CR>
+
+noremap <F7> <Esc>:set ft=javascript<CR>
+inoremap <F7> <C-o>:set ft=javascript<CR>
+
+noremap <c-c> <Esc>
+inoremap <c-c> <Esc>
+
 filetype plugin indent on
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
@@ -82,7 +91,7 @@ Bundle 'scrooloose/syntastic'
 Bundle 'wincent/Command-T'
 Bundle 'bling/vim-airline'
 Bundle 'flazz/vim-colorschemes'
-Bundle 'ervandew/supertab'
+" Bundle 'ervandew/supertab'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'derekwyatt/vim-scala'
 Bundle 'jnwhiteh/vim-golang'
@@ -93,6 +102,7 @@ Bundle 'godlygeek/tabular'
 Bundle 'tpope/vim-surround'
 Bundle 'valloric/MatchTagAlways'
 Bundle 'elzr/vim-json'
+" Bundle 'mxw/vim-jsx'
 
 set cc=100
 
