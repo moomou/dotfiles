@@ -1,8 +1,8 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 " General Settings
 syn on
@@ -85,24 +85,30 @@ let coffee_compiler = '/usr/local/bin/iced'
 au BufWritePost *.coffee silent make!
 
 " Bundles"
-Bundle 'closetag.vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'scrooloose/syntastic'
-Bundle 'wincent/Command-T'
-Bundle 'bling/vim-airline'
-Bundle 'flazz/vim-colorschemes'
-" Bundle 'ervandew/supertab'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'derekwyatt/vim-scala'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'tpope/vim-fugitive'
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'mattn/emmet-vim'
-Bundle 'godlygeek/tabular'
-Bundle 'tpope/vim-surround'
-Bundle 'valloric/MatchTagAlways'
-Bundle 'elzr/vim-json'
-" Bundle 'mxw/vim-jsx'
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+
+Plugin 'closetag.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'wincent/Command-T'
+Plugin 'bling/vim-airline'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'ervandew/supertab'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'tpope/vim-fugitive'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'mattn/emmet-vim'
+Plugin 'godlygeek/tabular'
+Plugin 'tpope/vim-surround'
+Plugin 'valloric/MatchTagAlways'
+Plugin 'elzr/vim-json'
+Plugin 'ap/vim-css-color'
+
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 set cc=100
 
