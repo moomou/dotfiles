@@ -106,6 +106,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
+Plugin 'Shougo/unite.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -120,3 +121,10 @@ filetype off
 filetype on
 
 let g:pymode_rope_complete_on_dot = 0
+
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+
+" Unite
+nnoremap <space>/ :Unite grep:.<cr>
+nnoremap <space>s :Unite -quick-match buffer<cr>
