@@ -88,25 +88,23 @@ au BufWritePost *.coffee silent make!
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
-Plugin 'closetag.vim'
-Plugin 'scrooloose/nerdtree'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'wincent/Command-T'
 Plugin 'bling/vim-airline'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'ervandew/supertab'
-Plugin 'kchmck/vim-coffee-script'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'jnwhiteh/vim-golang'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Valloric/YouCompleteMe'
 Plugin 'mattn/emmet-vim'
 Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-surround'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
-Plugin 'Shougo/unite.vim'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'derekwyatt/vim-scala'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'tpope/vim-fugitive'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -121,6 +119,9 @@ filetype off
 filetype on
 
 let g:pymode_rope_complete_on_dot = 0
+
+" Match tag always
+let g:mta_use_matchparen_group = 1
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
