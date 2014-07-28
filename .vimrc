@@ -108,6 +108,7 @@ Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
 Plugin 'Shougo/unite.vim'
 Plugin 'mileszs/ack.vim'
+Plugin 'derekwyatt/vim-scala'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
