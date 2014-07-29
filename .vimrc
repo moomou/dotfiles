@@ -45,7 +45,7 @@ nnoremap ; :TagbarToggle<CR>
 nmap <c-k> <C-W>l
 nmap <c-j> <C-W>h
 nmap <S-m> :bp<CR>
-nmap m :bn<CR>
+nmap mm :bn<CR>
 
 " http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
 cmap w!! w !sudo tee > /dev/null %
@@ -112,7 +112,7 @@ filetype plugin indent on    " required
 set cc=100
 
 set laststatus=2
-colorscheme dante
+colorscheme ChocolateLiquor
 
 syntax enable
 filetype off

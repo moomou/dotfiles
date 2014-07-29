@@ -51,6 +51,7 @@ function BashPrompt() {
 }
 
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
+export GOPATH=$HOME/go
 
 # Source the original
 source ~/.bashrc
