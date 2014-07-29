@@ -3,6 +3,8 @@ filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
+set encoding=utf-8  " The encoding displayed.
+set fileencoding=utf-8  " The encoding written to file.
 
 " General Settings
 syn on
@@ -30,6 +32,7 @@ set hlsearch
 
 " Key mapping
 imap jk <Esc>
+imap <C-c> <Esc>
 
 nmap \q :nohlsearch<CR>
 nmap j gj
@@ -80,6 +83,8 @@ au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
 autocmd FileType scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for HTML files "
+autocmd FileType python set cc=80
+autocmd FileType scala set cc=100
 
 let coffee_compiler = '/usr/local/bin/iced'
 au BufWritePost *.coffee silent make!
@@ -101,15 +106,15 @@ Plugin 'tpope/vim-surround'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
-Plugin 'kchmck/vim-coffee-script'
+Plugin 'Shougo/unite.vim'
+Plugin 'mileszs/ack.vim'
 Plugin 'derekwyatt/vim-scala'
-Plugin 'jnwhiteh/vim-golang'
-Plugin 'tpope/vim-fugitive'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-set cc=100
+let coffee_compiler = '/usr/local/bin/iced'
+au BufWritePost *.coffee silent make!
 
 set laststatus=2
 colorscheme ChocolateLiquor
