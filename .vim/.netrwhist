@@ -1,0 +1,5 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =3
+let g:netrw_dirhist_1='/Users/moomou/dev/qonAPI/src/services'
+let g:netrw_dirhist_2='/Users/moomou/dev/goGeo/src'
+let g:netrw_dirhist_3='/Users/moomou/dev/dotfiles/.vim/syntax'

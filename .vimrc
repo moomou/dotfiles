@@ -1,6 +1,8 @@
 set nocompatible
 filetype off
 
+set cc=100
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 set encoding=utf-8  " The encoding displayed.
@@ -109,6 +111,7 @@ Plugin 'ap/vim-css-color'
 Plugin 'Shougo/unite.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'derekwyatt/vim-scala'
+Plugin 'jnwhiteh/vim-golang'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
