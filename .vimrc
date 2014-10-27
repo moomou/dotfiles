@@ -44,7 +44,6 @@ nmap <c-l> :redraw!<CR>
 
 nmap <c-m> <c-y>,
 let g:tagbar_usearrows = 1
-nnoremap ; :TagbarToggle<CR>
 
 " mv between splits
 nmap <c-k> <C-W>l
@@ -72,6 +71,9 @@ inoremap <F6> <C-o>:set ft=html<CR>
 
 noremap <F7> <Esc>:set ft=javascript<CR>
 inoremap <F7> <C-o>:set ft=javascript<CR>
+
+noremap <F8> :Autoformat<CR><CR>
+inoremap <F8> :Autoformat<CR><CR>
 
 noremap <c-c> <Esc>
 inoremap <c-c> <Esc>
@@ -112,6 +114,11 @@ Plugin 'Shougo/unite.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'jnwhiteh/vim-golang'
+Plugin 'Chiel92/vim-autoformat'
+Plugin 'esneider/YUNOcommit.vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'terryma/vim-multiple-cursors'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -137,3 +144,22 @@ let g:airline#extensions#tabline#enabled = 1
 " Unite
 nnoremap <space>/ :Unite grep:.<cr>
 nnoremap <space>s :Unite -quick-match buffer<cr>
+
+" EasyMotion
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+
+" Bi-directional find motion
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap s <Plug>(easymotion-s)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-s2)
+
+" Turn on case sensitive feature
+let g:EasyMotion_smartcase = 1
+
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
