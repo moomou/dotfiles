@@ -1,5 +1,11 @@
 let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =3
-let g:netrw_dirhist_1='/Users/moomou/dev/qonAPI/src/services'
-let g:netrw_dirhist_2='/Users/moomou/dev/goGeo/src'
-let g:netrw_dirhist_3='/Users/moomou/dev/dotfiles/.vim/syntax'
+let g:netrw_dirhist_cnt =9
+let g:netrw_dirhist_1='/Users/moomou/dev/goGeo/src'
+let g:netrw_dirhist_2='/Users/moomou/dev/cloverWeb/static/sass/common'
+let g:netrw_dirhist_3='/Users/moomou/dev/qonAPI/src/models/user'
+let g:netrw_dirhist_4='/Users/moomou/dev/qonAPI/src/config'
+let g:netrw_dirhist_5='/Users/moomou/dev/cloverWeb/static/bower_components/strophejs/examples/attach'
+let g:netrw_dirhist_6='/Users/moomou/dev/cloverWeb/static/bower_components/strophejs/examples/attach/attacher'
+let g:netrw_dirhist_7='/Users/moomou/dev/cloverWeb/static/script/jsx'
+let g:netrw_dirhist_8='/Users/moomou/dev/cloverWeb/app'
+let g:netrw_dirhist_9='/Users/moomou/dev/cloverWeb/templates'

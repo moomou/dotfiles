@@ -40,11 +40,9 @@ nmap \q :nohlsearch<CR>
 nmap j gj
 nmap k gk
 nmap <c-l> :redraw!<CR>
-" nmap ; :CtrlPBuffer<CR>
 
 nmap <c-m> <c-y>,
 let g:tagbar_usearrows = 1
-nnoremap ; :TagbarToggle<CR>
 
 " mv between splits
 nmap <c-k> <C-W>l
@@ -82,9 +80,10 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 
 " Load AutoComplete only for certain files
 au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
+au BufNewFile,BufRead *.jsx set filetype=javascript
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
-autocmd FileType scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for HTML files "
+autocmd FileType coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
 autocmd FileType scala set cc=100
 
@@ -112,6 +111,7 @@ Plugin 'Shougo/unite.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'jnwhiteh/vim-golang'
+Plugin 'kchmck/vim-coffee-script'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
