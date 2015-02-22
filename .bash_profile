@@ -6,6 +6,7 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 
 alias ctags='/usr/local/bin/ctags'
+alias nw="/Applications/nwjs.app/Contents/MacOS/nwjs"
 
 # Quick folder jmp
 alias dev='cd ~/dev'
@@ -52,6 +53,7 @@ function BashPrompt() {
 
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 export GOPATH=$HOME/go
+export PATH="$PATH:$GOPATH/bin"
 
 # Source the original
 source ~/.bashrc

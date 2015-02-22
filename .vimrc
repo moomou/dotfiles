@@ -91,7 +91,7 @@ autocmd FileType python set cc=80
 autocmd FileType scala set cc=100
 
 let coffee_compiler = '/usr/local/bin/iced'
-au BufWritePost *.coffee silent make!
+" au BufWritePost *.coffee silent make!
 
 " Bundles"
 " let Vundle manage Vundle, required
@@ -101,6 +101,9 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'wincent/Command-T'
+
+let g:CommandTWildIgnore=&wildignore . ",**/node_modules/*"
+
 Plugin 'bling/vim-airline'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'ervandew/supertab'
@@ -125,7 +128,7 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 let coffee_compiler = '/usr/local/bin/iced'
-au BufWritePost *.coffee silent make!
+" au BufWritePost *.coffee silent make!
 
 set laststatus=2
 colorscheme ChocolateLiquor

@@ -30,6 +30,7 @@ symlink ".bash_profile"
 symlink ".sbtconfig"
 
 symlink ".oh-my-zsh"
+symlink ".jshintrc"
 
 # Using .bashrc as custom config on different machines
 if [ "$BASHRC" = "1" ]; then
