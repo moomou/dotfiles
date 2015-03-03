@@ -6,15 +6,16 @@ function symlink {
     curDir=${PWD}
     echo Setting up $1
 
-    yes | rm -r ~/$1 2> /dev/null
+    yes | rm -r ~/${2-$1} 2> /dev/null
 
     # src -> dest
-    ln -s $curDir/$1 ~/$1 
+    ln -s $curDir/$1 ~/${2-$1}
 }
 
 # Override .vimrc & .vim folder
 symlink ".vim"
 symlink ".vimrc"
+symlink ".vimrc" ".nvimrc"
 
 # Override .ssh config
 symlink ".ssh/config"
@@ -29,7 +30,6 @@ symlink ".sbtconfig"
 symlink ".bash_profile"
 symlink ".sbtconfig"
 
-symlink ".oh-my-zsh"
 symlink ".jshintrc"
 
 # Using .bashrc as custom config on different machines

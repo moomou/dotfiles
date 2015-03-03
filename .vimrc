@@ -90,22 +90,22 @@ autocmd FileType coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tab
 autocmd FileType python set cc=80
 autocmd FileType scala set cc=100
 
-let coffee_compiler = '/usr/local/bin/iced'
-" au BufWritePost *.coffee silent make!
-
 " Bundles"
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
+Plugin 'bling/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'wincent/Command-T'
-
 let g:CommandTWildIgnore=&wildignore . ",**/node_modules/*"
 
-Plugin 'bling/vim-airline'
+Plugin 'fatih/vim-go'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
 Plugin 'flazz/vim-colorschemes'
+
 Plugin 'ervandew/supertab'
 Plugin 'mattn/emmet-vim'
 Plugin 'godlygeek/tabular'
@@ -113,13 +113,11 @@ Plugin 'tpope/vim-surround'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
-Plugin 'Shougo/unite.vim'
 Plugin 'mileszs/ack.vim'
 Plugin 'derekwyatt/vim-scala'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'Chiel92/vim-autoformat'
-Plugin 'esneider/YUNOcommit.vim'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'terryma/vim-multiple-cursors'
