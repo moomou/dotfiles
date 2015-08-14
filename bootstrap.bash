@@ -23,14 +23,14 @@ symlink ".ssh/config"
 # Link .gitconfig
 symlink ".gitconfig"
 
-# Link .sbtconfig
-symlink ".sbtconfig"
-
 # Link bash_*
 symlink ".bash_profile"
-symlink ".sbtconfig"
 
+# Link other utils
+symlink ".sbtconfig"
 symlink ".jshintrc"
+symlink ".eslintrc"
+symlink ".ackrc"
 
 # Using .bashrc as custom config on different machines
 if [ "$BASHRC" = "1" ]; then
@@ -38,5 +38,5 @@ if [ "$BASHRC" = "1" ]; then
 fi
 
 # Setup vundle
-git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
-echo "Now run: vi +BundleInstall +qall"
+# git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+# echo "Now run: vi +BundleInstall +qall"

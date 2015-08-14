@@ -1,2 +1,4 @@
 bundle/
+.vim/.netrwhist
 .DS_STORE
+.ssh

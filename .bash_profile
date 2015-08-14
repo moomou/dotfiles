@@ -2,7 +2,7 @@
 if [ "$(uname)" == "Darwin" ]; then
     alias vi='mvim -v -w /tmp/output.txt'
     alias vim='mvim -v -w /tmp/output.txt'
-    alias ls='gls -X --color'
+    alias ls='gls -X --color --group-directories-first'
 fi
 
 alias ctags='/usr/local/bin/ctags'
@@ -37,9 +37,9 @@ function BashPrompt() {
    local last_status=$?
    local reset=$(ResetColor)
 
-   # 
+   #
    local failure='（￣へ￣）'
-   # 
+   #
    local success='(￣▽￣)ノ'
 
    if [[ "$last_status" != '0' ]]; then
@@ -53,10 +53,16 @@ function BashPrompt() {
 
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 export GOPATH=$HOME/go
-export PATH="$PATH:$GOPATH/bin"
+export ELASTIC_HOME='/Applications/elasticsearch-1.5.2/'
+export PATH="$PATH:$GOPATH/bin:$ELASTIC_HOME/bin"
 
 # Source the original
 source ~/.bashrc
 
 # Source autoenv
 source /usr/local/opt/autoenv/activate.sh
+[[ -s "/Users/moomou/.gvm/scripts/gvm" ]] && source "/Users/moomou/.gvm/scripts/gvm"
+
+if [ -f ~/.cuebenv/activate.sh ]; then
+    . ~/.cuebenv/activate.sh
+fi

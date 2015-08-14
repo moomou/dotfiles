@@ -18,7 +18,9 @@ set hidden       " Hide buffer
 set autowrite    " autosave buffer changes
 set autowriteall " autosave buffer changes
 
+" set term=xterm-256color
 set t_Co=256
+
 set tabstop=4
 set softtabstop=4
 set shiftwidth=4
@@ -31,6 +33,17 @@ set incsearch
 set ignorecase
 set smartcase
 set hlsearch
+
+" Make mouse interactive
+set mouse=a
+
+" Performance tricks
+set nocursorcolumn
+set nocursorline
+set norelativenumber
+set synmaxcol=200  
+set lazyredraw " to avoid scrolling problems
+syntax sync minlines=256
 
 " Key mapping
 imap jk <Esc>
@@ -98,8 +111,11 @@ Plugin 'bling/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
+let g:syntastic_javascript_checkers = ['eslint']
+
 Plugin 'wincent/Command-T'
-let g:CommandTWildIgnore=&wildignore . ",**/node_modules/*"
+set wildignore+=node_modules
+set wildignore+=build
 
 Plugin 'fatih/vim-go'
 Plugin 'pangloss/vim-javascript'
@@ -115,12 +131,12 @@ Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
 Plugin 'mileszs/ack.vim'
 Plugin 'derekwyatt/vim-scala'
-Plugin 'jnwhiteh/vim-golang'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'myusuf3/numbers.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -129,12 +145,14 @@ let coffee_compiler = '/usr/local/bin/iced'
 " au BufWritePost *.coffee silent make!
 
 set laststatus=2
-colorscheme ChocolateLiquor
+colorscheme monokai
+set background=dark
 
 syntax enable
 filetype off
 filetype on
 
+" ???
 let g:pymode_rope_complete_on_dot = 0
 
 " Match tag always
@@ -142,6 +160,9 @@ let g:mta_use_matchparen_group = 1
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
+
+" Go format
+let g:go_fmt_command = "goimports"
 
 " Unite
 nnoremap <space>/ :Unite grep:.<cr>
@@ -165,3 +186,6 @@ let g:EasyMotion_smartcase = 1
 " JK motions: Line motions
 map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
+
+" Custom Macro
+let @t = 'dwiimport wwxifromwdwds($'
