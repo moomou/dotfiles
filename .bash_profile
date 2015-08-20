@@ -54,7 +54,14 @@ function BashPrompt() {
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 export GOPATH=$HOME/go
 export ELASTIC_HOME='/Applications/elasticsearch-1.5.2/'
-export PATH="$PATH:$GOPATH/bin:$ELASTIC_HOME/bin"
+export MATLAB_HOME='/Applications/MATLAB_R2014a.app/'
+
+# These are required for Caffe
+export PYTHONPATH=~/dev/_opensrc/caffe/python:$PYTHONPATH
+export CUDA_PATH=/Developer/NVIDIA/CUDA-7.0/bin
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH
+
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin"
 
 # Source the original
 source ~/.bashrc
