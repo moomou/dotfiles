@@ -145,7 +145,8 @@
         "afterColon": true
     }],
     "new-cap": [2, {                 // http://eslint.org/docs/rules/new-cap
-      "newIsCap": false
+      "newIsCap": true,
+      "capIsNewExceptions": ["Router"]
     }],
     "no-multiple-empty-lines": [2, { // http://eslint.org/docs/rules/no-multiple-empty-lines
       "max": 2
