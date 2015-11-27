@@ -16,6 +16,7 @@ function symlink {
 symlink ".vim"
 symlink ".vimrc"
 symlink ".vimrc" ".nvimrc"
+symlink ".vim" ".nvim"
 
 # Override .ssh config
 symlink ".ssh/config"
@@ -27,10 +28,11 @@ symlink ".gitconfig"
 symlink ".bash_profile"
 
 # Link other utils
-symlink ".sbtconfig"
-symlink ".jshintrc"
-symlink ".eslintrc"
 symlink ".ackrc"
+symlink ".eslintrc"
+symlink ".gitignore_global"
+symlink ".jshintrc"
+symlink ".sbtconfig"
 
 # Using .bashrc as custom config on different machines
 if [ "$BASHRC" = "1" ]; then
@@ -40,3 +42,6 @@ fi
 # Setup vundle
 # git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
 # echo "Now run: vi +BundleInstall +qall"
+
+# Setting up git
+git config --global core.excludesfile ~/.gitignore_global

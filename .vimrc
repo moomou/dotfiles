@@ -41,7 +41,7 @@ set mouse=a
 set nocursorcolumn
 set nocursorline
 set norelativenumber
-set synmaxcol=200  
+set synmaxcol=200
 set lazyredraw " to avoid scrolling problems
 syntax sync minlines=256
 
@@ -97,10 +97,12 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 " Load AutoComplete only for certain files
 au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
 au BufNewFile,BufRead *.jsx set filetype=javascript
+au BufWrite * :DeleteTrailingWhitespace
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
 autocmd FileType coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
+autocmd FileType python inoremap # X<BS>#
 autocmd FileType scala set cc=100
 
 " Bundles"
@@ -121,6 +123,7 @@ Plugin 'fatih/vim-go'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'ctrlpvim/ctrlp.vim'
 
 Plugin 'ervandew/supertab'
 Plugin 'mattn/emmet-vim'
@@ -140,9 +143,6 @@ Plugin 'myusuf3/numbers.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
-
-let coffee_compiler = '/usr/local/bin/iced'
-" au BufWritePost *.coffee silent make!
 
 set laststatus=2
 colorscheme monokai
@@ -189,3 +189,4 @@ map <Leader>k <Plug>(easymotion-k)
 
 " Custom Macro
 let @t = 'dwiimport wwxifromwdwds($'
+

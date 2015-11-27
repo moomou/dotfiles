@@ -3,14 +3,15 @@ if [ "$(uname)" == "Darwin" ]; then
     alias vi='mvim -v -w /tmp/output.txt'
     alias vim='mvim -v -w /tmp/output.txt'
     alias ls='gls -X --color --group-directories-first'
+    alias nw="/Applications/nwjs.app/Contents/MacOS/nwjs"
 fi
 
 alias ctags='/usr/local/bin/ctags'
-alias nw="/Applications/nwjs.app/Contents/MacOS/nwjs"
 
 # Quick folder jmp
 alias dev='cd ~/dev'
 alias study='cd ~/study'
+alias sep='yes hr | head -n 20 | bash'
 
 # Make vim the default
 export EDITOR=vim
@@ -52,16 +53,17 @@ function BashPrompt() {
 }
 
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
+
 export GOPATH=$HOME/go
-export ELASTIC_HOME='/Applications/elasticsearch-1.5.2/'
-export MATLAB_HOME='/Applications/MATLAB_R2014a.app/'
+export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
+export ELASTIC_HOME='/Applications/elasticsearch-1.5.2'
 
 # These are required for Caffe
 export PYTHONPATH=~/dev/_opensrc/caffe/python:$PYTHONPATH
 export CUDA_PATH=/Developer/NVIDIA/CUDA-7.0/bin
 export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH
 
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin"
+export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin"
 
 # Source the original
 source ~/.bashrc
