@@ -10,6 +10,7 @@ alias ctags='/usr/local/bin/ctags'
 
 # Quick folder jmp
 alias dev='cd ~/dev'
+alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
 

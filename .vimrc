@@ -101,6 +101,7 @@ au BufWrite * :DeleteTrailingWhitespace
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
 autocmd FileType coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
 autocmd FileType python inoremap # X<BS>#
 autocmd FileType scala set cc=100
@@ -123,6 +124,7 @@ Plugin 'fatih/vim-go'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'wellsjo/wellsokai.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
 
 Plugin 'ervandew/supertab'
@@ -145,7 +147,6 @@ call vundle#end()            " required
 filetype plugin indent on    " required
 
 set laststatus=2
-colorscheme monokai
 set background=dark
 
 syntax enable
@@ -190,3 +191,4 @@ map <Leader>k <Plug>(easymotion-k)
 " Custom Macro
 let @t = 'dwiimport wwxifromwdwds($'
 
+colorscheme wellsokai
