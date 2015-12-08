@@ -1,9 +1,8 @@
 # Shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
+    alias ls='gls -X --color --group-directories-first'
     alias vi='mvim -v -w /tmp/output.txt'
     alias vim='mvim -v -w /tmp/output.txt'
-    alias ls='gls -X --color --group-directories-first'
-    alias nw="/Applications/nwjs.app/Contents/MacOS/nwjs"
 fi
 
 alias ctags='/usr/local/bin/ctags'
