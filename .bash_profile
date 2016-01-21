@@ -12,6 +12,12 @@ alias dev='cd ~/dev'
 alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
+alias vpn='ssh -C2qTnN -D 8080 hack'
+alias tl='tmux list-session'
+alias ta='tmux attach-session -t'
+
+# Global ag ignore
+alias ag='ag --path-to-agignore=~/.agignore'
 
 # Make vim the default
 export EDITOR=vim

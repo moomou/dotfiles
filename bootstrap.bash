@@ -18,6 +18,9 @@ symlink ".vimrc"
 symlink ".vimrc" ".nvimrc"
 symlink ".vim" ".nvim"
 
+# Tmux
+symlink ".tmux.conf" ".tmux.conf"
+
 # Override .ssh config
 symlink ".ssh/config"
 
@@ -28,7 +31,7 @@ symlink ".gitconfig"
 symlink ".bash_profile"
 
 # Link other utils
-symlink ".ackrc"
+symlink ".agignore"
 symlink ".eslintrc"
 symlink ".gitignore_global"
 symlink ".jshintrc"

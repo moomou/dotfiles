@@ -189,8 +189,8 @@ map <Leader>j <Plug>(easymotion-j)
 map <Leader>k <Plug>(easymotion-k)
 
 " 'Global' buffer
-vmap <leader>y :w! /tmp/vitmp<CR>
-nmap <leader>p :r! cat /tmp/vitmp<CR>
+vmap <leader>y :w! ~/.vitmp<CR>
+nmap <leader>p :r! cat ~/.vitmp<CR>
 
 " Custom Macro
 let @t = 'dwiimport wwxifromwdwds($'
