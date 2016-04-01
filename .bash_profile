@@ -7,6 +7,12 @@ fi
 
 alias ctags='/usr/local/bin/ctags'
 
+# github alias
+# if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
+alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
+alias gmend='groot && git ci --amend'
+alias rebase='git pull --rebase origin master'
+
 # Quick folder jmp
 alias dev='cd ~/dev'
 alias cue='cd ~/dev/cueb'

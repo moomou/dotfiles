@@ -105,3 +105,6 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+
+
+. /Users/moomou/dev/_opensrc/torch/install/bin/torch-activate

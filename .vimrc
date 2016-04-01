@@ -112,13 +112,18 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'bling/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'ternjs/tern_for_vim'
+
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
 let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+nnoremap <C-w>e :SyntasticCheck<CR>
 
 Plugin 'wincent/Command-T'
-set wildignore+=node_modules
-set wildignore+=build
+let g:CommandTMaxCachedDirectories = 10
+let g:CommandTInputDebounce = 50
+let g:CommandTFileScanner = 'git'
 
 Plugin 'fatih/vim-go'
 Plugin 'pangloss/vim-javascript'
@@ -134,11 +139,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
-Plugin 'mileszs/ack.vim'
-Plugin 'derekwyatt/vim-scala'
-Plugin 'kchmck/vim-coffee-script'
+" Plugin 'derekwyatt/vim-scala'
 Plugin 'Chiel92/vim-autoformat'
-Plugin 'Lokaltog/vim-easymotion'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'myusuf3/numbers.vim'
@@ -196,3 +198,4 @@ nmap <leader>p :r! cat ~/.vitmp<CR>
 let @t = 'dwiimport wwxifromwdwds($'
 
 colorscheme wellsokai
+com! FormatJSON %!python -m json.tool
