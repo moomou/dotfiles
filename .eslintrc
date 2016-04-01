@@ -37,12 +37,12 @@
  */
     // babel inserts "use strict"; for us
     // http://eslint.org/docs/rules/strict
-    "strict": [2, "never"],
+    "strict": 0,
 
 /**
  * ES6
  */
-    "no-var": 2,                     // http://eslint.org/docs/rules/no-var
+    "no-var": 0,                     // http://eslint.org/docs/rules/no-var
 
 /**
  * Variables
@@ -84,6 +84,7 @@
 /**
  * Best practices
  */
+    "object-curly-spacing": [0, "always"],
     "consistent-return": 2,          // http://eslint.org/docs/rules/consistent-return
     "curly": [2, "multi-line"],      // http://eslint.org/docs/rules/curly
     "default-case": 2,               // http://eslint.org/docs/rules/default-case
@@ -120,7 +121,7 @@
     "no-throw-literal": 2,           // http://eslint.org/docs/rules/no-throw-literal
     "no-with": 2,                    // http://eslint.org/docs/rules/no-with
     "radix": 2,                      // http://eslint.org/docs/rules/radix
-    "vars-on-top": 2,                // http://eslint.org/docs/rules/vars-on-top
+    "vars-on-top": 0,                // http://eslint.org/docs/rules/vars-on-top
     "wrap-iife": [2, "any"],         // http://eslint.org/docs/rules/wrap-iife
     "yoda": 2,                       // http://eslint.org/docs/rules/yoda
 
@@ -187,7 +188,7 @@
     "react/jsx-uses-vars": 2,
     "react/no-did-mount-set-state": [2, "allow-in-func"],
     "react/no-did-update-set-state": 2,
-    "react/no-multi-comp": 2,
+    "react/no-multi-comp": 0,
     "react/no-unknown-property": 2,
     "react/prop-types": 2,
     "react/react-in-jsx-scope": 2,

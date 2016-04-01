@@ -102,6 +102,7 @@ autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
 autocmd FileType coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType html setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
+autocmd FileType cpp,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
 autocmd FileType python inoremap # X<BS>#
 autocmd FileType scala set cc=100
@@ -112,7 +113,9 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'bling/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'ternjs/tern_for_vim'
+let g:ycm_auto_trigger = 99
+let g:ycm_min_num_of_chars_for_completion = 99
+let g:ycm_server_log_level = 'critical'
 
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
@@ -120,10 +123,16 @@ let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 nnoremap <C-w>e :SyntasticCheck<CR>
 
+Plugin 'ternjs/tern_for_vim'
+" Plugin 'vim-scripts/closetag.vim'
+
 Plugin 'wincent/Command-T'
-let g:CommandTMaxCachedDirectories = 10
+let g:CommandTMaxFiles = 900000
 let g:CommandTInputDebounce = 50
+let g:CommandTMaxCachedDirectories = 1000
 let g:CommandTFileScanner = 'git'
+set wildignore+=node_modules
+set wildignore+=build
 
 Plugin 'fatih/vim-go'
 Plugin 'pangloss/vim-javascript'
@@ -139,14 +148,23 @@ Plugin 'tpope/vim-surround'
 Plugin 'valloric/MatchTagAlways'
 Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
-" Plugin 'derekwyatt/vim-scala'
+
 Plugin 'Chiel92/vim-autoformat'
+" Plugin 'Lokaltog/vim-easymotion'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'myusuf3/numbers.vim'
+Plugin 'rust-lang/rust.vim'
+Plugin 'tpope/vim-fugitive'
+" let g:rustfmt_autosave = 1
+
+" Experimental
+Plugin 'tpope/vim-abolish'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
+
+" au BufWritePost *.coffee silent make!
 
 set laststatus=2
 set background=dark
@@ -199,3 +217,7 @@ let @t = 'dwiimport wwxifromwdwds($'
 
 colorscheme wellsokai
 com! FormatJSON %!python -m json.tool
+
+" Set _ as keyword
+" set iskeyword-=_
+let g:ycm_global_ycm_extra_conf = '/home/paul/dev/dotfiles/.ycm_extra_conf.py'

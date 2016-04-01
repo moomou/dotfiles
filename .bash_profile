@@ -7,20 +7,40 @@ fi
 
 alias ctags='/usr/local/bin/ctags'
 
-## github alias
-# if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
-alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
-alias gmend='groot; sleep 0 && git add . && git ci --amend'
-alias rebase='git pull --rebase origin master'
-
 ## Quick folder jmp
 alias dev='cd ~/dev'
 alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
 alias vpn='ssh -C2qTnN -D 8080 hack'
-alias tl='tmux list-session'
-alias ta='tmux attach-session -t'
+
+alias g="git"
+alias nw="/Applications/nwjs.app/Contents/MacOS/nwjs"
+alias sep="yes hr | head -n 30 | bash"
+alias proxy='ssh -C2qTnN -D 9991 dev'
+
+# Tmux shortcuts
+alias tl="tmux list-session"
+alias tk="tmux kill-session -t"
+alias ta="tmux attach-session -t"
+alias ts="tmux new-session -s"
+
+## github alias
+# if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
+alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
+alias gmend='groot; sleep 0 && git add . && git ci --amend'
+alias rebase='git pull --rebase origin master'
+
+alias arcit='gmend && arc diff'
+
+# Folder jmp
+alias box='cd ~/authbox/'
+alias admin='cd ~/authbox/authbox-api/lib/frontend/admin'
+alias api='cd ~/authbox/authbox-api'
+alias apps='cd ~/authbox/apps'
+alias dev='cd ~/dev'
+alias kami='cd ~/authbox/customers/'
+alias sops='cd ~/smyte-ops/'
 
 ## Global ag ignore
 alias ag='ag --path-to-agignore=~/.agignore'
@@ -61,7 +81,10 @@ function BashPrompt() {
        last_status="$(Color 1)$success$reset"
    fi
 
-   echo -n -e $last_status;
+   # Save and reload the history after each command finishes
+   history -a; history -c; history -r;
+
+   PS1+="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$\n"
 }
 
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
@@ -79,11 +102,22 @@ export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MAT
 
 # Source the original
 source ~/.bashrc
+# [[ -s "/Users/moomou/.gvm/scripts/gvm" ]] && source "/Users/moomou/.gvm/scripts/gvm"
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export HISTCONTROL=ignoredups:erasedups  # no duplicate entries
+export HISTSIZE=100000                   # big big history
+export HISTFILESIZE=100000               # big big history
+shopt -s histappend                      # append to history, don't overwrite it
+
+# setup Ruby version
+rvm use 2.1.2 > /dev/null 2>&1
 
 # Source autoenv
 source /usr/local/opt/autoenv/activate.sh
 [[ -s "/Users/moomou/.gvm/scripts/gvm" ]] && source "/Users/moomou/.gvm/scripts/gvm"
 
-if [ -f ~/.cuebenv/activate.sh ]; then
-    . ~/.cuebenv/activate.sh
-fi
+# Prompt
+export PROMPT_COMMAND=BashPrompt
+# Source git branch aware script
+source "${GITAWAREPROMPT}/main.sh"
