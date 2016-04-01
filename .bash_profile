@@ -1,4 +1,4 @@
-# Shortcut for commands
+## Shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color --group-directories-first'
     alias vi='mvim -v -w /tmp/output.txt'
@@ -7,13 +7,13 @@ fi
 
 alias ctags='/usr/local/bin/ctags'
 
-# github alias
+## github alias
 # if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
 alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
 alias gmend='groot; sleep 0 && git add . && git ci --amend'
 alias rebase='git pull --rebase origin master'
 
-# Quick folder jmp
+## Quick folder jmp
 alias dev='cd ~/dev'
 alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
@@ -22,18 +22,18 @@ alias vpn='ssh -C2qTnN -D 8080 hack'
 alias tl='tmux list-session'
 alias ta='tmux attach-session -t'
 
-# Global ag ignore
+## Global ag ignore
 alias ag='ag --path-to-agignore=~/.agignore'
 
-# Make vim the default
+## Make vim the default
 export EDITOR=vim
 
-# Bash Completion
+## Bash Completion
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-# Git auto complete
+## Git auto complete
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
