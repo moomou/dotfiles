@@ -83,8 +83,6 @@ function BashPrompt() {
 
    # Save and reload the history after each command finishes
    history -a; history -c; history -r;
-
-   PS1+="\${debian_chroot:+(\$debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \[$txtcyn\]\$git_branch\[$txtred\]\$git_dirty\[$txtrst\]\$\n"
 }
 
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
@@ -113,11 +111,10 @@ shopt -s histappend                      # append to history, don't overwrite it
 # setup Ruby version
 rvm use 2.1.2 > /dev/null 2>&1
 
-# Source autoenv
-source /usr/local/opt/autoenv/activate.sh
-[[ -s "/Users/moomou/.gvm/scripts/gvm" ]] && source "/Users/moomou/.gvm/scripts/gvm"
-
 # Prompt
-export PROMPT_COMMAND=BashPrompt
-# Source git branch aware script
-source "${GITAWAREPROMPT}/main.sh"
+source ~/.git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWCOLORHINTS=1
+export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
+export PROMPT_COMMAND='echo -n $(BashPrompt)'

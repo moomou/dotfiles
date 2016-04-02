@@ -26,6 +26,7 @@ symlink ".ssh/config"
 
 # Link .gitconfig
 symlink ".gitconfig"
+symlink ".git-prompt.sh"
 
 # Link bash_*
 symlink ".bash_profile"
