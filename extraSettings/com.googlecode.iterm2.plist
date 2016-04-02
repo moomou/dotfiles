@@ -84,8 +84,10 @@
 	<true/>
 	<key>MaxVertically</key>
 	<false/>
+	<key>NSColorPanelMode</key>
+	<string>5</string>
 	<key>NSFontPanelAttributes</key>
-	<string>1, 9</string>
+	<string>1, 0</string>
 	<key>NSNavLastRootDirectory</key>
 	<string>~/Downloads</string>
 	<key>NSNavPanelExpandedSizeForOpenMode</key>
@@ -109,7 +111,7 @@
 		BAtzdHJlYW10eXBlZIHoA4QBQISEhAhOU1N0cmluZwGEhAhOU09iamVjdACF
 		hAErATGG
 		</data>
-		<string>307</string>
+		<string>322</string>
 	</array>
 	<key>NSTableView Hidden Columns KeyBingingTable</key>
 	<array/>
@@ -121,23 +123,25 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>666 112 445 77 0 0 1920 1057 </string>
+	<string>227 156 720 417 0 0 1440 877 </string>
 	<key>NSWindow Frame Preferences</key>
-	<string>162 403 606 456 0 0 1440 877 </string>
-	<key>NSWindow Frame SUUpdateAlert</key>
-	<string>650 499 620 392 0 0 1920 1057 </string>
+	<string>278 402 606 456 0 0 1440 877 </string>
+	<key>NSWindow Frame SUStatusFrame</key>
+	<string>520 562 400 129 0 0 1440 877 </string>
+	<key>NSWindow Frame UKCrashReporter</key>
+	<string>99 294 592 584 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>963 40 954 1017 0 0 1920 1057 </string>
+	<string>3 19 1434 852 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>3 40 1434 837 0 0 1440 877 </string>
+	<string>3 36 1434 841 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
-	<string>3 35 1914 1017 0 0 1920 1057 </string>
+	<string>3 25 1434 852 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
-	<string>3 184 1434 873 0 0 1920 1057 </string>
+	<string>723 4 714 873 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 4</key>
-	<string>963 4 954 1053 0 0 1920 1057 </string>
+	<string>3 385 650 477 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 5</key>
-	<string>3 57 1434 819 0 0 1440 877 </string>
+	<string>435 215 570 451 0 0 1440 877 </string>
 	<key>NeverWarnAboutShortLivedSessions_268B44BF-9E3A-4218-92E0-C8ED002F2571</key>
 	<true/>
 	<key>New Bookmarks</key>
@@ -879,22 +883,26 @@
 	<true/>
 	<key>NoSyncDoNotWarnBeforeMultilinePaste_selection</key>
 	<integer>0</integer>
-	<key>NoSyncLastTipTime</key>
-	<real>479668638.70019698</real>
-	<key>NoSyncNeverRemindPrefsChangesLostForUrl</key>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt</key>
 	<true/>
-	<key>NoSyncNeverRemindPrefsChangesLostForUrl_selection</key>
+	<key>NoSyncDoNotWarnBeforePastingOneLineEndingInNewlineAtShellPrompt_selection</key>
+	<integer>0</integer>
+	<key>NoSyncLastTipTime</key>
+	<real>481268441.61404598</real>
+	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux</key>
+	<true/>
+	<key>NoSyncNewWindowOrTabFromTmuxOpensTmux_selection</key>
 	<integer>0</integer>
 	<key>NoSyncPermissionToShowTip</key>
 	<true/>
 	<key>NoSyncSilenceAnnoyingBellAutomatically</key>
 	<true/>
 	<key>NoSyncTimeOfFirstLaunchOfVersionWithTip</key>
-	<real>475098434.18751001</real>
+	<real>474878536.885786</real>
 	<key>NoSyncTimeOfLastPromo</key>
-	<real>469142295.97225398</real>
+	<real>454997710.90634102</real>
 	<key>NoSyncTimeOfLastPromoDownload</key>
-	<real>476301891.03040802</real>
+	<real>477185899.72879201</real>
 	<key>NoSyncTipsToNotShow</key>
 	<array>
 		<string>000</string>
@@ -927,6 +935,37 @@
 		<string>0026</string>
 		<string>0027</string>
 		<string>0028</string>
+		<string>0029</string>
+		<string>0030</string>
+		<string>0031</string>
+		<string>0032</string>
+		<string>0033</string>
+		<string>0034</string>
+		<string>0035</string>
+		<string>0036</string>
+		<string>0037</string>
+		<string>0038</string>
+		<string>0039</string>
+		<string>0040</string>
+		<string>0041</string>
+		<string>0042</string>
+		<string>0043</string>
+		<string>0044</string>
+		<string>0045</string>
+		<string>0046</string>
+		<string>0047</string>
+		<string>0048</string>
+		<string>0049</string>
+		<string>0050</string>
+		<string>0051</string>
+		<string>0052</string>
+		<string>0053</string>
+		<string>0054</string>
+		<string>0055</string>
+		<string>0056</string>
+		<string>0057</string>
+		<string>0058</string>
+		<string>0059</string>
 	</array>
 	<key>OnlyWhenMoreTabs</key>
 	<true/>
@@ -948,11 +987,6 @@
 		<dict>
 			<key>Action</key>
 			<string>kContextMenuPointerAction</string>
-		</dict>
-		<key>Button,2,1,,</key>
-		<dict>
-			<key>Action</key>
-			<string>kPasteFromClipboardPointerAction</string>
 		</dict>
 		<key>Gesture,ThreeFingerSwipeDown,,</key>
 		<dict>
@@ -976,7 +1010,7 @@
 		</dict>
 	</dict>
 	<key>PrefsCustomFolder</key>
-	<string>/Users/mou/Downloads</string>
+	<string>/Users/moomou/Downloads</string>
 	<key>PromptOnClose</key>
 	<true/>
 	<key>PromptOnQuit</key>
@@ -998,7 +1032,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2016-03-11T20:10:41Z</date>
+	<date>2016-03-30T06:47:40Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Secure Input</key>
@@ -1025,6 +1059,8 @@
 	<integer>10</integer>
 	<key>TripleClickSelectsFullWrappedLines</key>
 	<false/>
+	<key>UKCrashReporterLastCrashReportDate</key>
+	<real>1416035584</real>
 	<key>URLHandlersByGuid</key>
 	<dict/>
 	<key>UseBorder</key>
@@ -1048,6 +1084,6 @@
 	<key>findRegex_iTerm</key>
 	<false/>
 	<key>iTerm Version</key>
-	<string>2.9.20160206</string>
+	<string>2.9.20160313</string>
 </dict>
 </plist>
