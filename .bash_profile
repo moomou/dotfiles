@@ -51,9 +51,9 @@ function BashPrompt() {
    local reset=$(ResetColor)
 
    #
-   local failure='（￣へ￣）'
+   local failure=' (ಠ_ಠ) '
    #
-   local success='(￣▽￣)ノ'
+   local success=' ヽ(・∀・)ﾉ '
 
    if [[ "$last_status" != '0' ]]; then
        last_status="$(Color 2)$failure$reset"
@@ -63,8 +63,6 @@ function BashPrompt() {
 
    echo -n -e $last_status;
 }
-
-export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
 export GOPATH=$HOME/go
 export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
@@ -87,3 +85,10 @@ source /usr/local/opt/autoenv/activate.sh
 if [ -f ~/.cuebenv/activate.sh ]; then
     . ~/.cuebenv/activate.sh
 fi
+
+source ~/.git-prompt.sh
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWCOLORHINTS=1
+export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n'
+export PROMPT_COMMAND='echo -n $(BashPrompt)'

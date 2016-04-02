@@ -54,11 +54,7 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-function parse_git_branch {
-   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
-
-PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u:\[\033[01;34m\]\w\[\033[00m\]-\$(parse_git_branch)\n\$ "
+PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u:\[\033[01;34m\]\w\[\033[00m\]-\$ "
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
@@ -105,6 +101,5 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-
 
 . /Users/moomou/dev/_opensrc/torch/install/bin/torch-activate
