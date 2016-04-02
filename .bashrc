@@ -54,7 +54,7 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
-PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u:\[\033[01;34m\]\w\[\033[00m\]-\$ "
+PS1="${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u:\[\033[01;34m\]\w\[\033[00m\]-"
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
