@@ -2,3 +2,10 @@ bundle/
 .vim/.netrwhist
 .DS_STORE
 .ssh
+*.sw*
+venv
+**/__*
+**/.tern-project
+*~
+.DS_Store
+*.swp

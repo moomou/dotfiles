@@ -22,7 +22,7 @@
     email = paul@smyte.com
 [core]
     editor = /usr/bin/vim
-	excludesfile = /Users/moomou/.gitignore_global
+	excludesfile = /home/paul/.gitignore
 [grep]
     linenumber = true
 [filter "media"]
