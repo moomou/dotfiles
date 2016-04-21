@@ -112,10 +112,10 @@ autocmd FileType scala set cc=100
 Plugin 'gmarik/Vundle.vim'
 
 Plugin 'bling/vim-airline'
-Plugin 'Valloric/YouCompleteMe'
-let g:ycm_auto_trigger = 99
-let g:ycm_min_num_of_chars_for_completion = 99
-let g:ycm_server_log_level = 'critical'
+"Plugin 'Valloric/YouCompleteMe'
+"let g:ycm_auto_trigger = 99
+"let g:ycm_min_num_of_chars_for_completion = 99
+"let g:ycm_server_log_level = 'critical'
 
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
