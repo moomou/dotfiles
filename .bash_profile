@@ -5,6 +5,10 @@ if [ "$(uname)" == "Darwin" ]; then
     alias vim='mvim -v -w /tmp/output.txt'
 fi
 
+#alias vi='nvim'
+#alias vim='nvim'
+
+alias master='ssh k8s-master1'
 alias ctags='/usr/local/bin/ctags'
 
 ## Quick folder jmp
@@ -14,7 +18,6 @@ alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
 alias vpn='ssh -C2qTnN -D 8080 hack'
 
-alias g="git"
 alias nw="/Applications/nwjs.app/Contents/MacOS/nwjs"
 alias sep="yes hr | head -n 30 | bash"
 alias proxy='ssh -C2qTnN -D 9991 dev'
@@ -25,7 +28,9 @@ alias tk="tmux kill-session -t"
 alias ta="tmux attach-session -t"
 alias ts="tmux new-session -s"
 
-## github alias
+## git alias
+alias g="git"
+alias gshort="git rev-parse --short"
 # if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
 alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
 alias gmend='(groot; sleep 0 && git add . && git ci --amend)'
@@ -35,6 +40,7 @@ alias arcit='gmend && arc diff'
 
 # Folder jmp
 alias box='cd ~/authbox/'
+alias gogo='cd ~/authbox/go/src/smyte.com/'
 alias admin='cd ~/authbox/authbox-api/lib/frontend/admin'
 alias api='cd ~/authbox/authbox-api'
 alias apps='cd ~/authbox/apps'

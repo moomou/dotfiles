@@ -93,6 +93,7 @@ inoremap <c-c> <Esc>
 filetype plugin indent on
 
 set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_clear_cache_on_exit = 0
 
 " Load AutoComplete only for certain files
 au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
@@ -111,22 +112,27 @@ autocmd FileType scala set cc=100
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
 
+"Plugin 'kopischke/vim-stay'
 Plugin 'bling/vim-airline'
 "Plugin 'Valloric/YouCompleteMe'
-"let g:ycm_auto_trigger = 99
-"let g:ycm_min_num_of_chars_for_completion = 99
+"let g:ycm_auto_trigger = 1
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_min_num_of_chars_for_completion = 2
 "let g:ycm_server_log_level = 'critical'
+"let g:ycm_global_ycm_extra_conf = '/home/paul/dev/dotfiles/.ycm_extra_conf.py'
 
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
+let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
 nnoremap <C-w>e :SyntasticCheck<CR>
 
 Plugin 'ternjs/tern_for_vim'
 " Plugin 'vim-scripts/closetag.vim'
 
-Plugin 'wincent/Command-T'
+"Plugin 'wincent/Command-T'
 let g:CommandTMaxFiles = 900000
 let g:CommandTInputDebounce = 50
 let g:CommandTMaxCachedDirectories = 1000
@@ -145,7 +151,7 @@ Plugin 'ervandew/supertab'
 Plugin 'mattn/emmet-vim'
 Plugin 'godlygeek/tabular'
 Plugin 'tpope/vim-surround'
-Plugin 'valloric/MatchTagAlways'
+"Plugin 'valloric/MatchTagAlways'
 Plugin 'elzr/vim-json'
 Plugin 'ap/vim-css-color'
 
@@ -183,6 +189,7 @@ let g:mta_use_matchparen_group = 1
 let g:airline#extensions#tabline#enabled = 1
 
 " Go format
+let g:go_fmt_autosave = 1
 let g:go_fmt_command = "goimports"
 
 " Unite
@@ -220,4 +227,3 @@ com! FormatJSON %!python -m json.tool
 
 " Set _ as keyword
 " set iskeyword-=_
-let g:ycm_global_ycm_extra_conf = '/home/paul/dev/dotfiles/.ycm_extra_conf.py'

@@ -30,7 +30,7 @@ symlink ".bash_profile"
 
 # Link other utils
 symlink ".agignore"
-symlink ".eslintrc"
+symlink ".eslintrc.json"
 symlink ".gitignore"
 symlink ".jshintrc"
 symlink ".sbtconfig"
@@ -45,4 +45,4 @@ fi
 # echo "Now run: vi +BundleInstall +qall"
 
 # Setting up git
-git config --global core.excludesfile ~/.gitignore_global
+git config --global core.excludesfile ~/.gitignore
