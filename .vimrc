@@ -126,7 +126,8 @@ Plugin 'scrooloose/syntastic'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
-let g:syntastic_mode_map = { 'mode': 'active', 'passive_filetypes': ['go'] }
+let g:syntastic_python_python_exec='python3'
+let g:syntastic_python_checker_args = '--ignore=E225'
 nnoremap <C-w>e :SyntasticCheck<CR>
 
 Plugin 'ternjs/tern_for_vim'

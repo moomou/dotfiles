@@ -31,9 +31,11 @@ symlink ".bash_profile"
 # Link other utils
 symlink ".agignore"
 symlink ".eslintrc.json"
+symlink ".eslintrc.json" ".eslintrc"
 symlink ".gitignore"
 symlink ".jshintrc"
 symlink ".sbtconfig"
+symlink ".pylintrc"
 
 # Using .bashrc as custom config on different machines
 if [ "$BASHRC" = "1" ]; then
