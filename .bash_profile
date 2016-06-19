@@ -18,7 +18,7 @@ alias dev='cd ~/dev'
 alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
-alias vpn='ssh -C2qTnN -D 8080 hack'
+alias vpn='ssh -C2qTnN -D 8080 vpn'
 alias tl='tmux list-session'
 alias ta='tmux attach-session -t'
 
@@ -26,7 +26,7 @@ alias ta='tmux attach-session -t'
 alias ag='ag --path-to-agignore=~/.agignore'
 
 ## Make vim the default
-export EDITOR=vim
+export EDITOR=nvim
 
 ## Bash Completion
 if [ -f /etc/bash_completion ]; then

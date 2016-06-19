@@ -112,7 +112,13 @@ Plugin 'gmarik/Vundle.vim'
 
 Plugin 'bling/vim-airline'
 Plugin 'Valloric/YouCompleteMe'
+let g:ycm_autoclose_preview_window_after_completion = 1
+
 Plugin 'ternjs/tern_for_vim'
+nmap <Leader>jd :TernDef<CR>
+nmap <Leader>jt :TernType<CR>
+nmap <Leader>jr :TernRefs<CR>
+nmap <Leader>jn :TernRename<CR>
 
 Plugin 'vim-scripts/closetag.vim'
 Plugin 'scrooloose/syntastic'
@@ -187,12 +193,23 @@ nmap s <Plug>(easymotion-s2)
 let g:EasyMotion_smartcase = 1
 
 " JK motions: Line motions
-map <Leader>j <Plug>(easymotion-j)
-map <Leader>k <Plug>(easymotion-k)
+"map <Leader>j <Plug>(easymotion-j)
+"map <Leader>k <Plug>(easymotion-k)
 
 " 'Global' buffer
 vmap <leader>y :w! ~/.vitmp<CR>
 nmap <leader>p :r! cat ~/.vitmp<CR>
+
+" Disable middle click paste
+nnoremap <MiddleMouse> <Nop>
+nnoremap <2-MiddleMouse> <Nop>
+nnoremap <3-MiddleMouse> <Nop>
+nnoremap <4-MiddleMouse> <Nop>
+
+inoremap <MiddleMouse> <Nop>
+inoremap <2-MiddleMouse> <Nop>
+inoremap <3-MiddleMouse> <Nop>
+inoremap <4-MiddleMouse> <Nop>
 
 " Custom Macro
 let @t = 'dwiimport wwxifromwdwds($'
