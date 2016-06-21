@@ -19,8 +19,12 @@ alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
 alias vpn='ssh -C2qTnN -D 8080 vpn'
-alias tl='tmux list-session'
-alias ta='tmux attach-session -t'
+
+# Tmux shortcuts
+alias tl="tmux list-session"
+alias tk="tmux kill-session -t"
+alias ta="tmux attach-session -t"
+alias ts="tmux new-session -s"
 
 ## Global ag ignore
 alias ag='ag --path-to-agignore=~/.agignore'
@@ -79,7 +83,7 @@ export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MAT
 source ~/.bashrc
 
 # Source autoenv
-source /usr/local/opt/autoenv/activate.sh
+# source /usr/local/opt/autoenv/activate.sh
 [[ -s "/Users/moomou/.gvm/scripts/gvm" ]] && source "/Users/moomou/.gvm/scripts/gvm"
 
 if [ -f ~/.cuebenv/activate.sh ]; then
