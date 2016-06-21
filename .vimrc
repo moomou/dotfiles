@@ -3,8 +3,6 @@ filetype off
 
 set cc=100
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
 set encoding=utf-8  " The encoding displayed.
 set fileencoding=utf-8  " The encoding written to file.
 
@@ -106,53 +104,57 @@ autocmd FileType python set cc=80
 autocmd FileType python inoremap # X<BS>#
 autocmd FileType scala set cc=100
 
-" Bundles"
-" let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
+" NeoBundles configs
+set runtimepath^=~/.vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.vim/bundle/'))
 
-Plugin 'bling/vim-airline'
-Plugin 'Valloric/YouCompleteMe'
-let g:ycm_autoclose_preview_window_after_completion = 1
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-Plugin 'ternjs/tern_for_vim'
+NeoBundle 'bling/vim-airline'
+"NeoBundle 'Valloric/YouCompleteMe'
+"let g:ycm_autoclose_preview_window_after_completion = 1
+
+NeoBundle 'ternjs/tern_for_vim'
 nmap <Leader>jd :TernDef<CR>
 nmap <Leader>jt :TernType<CR>
 nmap <Leader>jr :TernRefs<CR>
 nmap <Leader>jn :TernRename<CR>
 
-Plugin 'vim-scripts/closetag.vim'
-Plugin 'scrooloose/syntastic'
+NeoBundle 'vim-scripts/closetag.vim'
+NeoBundle 'scrooloose/syntastic'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 nnoremap <C-w>e :SyntasticCheck<CR>
 
-Plugin 'wincent/Command-T'
-let g:CommandTMaxCachedDirectories = 10
-let g:CommandTInputDebounce = 50
-let g:CommandTFileScanner = 'git'
+" NeoBundle 'wincent/Command-T'
+" let g:CommandTMaxCachedDirectories = 10
+" let g:CommandTInputDebounce = 50
+" let g:CommandTFileScanner = 'git'
 
-Plugin 'fatih/vim-go'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'wellsjo/wellsokai.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
+NeoBundle 'fatih/vim-go'
+NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'mxw/vim-jsx'
+NeoBundle 'flazz/vim-colorschemes'
+NeoBundle 'wellsjo/wellsokai.vim'
+NeoBundle 'ctrlpvim/ctrlp.vim'
 
-Plugin 'ervandew/supertab'
-Plugin 'mattn/emmet-vim'
-Plugin 'godlygeek/tabular'
-Plugin 'tpope/vim-surround'
-Plugin 'valloric/MatchTagAlways'
-Plugin 'elzr/vim-json'
-Plugin 'ap/vim-css-color'
-" Plugin 'derekwyatt/vim-scala'
-Plugin 'Chiel92/vim-autoformat'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'myusuf3/numbers.vim'
+NeoBundle 'ervandew/supertab'
+NeoBundle 'mattn/emmet-vim'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'valloric/MatchTagAlways'
+NeoBundle 'elzr/vim-json'
+NeoBundle 'ap/vim-css-color'
+" NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'Chiel92/vim-autoformat'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'terryma/vim-multiple-cursors'
+NeoBundle 'myusuf3/numbers.vim'
 
-call vundle#end()            " required
-filetype plugin indent on    " required
+call neobundle#end() " end of bundle configs
+filetype plugin indent on " required
+NeoBundleCheck
 
 set laststatus=2
 set background=dark
