@@ -24,9 +24,10 @@ symlink ".tmux.conf" ".tmux.conf"
 # Override .ssh config
 symlink ".ssh/config"
 
-# Link .gitconfig
+# Link .git settings
 symlink ".gitconfig"
 symlink ".git-prompt.sh"
+symlink ".gitencrypt"
 
 # Link bash_*
 symlink ".bash_profile"

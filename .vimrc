@@ -112,8 +112,9 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'bling/vim-airline'
-"NeoBundle 'Valloric/YouCompleteMe'
-"let g:ycm_autoclose_preview_window_after_completion = 1
+NeoBundle 'Valloric/YouCompleteMe'
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_filetype_blacklist = { 'sql' : 1 }
 
 NeoBundle 'ternjs/tern_for_vim'
 nmap <Leader>jd :TernDef<CR>
