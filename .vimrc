@@ -116,42 +116,95 @@ NeoBundle 'Valloric/YouCompleteMe'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_filetype_blacklist = { 'sql' : 1 }
 
-NeoBundle 'ternjs/tern_for_vim'
-nmap <Leader>jd :TernDef<CR>
-nmap <Leader>jt :TernType<CR>
-nmap <Leader>jr :TernRefs<CR>
-nmap <Leader>jn :TernRename<CR>
-
-NeoBundle 'vim-scripts/closetag.vim'
 NeoBundle 'scrooloose/syntastic'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
 nnoremap <C-w>e :SyntasticCheck<CR>
 
-" NeoBundle 'wincent/Command-T'
-" let g:CommandTMaxCachedDirectories = 10
-" let g:CommandTInputDebounce = 50
-" let g:CommandTFileScanner = 'git'
+NeoBundle 'wincent/Command-T'
+let g:CommandTMaxCachedDirectories = 10
+let g:CommandTInputDebounce = 50
+let g:CommandTFileScanner = 'git'
 
-NeoBundle 'fatih/vim-go'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'mxw/vim-jsx'
+"NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'wellsjo/wellsokai.vim'
-NeoBundle 'ctrlpvim/ctrlp.vim'
 
 NeoBundle 'ervandew/supertab'
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'valloric/MatchTagAlways'
-NeoBundle 'elzr/vim-json'
-NeoBundle 'ap/vim-css-color'
-" NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'myusuf3/numbers.vim'
+
+NeoBundle 'ternjs/tern_for_vim', {
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['javascript']
+            \ }
+            \}
+nmap <Leader>jd :TernDef<CR>
+nmap <Leader>jt :TernType<CR>
+nmap <Leader>jr :TernRefs<CR>
+nmap <Leader>jn :TernRename<CR>
+
+NeoBundle 'vim-scripts/closetag.vim', {
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['xml', 'html', 'xhtml']
+            \ }
+            \}
+
+NeoBundle 'fatih/vim-go',{
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['go', 'golang']
+            \ }
+            \}
+
+NeoBundle 'pangloss/vim-javascript', {
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['javascript']
+            \ }
+            \}
+
+NeoBundle 'mxw/vim-jsx',{
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['javascript']
+            \ }
+            \}
+
+NeoBundle 'valloric/MatchTagAlways', {
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['javascript', 'html', 'xml']
+            \ }
+            \}
+
+NeoBundle 'elzr/vim-json', {
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['json']
+            \ }
+            \}
+
+NeoBundle 'ap/vim-css-color', {
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['sass', 'css', 'less', 'scss']
+            \ }
+            \}
+
+NeoBundle 'derekwyatt/vim-scala', {
+            \ 'lazy': 1,
+            \ 'autoload': {
+            \   'filetypes': ['scala']
+            \ }
+            \}
 
 call neobundle#end() " end of bundle configs
 filetype plugin indent on " required
