@@ -85,24 +85,8 @@ inoremap <F7> <C-o>:set ft=javascript<CR>
 noremap <F8> :Autoformat<CR><CR>
 inoremap <F8> :Autoformat<CR><CR>
 
-noremap <c-c> <Esc>
-inoremap <c-c> <Esc>
-
-filetype plugin indent on
-
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-
-" Load AutoComplete only for certain files
-au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
-au BufNewFile,BufRead *.jsx set filetype=javascript
-au BufWrite * :DeleteTrailingWhitespace
-autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
-autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
-autocmd FileType coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
-autocmd FileType html setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
-autocmd FileType python set cc=80
-autocmd FileType python inoremap # X<BS>#
-autocmd FileType scala set cc=100
+" Map control c to esc
+vnoremap <C-c> <Esc>
 
 " NeoBundles configs
 set runtimepath^=~/.vim/bundle/neobundle.vim/
@@ -112,6 +96,8 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'bling/vim-airline'
+let g:airline#extensions#tabline#enabled = 1
+
 NeoBundle 'Valloric/YouCompleteMe'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_filetype_blacklist = { 'sql' : 1 }
@@ -138,6 +124,9 @@ NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'myusuf3/numbers.vim'
+NeoBundle 'fatih/vim-go'
+" Go format
+let g:go_fmt_command = "goimports"
 
 NeoBundle 'ternjs/tern_for_vim', {
             \ 'lazy': 1,
@@ -184,6 +173,9 @@ NeoBundle 'valloric/MatchTagAlways', {
             \   'filetypes': ['javascript', 'html', 'xml']
             \ }
             \}
+" Match tag always
+let g:mta_use_matchparen_group = 1
+
 
 NeoBundle 'elzr/vim-json', {
             \ 'lazy': 1,
@@ -219,38 +211,6 @@ filetype on
 
 " ???
 let g:pymode_rope_complete_on_dot = 0
-
-" Match tag always
-let g:mta_use_matchparen_group = 1
-
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-
-" Go format
-let g:go_fmt_command = "goimports"
-
-" Unite
-nnoremap <space>/ :Unite grep:.<cr>
-nnoremap <space>s :Unite -quick-match buffer<cr>
-
-" EasyMotion
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-
-" Bi-directional find motion
-" Jump to anywhere you want with minimal keystrokes, with just one key binding.
-" `s{char}{label}`
-nmap s <Plug>(easymotion-s)
-" or
-" `s{char}{char}{label}`
-" Need one more keystroke, but on average, it may be more comfortable.
-nmap s <Plug>(easymotion-s2)
-
-" Turn on case sensitive feature
-let g:EasyMotion_smartcase = 1
-
-" JK motions: Line motions
-"map <Leader>j <Plug>(easymotion-j)
-"map <Leader>k <Plug>(easymotion-k)
 
 " 'Global' buffer
 vmap <leader>y :w! ~/.vitmp<CR>

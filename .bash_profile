@@ -18,7 +18,7 @@ alias dev='cd ~/dev'
 alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
-alias vpn='ssh -C2qTnN -D 8080 vpn'
+alias vpn='ssh -C2qTnN -D 8081 vpn'
 
 # Tmux shortcuts
 alias tl="tmux list-session"
