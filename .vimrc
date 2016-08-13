@@ -205,6 +205,18 @@ NeoBundleCheck
 set laststatus=2
 set background=dark
 
+" Load AutoComplete only for certain files        
+au BufNewFile,BufRead *.partial,*.handlebars set filetype=html        
+au BufNewFile,BufRead *.jsx set filetype=javascript        
+au BufWrite * :DeleteTrailingWhitespace        
+autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1        
+autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim        
+autocmd FileType coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for        
+autocmd FileType html setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for        
+autocmd FileType python set cc=80        
+autocmd FileType python inoremap # X<BS>#        
+autocmd FileType scala set cc=100
+
 syntax enable
 filetype off
 filetype on

@@ -12,13 +12,24 @@ alias ctags='/usr/local/bin/ctags'
 alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
 alias gmend='groot; sleep 0 && git add . && git ci --amend'
 alias rebase='git pull --rebase origin master'
+alias gpo='rebase && git push origin'
+
+g_init() {
+    git init;
+    lan=`echo "${1^}"`
+    wget https://raw.githubusercontent.com/github/gitignore/master/${lan}.gitignore;
+    git ci -am 'init with .gitignore';
+}
+
+alias ginit='g_init()'
 
 ## Quick folder jmp
 alias dev='cd ~/dev'
 alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
-alias vpn='ssh -C2qTnN -D 8081 vpn'
+alias vpnw='ssh -C2qTnN -D 8081 vpn'
+alias vpnt='ssh -C2qTnN -D 8081 tor'
 
 # Tmux shortcuts
 alias tl="tmux list-session"
@@ -76,8 +87,9 @@ export ELASTIC_HOME='/Applications/elasticsearch-1.5.2'
 export PYTHONPATH=~/dev/_opensrc/caffe/python:$PYTHONPATH
 export CUDA_PATH=/Developer/NVIDIA/CUDA-7.0/bin
 export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
 
-export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin"
+export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin"
 
 # Source the original
 source ~/.bashrc
