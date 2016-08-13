@@ -16,12 +16,12 @@ alias gpo='rebase && git push origin'
 
 g_init() {
     git init;
-    lan=`echo "${1^}"`
-    wget https://raw.githubusercontent.com/github/gitignore/master/${lan}.gitignore;
+    lan=`echo $1 | python -c "print raw_input().capitalize()"`;
+    wget -q https://raw.githubusercontent.com/github/gitignore/master/${lan}.gitignore;
     git ci -am 'init with .gitignore';
 }
 
-alias ginit='g_init()'
+alias ginit='g_init'
 
 ## Quick folder jmp
 alias dev='cd ~/dev'
