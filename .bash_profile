@@ -1,9 +1,8 @@
 ## Shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color --group-directories-first'
-    alias vi='mvim -v -w /tmp/output.txt'
-    alias vim='mvim -v -w /tmp/output.txt'
-    alias govim='~/.govim.sh'
+    alias vi='~/.govim.sh'
+    alias vim='~/.govim.sh'
 fi
 
 alias ctags='/usr/local/bin/ctags'
