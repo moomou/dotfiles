@@ -3,6 +3,7 @@ if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color --group-directories-first'
     alias vi='mvim -v -w /tmp/output.txt'
     alias vim='mvim -v -w /tmp/output.txt'
+    alias govim='~/.govim.sh'
 fi
 
 alias ctags='/usr/local/bin/ctags'
@@ -67,9 +68,7 @@ function BashPrompt() {
    local last_status=$?
    local reset=$(ResetColor)
 
-   #
    local failure=' (ಠ_ಠ) '
-   #
    local success=' ヽ(・∀・)ﾉ '
 
    if [[ "$last_status" != '0' ]]; then
