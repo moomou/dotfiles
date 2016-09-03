@@ -41,6 +41,7 @@ symlink ".sbtconfig"
 
 # Random script
 symlink "vimGoWrapper.sh" ".govim.sh"
+symlink "gogo.sh" "gogo.sh"
 
 # Using .bashrc as custom config on different machines
 if [ "$BASHRC" = "1" ]; then
