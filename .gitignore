@@ -5,8 +5,10 @@ bundle/
 *.sw*
 venv
 **/__*
+!__init__.py
 **/.tern-project
 *~
 .DS_Store
 *.swp
 **/.cache
+**/.*

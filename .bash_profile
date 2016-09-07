@@ -1,15 +1,13 @@
 ## Shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color --group-directories-first'
-    alias vi='mvim -v -w /tmp/output.txt'
-    alias vim='mvim -v -w /tmp/output.txt'
 fi
 
-#alias vi='nvim'
-#alias vim='nvim'
+alias vi='nvim'
+alias vim='nvim'
 
 alias master='ssh k8s-master1'
-alias ctags='/usr/local/bin/ctags'
+#alias ctags='/usr/local/bin/ctags'
 
 ## Quick folder jmp
 alias dev='cd ~/dev'
@@ -33,20 +31,24 @@ alias g="git"
 alias gshort="git rev-parse --short"
 # if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
 alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
+alias gmendq='(groot; sleep 0 && git add . && git ci --amend --no-edit)'
 alias gmend='(groot; sleep 0 && git add . && git ci --amend)'
-alias rebase='git pull --rebase origin master && git sub update'
+alias gpo='rebase && git push origin'
+alias rebase='git pull --rebase origin master && git sub update --jobs 4'
 
-alias arcit='gmend && arc diff'
+alias arcit='gmendq && arc diff'
 
 # Folder jmp
 alias box='cd ~/authbox/'
 alias gogo='cd ~/authbox/go/src/smyte.com/'
+alias cpp='cd ~/authbox/cpp'
 alias admin='cd ~/authbox/authbox-api/lib/frontend/admin'
 alias api='cd ~/authbox/authbox-api'
 alias apps='cd ~/authbox/apps'
 alias dev='cd ~/dev'
 alias kami='cd ~/authbox/customers/'
 alias sops='cd ~/smyte-ops/'
+alias pylib='cd ~/authbox/pylib'
 
 ## Global ag ignore
 alias ag='ag --path-to-agignore=~/.agignore'
@@ -122,3 +124,5 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
+
+box
