@@ -60,6 +60,7 @@ nmap <c-k> <C-W>l
 nmap <c-j> <C-W>h
 nmap <S-m> :bp<CR>
 nmap mm :bn<CR>
+nmap <c-h> :bn\|bd #<CR>
 
 " http://stackoverflow.com/questions/2600783/how-does-the-vim-write-with-sudo-trick-work
 cmap w!! w !sudo tee > /dev/null %

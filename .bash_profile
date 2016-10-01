@@ -1,10 +1,13 @@
 ## Shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color --group-directories-first'
-    alias vi='~/.govim.sh'
-    alias vim='~/.govim.sh'
+    alias gvi='~/.govim.sh'
+    alias gvim='~/.govim.sh'
+    alias vi='mvim -v'
+    alias vim='mvim -v'
 fi
 
+alias imgcat='~/imgcat'
 alias ctags='/usr/local/bin/ctags'
 
 ## github alias
@@ -31,7 +34,7 @@ alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
 alias vpnw='ssh -C2qTnN -D 8081 vpn'
-alias vpnt='ssh -C2qTnN -D 8081 tor'
+alias vpndo='ssh -C2qTnN -D 8081 dev'
 
 # Tmux shortcuts
 alias tl="tmux list-session"
@@ -43,7 +46,7 @@ alias ts="tmux new-session -s"
 alias ag='ag --path-to-agignore=~/.agignore'
 
 ## Make vim the default
-export EDITOR=nvim
+export EDITOR=vim
 
 ## Bash Completion
 if [ -f /etc/bash_completion ]; then
@@ -108,3 +111,7 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
+
+# Python dark magic
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"

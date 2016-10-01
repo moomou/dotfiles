@@ -6,6 +6,10 @@ apt_update 'Update apt cache' do
     action :periodic
 end
 
+# TODO: Install n for managing node
+# TODO: Install golang
+# TODO: Install java
+
 package 'software-properties-common'
 package 'silversearcher-ag'
 package 'git'
