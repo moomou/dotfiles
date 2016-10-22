@@ -1,3 +1,5 @@
+user 'ubuntu'
+
 bash 'install docker' do
     user 'root'
     code <<-EOH
@@ -6,5 +8,8 @@ bash 'install docker' do
 		apt-get update
         apt-get install linux-image-extra-$(uname -r) linux-image-extra-virtual
 		apt-get install -y docker-engine=1.11.2-0~xenial
+
+        # add default ubuntu user
+        sudo usermod -aG docker ubuntu
     EOH
 end

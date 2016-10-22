@@ -1,3 +1,19 @@
 {
-    "run_list": [ "recipe[base::default]" ]
+    "run_list": [
+        "recipe[base::default]",
+        "recipe[ssh_tunnel::default]"
+    ],
+
+    "ssh_tunnel": {
+        "configs": [
+            {
+                "name": "slothdb_redis",
+                "command": "ssh -i /ssh/do_rsa do@35.160.19.31 -L 6379:35.160.19.31:6379"
+            },
+            {
+                "name": "slothdb_elasticsearch",
+                "command": "ssh -i /ssh/do_rsa do@35.160.19.31 -L 9200:35.160.19.31:9200"
+            }
+        ]
+    }
 }

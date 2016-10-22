@@ -1,1 +1,3 @@
 source 'https://supermarket.chef.io'
+
+cookbook 'supervisord', '~> 1.0.1'

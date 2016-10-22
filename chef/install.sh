@@ -6,7 +6,7 @@ role=$1
 chef_binary=chef-solo
 
 # Are we on a vanilla system?
-if ! command -v $chef_binary >/dev/null 2>&1; then
+# if ! command -v $chef_binary >/dev/null 2>&1; then
     export DEBIAN_FRONTEND=noninteractive
     # Upgrade headlessly (this is only safe-ish on vanilla systems)
     apt-get update &&
@@ -22,7 +22,7 @@ if ! command -v $chef_binary >/dev/null 2>&1; then
         &&
 
     sudo gem2.3 install --no-rdoc --no-ri chef berkshelf
-fi
+# fi
 
 # install dep cookbooks
 sudo berks vendor ./vendor
