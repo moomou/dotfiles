@@ -4,12 +4,13 @@
 
 include_recipe "docker::default"
 include_recipe "supervisord::default"
+include_recipe "nginx::default"
 
 package 'software-properties-common'
 package 'silversearcher-ag'
 package 'git'
-package 'nginx'
 package 'redis-tools'
+package 'letsencrypt'
 #package 'libpython2.7-dev'
 #package 'libpython-dev'
 #package 'python2.7-dev'
