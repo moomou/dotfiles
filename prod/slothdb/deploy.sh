@@ -1,12 +1,13 @@
 #!/bin/bash
 ssh slothdb << EOF
-    sudo su
-
     echo Deploying...
 
     # mkdir data dir
     if [ ! -d "/data/elasticsearch" ]; then
-        mkdir -p /data/elasticsearch
+        sudo mkdir -p /data/elasticsearch
+    fi
+    if [ ! -d "/data/redis" ]; then
+        sudo mkdir -p /data/redis
     fi
 
     # home dir
@@ -36,16 +37,36 @@ ssh slothdb << EOF
 
     # in /home/ubuntu
     docker stop cueb.elasticsearch > /dev/null 2>&1
+    docker rm cueb.elasticsearch > /dev/null 2>&1
     docker stop cueb.redis > /dev/null 2>&1
+    docker rm cueb.redis > /dev/null 2>&1
 
-    docker run -d --net=host --name cueb.redis cueb.redis
+    docker run -d --net=bridge \
+        -v "/data/redis/":"/data/redis" \
+        -p 6379:6379 \
+        --name cueb.redis \
+        cueb.redis
     sleep 5
-    docker run -d --net=host -v "/data/elasticsearch":/usr/share/elasticsearch/data --name cueb.elasticsearch cueb.elasticsearch
+
+    docker run -d --net=bridge \
+        -v "/data/elasticsearch":/usr/share/elasticsearch/data \
+        -p 9200:9200 \
+        --name cueb.elasticsearch \
+        cueb.elasticsearch
     sleep 5
 
     # basic healthcheck
-    redis-cli info memory
-    curl -XGET 'http://localhost:9200/_cluster/health?pretty=true'
+    until redis-cli ping;
+    do
+        echo waiting for redis...
+        sleep 1
+    done
+
+    until curl -s -XGET 'http://localhost:9200/_cluster/health?pretty=true' > /dev/null;
+    do
+        echo waiting for elasticsearch...
+        sleep 1
+    done
 
     # Setup elasticsearch
     pushd cueb/api/scripts

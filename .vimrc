@@ -99,9 +99,9 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-NeoBundle 'Valloric/YouCompleteMe'
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_filetype_blacklist = { 'sql' : 1 }
+"NeoBundle 'Valloric/YouCompleteMe'
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_filetype_blacklist = { 'sql' : 1 }
 
 NeoBundle 'scrooloose/syntastic'
 let g:syntastic_javascript_checkers = ['eslint']

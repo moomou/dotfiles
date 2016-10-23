@@ -19,8 +19,12 @@ if args.cmd == 'build':
 
     subprocess.check_output('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (tag, tag), shell=True)
     os.remove('./gitlab_rsa')
+
+    p = subprocess.Popen("cd /Users/moomou/dev/chub && git add . && git ci -am 'updated %s' && gpo master" % tag, shell=True)
+    p.communicate()
+
 elif args.cmd == "deploy":
     app = args.tag
-    p = subprocess.Popen('cd /Users/moomou/dev/_prod/%s && ./deploy.sh' % app, shell=True)
+    p = subprocess.Popen('cd /Users/moomou/dev/dotfiles/prod/%s && ./deploy.sh' % app, shell=True)
     p.communicate()
 
