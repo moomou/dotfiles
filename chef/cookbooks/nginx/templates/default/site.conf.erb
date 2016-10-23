@@ -17,11 +17,11 @@ server {
     # SSL configuration
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    include snippets/ssl-<%= server.root_url %>.conf;
+    include snippets/ssl-<%= @root_url %>.conf;
     include snippets/ssl-params.conf;
 
-    server_name <%= server.fqdn %>;
-    add_header Strict-Transport-Security "max-age=15768000; includeSubDomains: always;";
+    server_name <%= server.name + '.' + @root_url %>;
+    add_header Strict-Transport-Security "max-age=15768000; includeSubDomains: always;"er
 
     access_log /var/log/nginx/<%= server.name%>/access.log;
     error_log /var/log/nginx/<%= server.name%>/error.log;

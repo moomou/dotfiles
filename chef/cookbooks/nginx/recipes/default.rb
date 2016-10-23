@@ -54,6 +54,7 @@ domains.each do |domain|
     template "/etc/nginx/sites-available/#{root_url}.conf" do
         source 'site.conf.erb'
         variables({
+            :root_url => root_url,
             :upstreams => domain.upstreams,
             :servers => domain.servers
         })

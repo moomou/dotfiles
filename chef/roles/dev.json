@@ -1,18 +1,54 @@
 {
+    "nginx": {
+        "domains": [
+            {
+                "root_url": "ohsloth.com",
+                "servers": [
+                    {
+                        "name": "api",
+                        "upstream": "api"
+                    },
+                    {
+                        "name": "app",
+                        "upstream": "app"
+                    },
+                    {
+                        "name": "wwww"
+                    }
+                ],
+                "subdomains": [
+                    "app",
+                    "api",
+                    "www"
+                ],
+                "upstreams": [
+                    {
+                        "address": "localhost:3000",
+                        "name": "api"
+                    },
+                    {
+                        "address": "localhost:5000",
+                        "name": "app"
+                    }
+                ]
+            }
+        ],
+        "user": "me+letsencrypt@moomou.com"
+    },
     "run_list": [
         "recipe[base::default]",
-        "recipe[ssh_tunnel::default]"
+        "recipe[ssh_tunnel::default]",
+        "recipe[nginx::default]"
     ],
-
     "ssh_tunnel": {
         "configs": [
             {
-                "name": "slothdb_redis",
-                "command": "ssh -i /ssh/do_rsa do@35.160.19.31 -L 6379:ec2-35-160-19-31.us-west-2.compute.amazonaws.com:6379"
+                "command": "ssh -i /ssh/do_rsa do@35.160.19.31 -L 6379:ec2-35-160-19-31.us-west-2.compute.amazonaws.com:6379",
+                "name": "slothdb_redis"
             },
             {
-                "name": "slothdb_elasticsearch",
-                "command": "ssh -i /ssh/do_rsa do@35.160.19.31 -L 9200:ec2-35-160-19-31.us-west-2.compute.amazonaws.com:9200"
+                "command": "ssh -i /ssh/do_rsa do@35.160.19.31 -L 9200:ec2-35-160-19-31.us-west-2.compute.amazonaws.com:9200",
+                "name": "slothdb_elasticsearch"
             }
         ]
     }
