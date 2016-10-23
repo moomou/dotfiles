@@ -1,3 +1,8 @@
 {
-    "run_list": [ "recipe[base::default]" ]
+    "run_list": [ "recipe[base::default]" ],
+
+    "ssh_user": {
+        "name": "do",
+        "ssh_filename": "do.pub"
+    }
 }
