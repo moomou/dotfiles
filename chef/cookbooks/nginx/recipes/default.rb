@@ -1,5 +1,5 @@
 package 'nginx'
-package 'letencrypt'
+package 'letsencrypt'
 
 directory '/etc/nginx/snippets' do
     action :create
@@ -27,6 +27,7 @@ domains = node['nginx']['domains']
 domains.each do |domain|
     root_url = domain['root_url']
     subdomains = domain['subdomains'].map { |sub| "-d #{sub}.#{root_url} " }.join
+    subdomains = "-d #{root_url} " + subdomains
 
     # request
     bash 'setup letsencrypt' do
@@ -40,6 +41,7 @@ domains.each do |domain|
             --email #{user} \
             #{subdomains}
         EOH
+        not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
     end
 
     # add nginx config
@@ -61,16 +63,29 @@ domains.each do |domain|
     end
 
     # link to enabled
-    link "/etc/nginx/sites-available/#{root_url}.conf" do
-        to "/etc/nginx/sites-enabled/#{root_url}.conf"
+    link "/etc/nginx/sites-enabled/#{root_url}.conf" do
+        to "/etc/nginx/sites-available/#{root_url}.conf"
         not_if { domain['disabled'] }
+    end
+
+    # create domain dir
+    directory "/var/log/nginx/#{root_url}" do
+        owner 'www-data'
+        action :create
+    end
+
+    # create log dir
+    domain['subdomains'].each do |subdomain|
+        directory "/var/log/nginx/#{root_url}/#{subdomain}" do
+            owner 'www-data'
+            action :create
+        end
     end
 end
 
 # Setup renew job
 cron 'renew letsencrypt cert and reload nginx' do
     command 'letsencrypt renew >> /var/log/le-renew.log && systemctl reload nginx'
-    month '30'
     hour '2'
     day '1'
 end

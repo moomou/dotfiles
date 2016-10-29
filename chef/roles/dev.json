@@ -13,7 +13,8 @@
                         "upstream": "app"
                     },
                     {
-                        "name": "wwww"
+                        "name": "www",
+                        "root": "/var/www/ohsloth"
                     }
                 ],
                 "subdomains": [
