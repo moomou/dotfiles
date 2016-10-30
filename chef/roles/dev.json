@@ -6,11 +6,23 @@
                 "servers": [
                     {
                         "name": "api",
-                        "upstream": "api"
+                        "upstream": "api",
+                        "locations": [
+                            {
+                                "path": "/svc",
+                                "upstream": "svc"
+                            }
+                        ]
                     },
                     {
                         "name": "app",
-                        "upstream": "app"
+                        "upstream": "app",
+                        "locations": [
+                            {
+                                "path": "/dist",
+                                "root": "/var/app/ohsloth"
+                            }
+                        ]
                     },
                     {
                         "name": "www",
@@ -28,8 +40,12 @@
                         "name": "api"
                     },
                     {
-                        "address": "localhost:5000",
+                        "address": "localhost:5005",
                         "name": "app"
+                    },
+                    {
+                        "address": "localhost:8080",
+                        "name": "svc"
                     }
                 ]
             }
@@ -44,7 +60,7 @@
     "ssh_tunnel": {
         "configs": [
             {
-                "command": "ssh -i /ssh/do_rsa do@52.27.105.224 -L 5000:ec2-52-27-105-224.us-west-2.compute.amazonaws.com:5000",
+                "command": "ssh -i /ssh/do_rsa do@52.27.105.224 -L 5005:ec2-52-27-105-224.us-west-2.compute.amazonaws.com:5000",
                 "name": "slothdb_app"
             },
             {

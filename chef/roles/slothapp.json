@@ -1,5 +1,8 @@
 {
-    "run_list": [ "recipe[base::default]" ],
+    "run_list": [
+        "recipe[base::default]",
+        "recipe[ssh_user::default]"
+    ],
 
     "ssh_user": {
         "name": "do",

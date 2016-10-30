@@ -30,6 +30,20 @@ server {
     root <%= server[:root] %>;
     <% end %>
 
+    <% (server[:locations] or []).each do |location| %>
+    location <%= location[:path] %> {
+        <% if location[:root] %>
+        root <%= location[:root] %>;
+        <% end %>
+
+        <% if location[:upstream] %>
+        proxy_pass http://<%= location[:upstream] %>;
+        <% else %>
+        try_files $uri $uri/ $uri.html /index.html =404;
+        <% end %>
+    }
+    <% end %>
+
     location / {
         <% if server[:upstream] %>
         proxy_pass http://<%= server[:upstream] %>;
@@ -37,8 +51,8 @@ server {
         try_files $uri $uri/ $uri.html /index.html =404;
         <% end %>
     }
-}
 
+}
 <% end %>
 
 # Redirect naked root_url to www by default
@@ -47,6 +61,6 @@ server {
     listen [::]:80;
 	listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name ohsloth.com;
-    return 301 https://www.ohsloth.com;
+    server_name <%= @root_url %>;
+    return 301 https://www.<%= @root_url %>;
 }
