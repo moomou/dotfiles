@@ -14,6 +14,7 @@ alias ctags='/usr/local/bin/ctags'
 # if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
 alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
 alias gmend='groot; sleep 0 && git add . && git ci --amend'
+alias gmendq='groot; sleep 0 && git add . && git ci --amend --no-edit'
 alias rebase='git pull --rebase origin master'
 alias gpo='rebase && git push origin'
 
