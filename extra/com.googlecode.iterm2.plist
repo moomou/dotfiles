@@ -42,6 +42,8 @@
 	<false/>
 	<key>DisableFullscreenTransparency</key>
 	<false/>
+	<key>DisableWindowSizeSnap</key>
+	<true/>
 	<key>EliminateCloseButtons</key>
 	<true/>
 	<key>EnableRendezvous</key>
@@ -135,7 +137,7 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>187 91 947 587 0 0 1440 877 </string>
+	<string>183 183 947 319 0 0 1440 877 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>278 402 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SUStatusFrame</key>
@@ -145,13 +147,13 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 139 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>221 291 796 473 0 0 1440 877 </string>
+	<string>442 126 796 473 0 0 1440 877 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 294 592 584 0 0 1440 878 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>3 13 1434 855 0 0 1440 877 </string>
+	<string>0 385 730 477 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>3 400 650 477 0 0 1440 877 </string>
+	<string>4 40 1432 837 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 2</key>
 	<string>723 391 650 477 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 3</key>
