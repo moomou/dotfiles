@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-
 import argparse
 import os
 import shutil
 import subprocess
 
 parser = argparse.ArgumentParser()
-parser.add_argument("cmd")
-parser.add_argument("tag")
+parser.add_argument('cmd')
+parser.add_argument('tag')
 
 args = parser.parse_args()
 
@@ -25,5 +24,18 @@ if args.cmd == 'build':
 
 elif args.cmd == 'deploy':
     app = args.tag
+
+    # first run deploy_assets
+    if app == 'slothapp':
+        p = subprocess.Popen('cd /Users/moomou/dev/dotfiles/m/ops/%s && ./deploy_asset.sh' % app, shell=True)
+        p.communicate()
+
     p = subprocess.Popen('cd /Users/moomou/dev/dotfiles/m/ops && ./deploy.sh %s' % app, shell=True)
+    p.communicate()
+
+elif args.cmd == 'ginit':
+    gitignore = args.tag
+    gitignore[0] = gitignore[0].upper()
+
+    p = subprocess.Popen('g_init %s' % gitignore, shell=True)
     p.communicate()

@@ -99,14 +99,12 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-"NeoBundle 'Valloric/YouCompleteMe'
-"let g:ycm_autoclose_preview_window_after_completion = 1
-"let g:ycm_filetype_blacklist = { 'sql' : 1 }
+NeoBundle 'Valloric/YouCompleteMe'
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_filetype_blacklist = { 'sql' : 1 }
 
-NeoBundle 'scrooloose/syntastic'
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-nnoremap <C-w>e :SyntasticCheck<CR>
+NeoBundle 'neomake/neomake'
+nnoremap <C-w>e :Neomake<CR>
 
 NeoBundle 'wincent/Command-T'
 let g:CommandTMaxCachedDirectories = 10
