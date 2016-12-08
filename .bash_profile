@@ -113,6 +113,12 @@ export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
+if [[ $(pmset -g ps | head -1) =~ "AC Power" ]]; then
+   export ACPOWER=1
+else
+   export ACPOWER=0
+fi
+
 # Python dark magic
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"

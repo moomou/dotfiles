@@ -1,6 +1,8 @@
 set nocompatible
 filetype off
 
+set undodir=~/.vim/undodir
+set undofile
 set cc=100
 
 set encoding=utf-8  " The encoding displayed.
@@ -99,12 +101,18 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-NeoBundle 'Valloric/YouCompleteMe'
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_filetype_blacklist = { 'sql' : 1 }
+"NeoBundle 'Valloric/YouCompleteMe'
+"let g:ycm_autoclose_preview_window_after_completion = 1
+"let g:ycm_filetype_blacklist = { 'sql' : 1 }
+"let g:ycm_server_use_vim_stdout = 0
+"let g:ycm_server_keep_logfiles = 1
+"let g:ycm_path_to_python_interpreter = '/Users/moomou/.pyenv/shims/python'
 
 NeoBundle 'neomake/neomake'
 nnoremap <C-w>e :Neomake<CR>
+if $ACPOWER == '1'
+    autocmd! BufWritePost,BufEnter * Neomake
+end
 
 NeoBundle 'wincent/Command-T'
 let g:CommandTMaxCachedDirectories = 10
