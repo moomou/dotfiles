@@ -2,3 +2,4 @@ secret/cert/ppycom.pem
 secret/cert/sloth.pem
 secret/foo.txt
 secret/key/do_rsa
+secret/key/droplet_rsa
