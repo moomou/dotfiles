@@ -1,2 +1,3 @@
 secret/cert/ppycom.pem
+secret/cert/sloth.pem
 secret/foo.txt
