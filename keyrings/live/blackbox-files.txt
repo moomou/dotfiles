@@ -1,1 +1,2 @@
+secret/cert/ppycom.pem
 secret/foo.txt
