@@ -7,3 +7,10 @@ keys
 /keyrings/live/pubring.gpg~
 /keyrings/live/pubring.kbx~
 /keyrings/live/secring.gpg
+/secret/foo.txt
+/secret/cert/ppycom.pem
+/secret/cert/sloth.pem
+/secret/key/do_rsa
+/secret/key/droplet_rsa
+/secret/key/gitlab_rsa
+/secret/key/personal_rsa
