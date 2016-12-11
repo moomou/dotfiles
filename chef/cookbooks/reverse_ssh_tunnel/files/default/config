@@ -1,0 +1,6 @@
+Host tunnel
+Hostname 159.203.211.81
+Port 22
+ForwardAgent yes
+User root
+IdentityFile /root/.ssh/key/droplet_rsa

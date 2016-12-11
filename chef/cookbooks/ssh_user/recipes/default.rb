@@ -1,27 +1,38 @@
 username = node['ssh_user']['name']
 ssh_filename = node['ssh_user']['ssh_filename']
-# TODO: fix the hardcoded path
-pub_key = File.read("/home/ubuntu/chef/pubKeys/#{ssh_filename}")
 
-user "#{username}"
+# setup ssh server
+package 'openssh-server'
 
-directory "/home/#{username}" do
-    owner "#{username}"
-    group "#{username}"
-    action :create
+# be explicit and enable ssh server
+service "ssh" do
+    action [:start, :enable]
 end
 
-directory "/home/#{username}/.ssh" do
+# create /etc/ssh in case home dir is encrypted
+directory "/etc/ssh/#{username}" do
     owner "#{username}"
     group "#{username}"
     action :create
     mode '0700'
 end
 
-file "/home/#{username}/.ssh/authorized_keys" do
-  owner "#{username}"
-  group "#{username}"
-  content "#{pub_key}"
-  action :create_if_missing
-  mode '0600'
+# setup authorized keys
+cookbook_file "/home/#{username}/.ssh/authorized_keys" do
+    source "authorized_keys/#{username}.keys"
+    owner "#{username}"
+    group "#{username}"
+    action :create_if_missing
+    mode '0600'
+end
+
+# update the config - mainly to disable password login
+# and replace authorized key paths
+cookbook_file "/etc/ssh/sshd_config"
+    source 'sshd_config'
+    owner 'root'
+    group 'root'
+    mode '0600'
+    action :create
+    notifies :restart, "service[ssh]"
 end

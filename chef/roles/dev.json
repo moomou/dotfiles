@@ -57,10 +57,10 @@
         "recipe[ssh_tunnel::default]",
         "recipe[nginx::default]"
     ],
-    "ssh_tunnel": {
+    "supervisor_job": {
         "configs": [
             {
-                "command": "ssh -i /ssh/do_rsa do@52.27.105.224 -L 5005:ec2-52-27-105-224.us-west-2.compute.amazonaws.com:5000",
+                "command": "sleep 5 && exec ssh -o 'ServerAliveInterval 60' -N -R 2222:localhost:22 dev",
                 "name": "slothdb_app"
             },
             {

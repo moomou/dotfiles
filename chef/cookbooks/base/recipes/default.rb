@@ -1,27 +1,41 @@
 ## TODO: Install n for managing node
 ## TODO: Install golang
 ## TODO: Install java
-
 include_recipe "docker::default"
 include_recipe "supervisord::default"
 
+# common tool
 package 'software-properties-common'
 package 'silversearcher-ag'
 package 'git'
+package 'gnupg'
 package 'redis-tools'
 
-#package 'libpython2.7-dev'
-#package 'libpython-dev'
-#package 'python2.7-dev'
-#package 'python-pip'
-#package 'python3-dev'
-#package 'python3-pip'
+# py header
+package 'libpython2.7-dev'
+package 'libpython-dev'
+package 'python2.7-dev'
+package 'python-pip'
+package 'python3-dev'
+package 'python3-pip'
 
-#apt_repository 'nvim' do
-    #uri 'ppa:neovim-ppa/unstable'
-#end
+apt_repository 'nvim' do
+    uri 'ppa:neovim-ppa/unstable'
+end
 
-#package 'neovim'
+package 'neovim'
+
+bash 'install tools via curl' do
+    user "#{username}"
+    code <<-EOH
+        echo 'installing n'
+        curl -L https://git.io/n-install | bash
+
+        echo 'installing pyenv'
+        curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+    EOH
+end
+
 #bash 'update pref' do
     #user 'root'
     #code <<-EOH
@@ -34,10 +48,35 @@ package 'redis-tools'
     #EOH
 #end
 
+# create git user
 user 'git'
 directory "/home/git" do
     owner 'git'
     action :create
 end
 
-# Setup my dotfiles
+# creates me and home dir
+username = node['base']['name']
+user "#{username}"
+directory "/home/#{username}" do
+    owner "#{username}"
+    group "#{username}"
+    action :create
+end
+
+# ensure dev exists
+directory "/home/#{username}/dev" do
+    mode '0755'
+    owner "#{username}"
+    group "#{username}"
+    action :create
+end
+
+# setup alias and stuff
+bash 'download dotfiles pref' do
+    user "#{username}"
+    code <<-EOH
+        git clone https://github.com/moomou/dotfiles.git ~/dev/
+        cd ~/dev/dotfiles && ./boostrap.sh
+    EOH
+end
