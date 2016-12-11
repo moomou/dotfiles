@@ -19,6 +19,15 @@ package 'python-pip'
 package 'python3-dev'
 package 'python3-pip'
 
+# some general dep
+package 'mercurial'
+package 'make'
+package 'binutils'
+package 'bison'
+package 'gcc'
+package 'build-essential'
+
+# neovim
 apt_repository 'nvim' do
     uri 'ppa:neovim-ppa/unstable'
 end
@@ -33,6 +42,9 @@ bash 'install tools via curl' do
 
         echo 'installing pyenv'
         curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+        echo 'installing gvm (go version manager)'
+        bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
     EOH
 end
 

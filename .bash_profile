@@ -5,20 +5,36 @@ if [ "$(uname)" == "Darwin" ]; then
     alias gvim='~/.govim.sh'
     alias vi='mvim -v'
     alias vim='mvim -v'
+    alias imgcat='~/imgcat'
+
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
+    export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
+    export ELASTIC_HOME='/Applications/elasticsearch-1.5.2'
+
+    # set power status on osx
+    if [[ $(pmset -g ps | head -1) =~ "AC Power" ]]; then
+       export ACPOWER=1
+    else
+       export ACPOWER=0
+    fi
 fi
 
-alias imgcat='~/imgcat'
+# connect to your server
+alias box='ssh -t dev ssh -i /root/.ssh/keys/personal_rsa box'
 alias ctags='/usr/local/bin/ctags'
 
 ## github alias
+alias g="git"
+alias gshort="git rev-parse --short"
 # if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
 alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
-alias gmend='groot; sleep 0 && git add . && git ci --amend'
-alias gmendq='groot; sleep 0 && git add . && git ci --amend --no-edit'
-alias rebase='git pull --rebase origin master'
+alias gmendq='(groot; sleep 0 && git add . && git ci --amend --no-edit)'
+alias gmend='(groot; sleep 0 && git add . && git ci --amend)'
 alias gpo='rebase && git push origin'
+alias rebase='git pull --rebase origin master && git sub update --init --jobs 4'
+alias gnames='git log --name-status'
 
-g_init() {
+ginit() {
     git init;
     lan=`echo $1 | python -c "print raw_input().capitalize()"`;
     wget -q https://raw.githubusercontent.com/github/gitignore/master/${lan}.gitignore -O .gitignore;
@@ -26,18 +42,13 @@ g_init() {
     git ci -am 'init with .gitignore';
 }
 
-alias gnames='git log --name-status'
-alias ginit='g_init'
-
 ## Quick folder jmp
 alias dev='cd ~/dev'
-alias cue='cd ~/dev/cueb'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
 alias vpnw='ssh -C2qTnN -D 8081 vpn'
-alias vpndo='ssh -C2qTnN -D 8081 dev'
 
-# Tmux shortcuts
+# tmux shortcuts
 alias tl="tmux list-session"
 alias tk="tmux kill-session -t"
 alias ta="tmux attach-session -t"
@@ -66,7 +77,6 @@ function Color() {
 function ResetColor() {
  echo "$(tput sgr0)"
 }
-
 function BashPrompt() {
    local last_status=$?
    local reset=$(ResetColor)
@@ -83,28 +93,20 @@ function BashPrompt() {
    echo -n -e $last_status;
 }
 
+# Some generic env var
 export GOPATH=$HOME/go
-export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
-export ELASTIC_HOME='/Applications/elasticsearch-1.5.2'
-
-# These are required for Caffe
-export PYTHONPATH=~/dev/_opensrc/caffe/python:$PYTHONPATH
-export CUDA_PATH=/Developer/NVIDIA/CUDA-7.0/bin
-export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
-
-export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin"
+export CUDA_PATH==/usr/local/cuda-8.0
+export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export PATH="/usr/local/sbin:$PATH:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin"
 
 # Source the original
 source ~/.bashrc
 
-# Source autoenv
+# Source files if exists
+# TODO: refactor into common func
 # source /usr/local/opt/autoenv/activate.sh
 [[ -s "/Users/moomou/.gvm/scripts/gvm" ]] && source "/Users/moomou/.gvm/scripts/gvm"
-
-if [ -f ~/.cuebenv/activate.sh ]; then
-    . ~/.cuebenv/activate.sh
-fi
+[[ -s "~/.cuebenv/activate.sh" ]] && source ". ~/.cuebenv/activate.sh"
 
 source ~/.git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -112,12 +114,6 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
-
-if [[ $(pmset -g ps | head -1) =~ "AC Power" ]]; then
-   export ACPOWER=1
-else
-   export ACPOWER=0
-fi
 
 # Python dark magic
 eval "$(pyenv init -)"
