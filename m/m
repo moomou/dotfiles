@@ -10,6 +10,11 @@ parser.add_argument('tag')
 
 args = parser.parse_args()
 
+ROOT = os.path.expanduser('~/dev')
+
+def path(folder):
+    return os.path.join(ROOT, folder)
+
 if args.cmd == 'build':
     tag = args.tag
     shutil.copy2('/Users/moomou/.ssh/gitlab_rsa', './gitlab_rsa')
@@ -19,7 +24,8 @@ if args.cmd == 'build':
     subprocess.check_output('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (tag, tag), shell=True)
     os.remove('./gitlab_rsa')
 
-    p = subprocess.Popen("cd /Users/moomou/dev/chub && git add . && git ci -am 'updated %s' && git push origin master" % tag, shell=True)
+    cmd = 'cd %s && git add . && git ci -am updated %s && git push origin master' % (path('chub'), tag)
+    p = subprocess.Popen(cmd, shell=True)
     p.communicate()
 
 elif args.cmd == 'deploy':
@@ -27,15 +33,16 @@ elif args.cmd == 'deploy':
 
     # first run deploy_assets
     if app == 'slothapp':
-        p = subprocess.Popen('cd /Users/moomou/dev/dotfiles/m/ops/%s && ./deploy_asset.sh' % app, shell=True)
+        cmd = 'cd %s && ./deploy_asset.sh' % path('dotfiles/m/ops/%s' % app)
+        p = subprocess.Popen(cmd, shell=True)
         p.communicate()
 
-    p = subprocess.Popen('cd /Users/moomou/dev/dotfiles/m/ops && ./deploy.sh %s' % app, shell=True)
+    p = subprocess.Popen('cd %s && ./deploy.sh %s' % (path('dotfiles/m/ops'), app), shell=True)
     p.communicate()
 
 elif args.cmd == 'ginit':
     gitignore = args.tag
     gitignore[0] = gitignore[0].upper()
 
-    p = subprocess.Popen('g_init %s' % gitignore, shell=True)
+    p = subprocess.Popen('ginit %s' % gitignore, shell=True)
     p.communicate()

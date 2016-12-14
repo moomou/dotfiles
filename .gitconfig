@@ -8,6 +8,7 @@
     bb = branch
     co = checkout
     df = diff
+    sub = submodule
     lg = log -p
     switch = !legit switch \"$@\"
     branches = !legit branches
