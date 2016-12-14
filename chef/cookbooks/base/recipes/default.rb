@@ -27,6 +27,8 @@ package 'bison'
 package 'gcc'
 package 'build-essential'
 
+username = node['base']['name']
+
 # neovim
 apt_repository 'nvim' do
     uri 'ppa:neovim-ppa/unstable'
@@ -68,7 +70,6 @@ directory "/home/git" do
 end
 
 # creates me and home dir
-username = node['base']['name']
 user "#{username}"
 directory "/home/#{username}" do
     owner "#{username}"
