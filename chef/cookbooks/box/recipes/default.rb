@@ -37,7 +37,11 @@ username=node['box']["username"]
 apt_repository 'nvim' do
     uri 'ppa:neovim-ppa/unstable'
 end
+apt_repository 'git' do
+    uri 'ppa:git-core/ppa'
+end
 
+package 'git'
 package 'neovim'
 
 bash 'install tools via curl' do
