@@ -30,8 +30,8 @@ alias gshort="git rev-parse --short"
 alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
 alias gmendq='(groot; sleep 0 && git add . && git ci --amend --no-edit)'
 alias gmend='(groot; sleep 0 && git add . && git ci --amend)'
-alias gpo='rebase && git push origin'
 alias rebase='git pull --rebase origin master && git sub update --init --jobs 4'
+alias gpo='rebase && git push origin'
 alias gnames='git log --name-status'
 
 ginit() {

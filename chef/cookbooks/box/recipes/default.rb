@@ -27,7 +27,11 @@ package 'bison'
 package 'gcc'
 package 'build-essential'
 
-username = node['base']['name']
+username=node['box']["username"]
+
+# debugging
+# output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"
+# log output
 
 # neovim
 apt_repository 'nvim' do
@@ -40,14 +44,15 @@ bash 'install tools via curl' do
     user "#{username}"
     code <<-EOH
         echo 'installing n'
-        curl -L https://git.io/n-install | bash
+        curl -L https://git.io/n-install | bash -s -- -q
 
         echo 'installing pyenv'
         curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
         echo 'installing gvm (go version manager)'
-        bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
+        (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)) || true
     EOH
+    not_if 'which gvm', :user => "#{username}"
 end
 
 #bash 'update pref' do
@@ -72,22 +77,23 @@ end
 # creates me and home dir
 user "#{username}"
 directory "/home/#{username}" do
-    owner "#{username}"
-    group "#{username}"
+    # owner "#{username}"
+    # group "#{username}"
     action :create
 end
 
 # ensure dev exists
 directory "/home/#{username}/dev" do
     mode '0755'
-    owner "#{username}"
-    group "#{username}"
+    # owner "#{username}"
+    # group "#{username}"
     action :create
 end
 
 # setup alias and stuff
 bash 'download dotfiles pref' do
     user "#{username}"
+    not_if { ::File.exist?(File.expand_path('~/dev')) }
     code <<-EOH
         git clone https://github.com/moomou/dotfiles.git ~/dev/
         cd ~/dev/dotfiles && ./boostrap.sh

@@ -1,8 +1,8 @@
 {
     "run_list": [
-        "recipe[base::default]"
+        "recipe[box::default]"
     ],
-    "base": {
+    "box": {
         "username": "moomou"
     }
 }
