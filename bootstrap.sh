@@ -33,7 +33,6 @@ symlink ".ssh/key"
 # Link .git settings
 symlink ".gitconfig"
 symlink ".git-prompt.sh"
-symlink ".gitencrypt"
 
 # Link bash_*
 symlink ".bash_profile"
