@@ -18,7 +18,7 @@ if [ "$(uname)" == "Darwin" ]; then
        export ACPOWER=0
     fi
 fi
-if [ hash nvim 2>/dev/null ] && [ "$(uname)" == "Darwin" ]; then
+if hash nvim 2>/dev/null && [ "$(uname)" == "Linux" ]; then
     alias vi='nvim'
     alias vim='nvim'
 fi
