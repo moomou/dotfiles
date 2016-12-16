@@ -7,17 +7,20 @@ import subprocess
 parser = argparse.ArgumentParser()
 parser.add_argument('cmd')
 parser.add_argument('tag')
+parser.add_argument('role')
 
 args = parser.parse_args()
 
+HOME = os.path.expanduser('~')
 ROOT = os.path.expanduser('~/dev')
+SSH_DIR = os.path.expanduser('~/.ssh')
 
 def path(folder):
     return os.path.join(ROOT, folder)
 
 if args.cmd == 'build':
     tag = args.tag
-    shutil.copy2('/Users/moomou/.ssh/gitlab_rsa', './gitlab_rsa')
+    shutil.copy2(os.path.join(SSH_DIR, 'gitlab_rsa'), './gitlab_rsa')
     p = subprocess.Popen('docker build . -t %s' % tag, shell=True)
     p.communicate()
 
@@ -45,4 +48,20 @@ elif args.cmd == 'ginit':
     gitignore[0] = gitignore[0].upper()
 
     p = subprocess.Popen('ginit %s' % gitignore, shell=True)
+    p.communicate()
+
+elif args.cmd == 'reheat':
+    role = args.role
+
+    # cp chef folder to ~/.chef
+    chef_run_dir = os.path.expanduser('~/.chef')
+
+    if not os.path.exists(chef_run_dir):
+        os.mkdir(chef_run_dir)
+
+    # copy over chef
+    shutil.copy2(path('dotfiles/chef', chef_run_dir))
+
+    # run bash install.sh' "$role"
+    p = subprocess.Popen('sudo bash install.sh %s' % role, shell=True)
     p.communicate()
