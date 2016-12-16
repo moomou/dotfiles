@@ -41,8 +41,12 @@ apt_repository 'git' do
     uri 'ppa:git-core/ppa'
 end
 
-package 'git'
-package 'neovim'
+package 'git' do
+    action :upgrade
+end
+package 'neovim' do
+    action :upgrade
+end
 
 bash 'install tools via curl' do
     user "#{username}"

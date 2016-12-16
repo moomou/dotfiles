@@ -6,8 +6,8 @@ import subprocess
 
 parser = argparse.ArgumentParser()
 parser.add_argument('cmd')
-parser.add_argument('tag')
-parser.add_argument('role')
+parser.add_argument('--tag', help='for building docker img')
+parser.add_argument('--role', help='for reheating')
 
 args = parser.parse_args()
 
@@ -60,8 +60,11 @@ elif args.cmd == 'reheat':
         os.mkdir(chef_run_dir)
 
     # copy over chef
-    shutil.copy2(path('dotfiles/chef', chef_run_dir))
+    print(path('dotfiles/chef'), chef_run_dir)
+
+    p = subprocess.Popen('cp -r %s/* %s' % (path('dotfiles/chef'), chef_run_dir), shell=True)
+    p.communicate()
 
     # run bash install.sh' "$role"
-    p = subprocess.Popen('sudo bash install.sh %s' % role, shell=True)
+    p = subprocess.Popen('cd %s && sudo bash install.sh %s' % (chef_run_dir, role), shell=True)
     p.communicate()
