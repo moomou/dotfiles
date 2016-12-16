@@ -18,9 +18,13 @@ if [ "$(uname)" == "Darwin" ]; then
        export ACPOWER=0
     fi
 fi
+if [ hash nvim 2>/dev/null ] && [ "$(uname)" == "Darwin" ]; then
+    alias vi='nvim'
+    alias vim='nvim'
+fi
 
 # connect to your server
-alias box='ssh -t dev ssh -i /root/.ssh/keys/personal_rsa box'
+alias bx='ssh -t dev ssh -i /root/.ssh/keys/personal_rsa box'
 alias ctags='/usr/local/bin/ctags'
 
 ## github alias
@@ -96,8 +100,9 @@ function BashPrompt() {
 # Some generic env var
 export GOPATH=$HOME/go
 export CUDA_PATH==/usr/local/cuda-8.0
+export PYENV_PATH=/home/moomou/.pyenv/
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-export PATH="/usr/local/sbin:$PATH:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin"
+export PATH="/usr/local/sbin:$PYENV_PATH/bin:$PATH:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin"
 
 # Source the original
 source ~/.bashrc
@@ -115,6 +120,9 @@ export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
-# Python dark magic
+# pyenv dark magic
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
+
+# jmp to dev
+dev
