@@ -26,6 +26,7 @@ package 'binutils'
 package 'bison'
 package 'gcc'
 package 'build-essential'
+package 'tmux'
 
 username=node['box']["username"]
 
@@ -33,7 +34,6 @@ username=node['box']["username"]
 # output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"
 # log output
 
-# neovim
 apt_repository 'nvim' do
     uri 'ppa:neovim-ppa/unstable'
 end
