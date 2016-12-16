@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "You should have Vim (+ruby) and git installed."
 
