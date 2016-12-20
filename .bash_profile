@@ -1,4 +1,4 @@
-## Shortcut for commands
+## shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color --group-directories-first'
     alias gvi='~/.govim.sh'
@@ -21,6 +21,11 @@ fi
 if hash nvim 2>/dev/null && [ "$(uname)" == "Linux" ]; then
     alias vi='nvim'
     alias vim='nvim'
+fi
+if [ -f ~/dev/.prompt_prefix ]; then
+    PROMPT_PREFIX=`cat ~/dev/.prompt_prefix`
+else
+    PROMPT_PREFIX=''
 fi
 
 # connect to your server
@@ -46,7 +51,7 @@ ginit() {
     git ci -am 'init with .gitignore';
 }
 
-## Quick folder jmp
+## quick folder jmp
 alias dev='cd ~/dev'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
@@ -85,13 +90,13 @@ function BashPrompt() {
    local last_status=$?
    local reset=$(ResetColor)
 
-   local failure=' (ಠ_ಠ) '
-   local success=' ヽ(・∀・)ﾉ '
+   local failure='(ಠ_ಠ) '
+   local success='ヽ(・∀・)ﾉ '
 
    if [[ "$last_status" != '0' ]]; then
-       last_status="$(Color 2)$failure$reset"
+       last_status="$(Color 2)$failure$reset[$PROMPT_PREFIX]."
    else
-       last_status="$(Color 1)$success$reset"
+       last_status="$(Color 1)$success$reset[$PROMPT_PREFIX]."
    fi
 
    echo -n -e $last_status;
@@ -107,7 +112,7 @@ export PATH="/usr/local/sbin:$PYENV_PATH/bin:$PATH:$CUDA_PATH/bin:$GOPATH/bin:$E
 # Source the original
 source ~/.bashrc
 
-# Source files if exists
+# source files if exists
 # TODO: refactor into common func
 # source /usr/local/opt/autoenv/activate.sh
 [[ -s "/Users/moomou/.gvm/scripts/gvm" ]] && source "/Users/moomou/.gvm/scripts/gvm"
@@ -121,8 +126,7 @@ export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
 # pyenv dark magic
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# jmp to dev
-dev
+function initpyenv() {
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+}
