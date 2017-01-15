@@ -1,8 +1,10 @@
-#!/usr/bin/env python
+#!/usr/local/bin/m_venv/bin/python
+
 import argparse
 import os
 import shutil
 import subprocess
+import yaml
 
 parser = argparse.ArgumentParser()
 parser.add_argument('cmd')
@@ -21,19 +23,27 @@ def path(folder):
     return os.path.join(ROOT, folder)
 
 if args.cmd == 'build':
-    tag = args.tag
+    config_yml = {}
+    if os.path.isfile('./config.yml'):
+        with open('./config.yml') as f:
+            config_yml = yaml.load(f)
 
+    remove_after = ['./gitlab_rsa', './dockerignore']
+    if config_yml.get('resolve'):
+        for src, dst in config_yml.get('resolve').items():
+            shutil.copy2(src, dst)
+            remove_after.append(dst)
     # Copy gitlab cert
     shutil.copy2(os.path.join(SSH_DIR, 'key', 'gitlab_rsa'), './gitlab_rsa')
     # Copy over dockerignore
     shutil.copy2(os.path.join(M_ROOT, '.dockerignore'), './.dockerignore')
 
+    tag = args.tag
     p = subprocess.Popen('docker build . -t %s' % tag, shell=True)
     p.communicate()
 
     # subprocess.check_output('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (tag, tag), shell=True)
-    os.remove('./gitlab_rsa')
-    os.remove('./.dockerignore')
+    [os.remove(f) for f in remove_after]
 
     # cmd = 'cd %s && git add . && git ci -am updated %s && git push origin master' % (path('chub'), tag)
     # p = subprocess.Popen(cmd, shell=True)
