@@ -15,21 +15,29 @@ HOME = os.path.expanduser('~')
 ROOT = os.path.expanduser('~/dev')
 SSH_DIR = os.path.expanduser('~/.ssh')
 
+M_ROOT = os.path.dirname(os.path.realpath(__file__))
+
 def path(folder):
     return os.path.join(ROOT, folder)
 
 if args.cmd == 'build':
     tag = args.tag
-    shutil.copy2(os.path.join(SSH_DIR, 'gitlab_rsa'), './gitlab_rsa')
+
+    # Copy gitlab cert
+    shutil.copy2(os.path.join(SSH_DIR, 'key', 'gitlab_rsa'), './gitlab_rsa')
+    # Copy over dockerignore
+    shutil.copy2(os.path.join(M_ROOT, '.dockerignore'), './.dockerignore')
+
     p = subprocess.Popen('docker build . -t %s' % tag, shell=True)
     p.communicate()
 
-    subprocess.check_output('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (tag, tag), shell=True)
+    # subprocess.check_output('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (tag, tag), shell=True)
     os.remove('./gitlab_rsa')
+    os.remove('./.dockerignore')
 
-    cmd = 'cd %s && git add . && git ci -am updated %s && git push origin master' % (path('chub'), tag)
-    p = subprocess.Popen(cmd, shell=True)
-    p.communicate()
+    # cmd = 'cd %s && git add . && git ci -am updated %s && git push origin master' % (path('chub'), tag)
+    # p = subprocess.Popen(cmd, shell=True)
+    # p.communicate()
 
 elif args.cmd == 'deploy':
     app = args.tag
@@ -68,3 +76,7 @@ elif args.cmd == 'reheat':
     # run bash install.sh' "$role"
     p = subprocess.Popen('cd %s && sudo bash install.sh %s' % (chef_run_dir, role), shell=True)
     p.communicate()
+
+elif args.cmd == 'mmv':
+    # TODO: implement an easy way to mass rename files
+    pass
