@@ -93,7 +93,7 @@ elif args.cmd == 'mmv':
     # TODO: implement an easy way to mass rename files
     pass
 
-elif args.cmd == 'import':
+elif args.cmd == 'dload':
     app = args.tag
-    p = subprocess.Popen('cat %s.gz| docker import - %s:latest' % (app, app), shell=True)
+    p = subprocess.Popen('docker load < %s.gz' % (app, app), shell=True)
     p.communicate()
