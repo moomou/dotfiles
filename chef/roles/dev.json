@@ -30,6 +30,7 @@
                     }
                 ],
                 "subdomains": [
+                    "lab",
                     "app",
                     "api",
                     "www"

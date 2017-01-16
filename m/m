@@ -28,11 +28,13 @@ if args.cmd == 'build':
         with open('./config.yml') as f:
             config_yml = yaml.load(f)
 
-    remove_after = ['./gitlab_rsa', './dockerignore']
+    remove_after = ['./gitlab_rsa', './.dockerignore']
+
     if config_yml.get('resolve'):
         for src, dst in config_yml.get('resolve').items():
             shutil.copy2(src, dst)
             remove_after.append(dst)
+
     # Copy gitlab cert
     shutil.copy2(os.path.join(SSH_DIR, 'key', 'gitlab_rsa'), './gitlab_rsa')
     # Copy over dockerignore
@@ -42,12 +44,12 @@ if args.cmd == 'build':
     p = subprocess.Popen('docker build . -t %s' % tag, shell=True)
     p.communicate()
 
-    # subprocess.check_output('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (tag, tag), shell=True)
+    subprocess.check_output('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (tag, tag), shell=True)
     [os.remove(f) for f in remove_after]
 
-    # cmd = 'cd %s && git add . && git ci -am updated %s && git push origin master' % (path('chub'), tag)
-    # p = subprocess.Popen(cmd, shell=True)
-    # p.communicate()
+    cmd = 'cd %s && git add . && git ci -m updated %s && git push origin master' % (path('chub'), tag)
+    p = subprocess.Popen(cmd, shell=True)
+    p.communicate()
 
 elif args.cmd == 'deploy':
     app = args.tag
@@ -90,3 +92,8 @@ elif args.cmd == 'reheat':
 elif args.cmd == 'mmv':
     # TODO: implement an easy way to mass rename files
     pass
+
+elif args.cmd == 'import':
+    app = args.tag
+    p = subprocess.Popen('cat %s.api | docker import - %s:latest' % app, shell=True)
+    p.communicate()
