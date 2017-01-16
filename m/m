@@ -95,5 +95,5 @@ elif args.cmd == 'mmv':
 
 elif args.cmd == 'import':
     app = args.tag
-    p = subprocess.Popen('cat %s.api | docker import - %s:latest' % app, shell=True)
+    p = subprocess.Popen('cat %s.gz| docker import - %s:latest' % app, shell=True)
     p.communicate()
