@@ -5,12 +5,22 @@
                 "root_url": "ohsloth.com",
                 "servers": [
                     {
+                        "name": "lab",
+                        "upstream": "lab",
+                        "locations": [
+                            {
+                                "path": "/",
+                                "upstream": "lab"
+                            }
+                        ]
+                    },
+                    {
                         "name": "api",
                         "upstream": "api",
                         "locations": [
                             {
-                                "path": "/svc",
-                                "upstream": "svc"
+                                "path": "/",
+                                "upstream": "api"
                             }
                         ]
                     },
@@ -30,9 +40,9 @@
                     }
                 ],
                 "subdomains": [
-                    "lab",
-                    "app",
                     "api",
+                    "app",
+                    "lab",
                     "www"
                 ],
                 "upstreams": [
@@ -41,12 +51,12 @@
                         "name": "api"
                     },
                     {
-                        "address": "localhost:5005",
-                        "name": "app"
-                    },
-                    {
                         "address": "localhost:8080",
                         "name": "svc"
+                    },
+                    {
+                        "address": "localhost:2223",
+                        "name": "lab"
                     }
                 ]
             }
@@ -61,12 +71,8 @@
     "supervisor_job": {
         "configs": [
             {
-                "command": "sleep 5 && exec ssh -o 'ServerAliveInterval 60' -N -R 2222:localhost:22 dev",
-                "name": "slothdb_app"
-            },
-            {
-                "command": "ssh -i /ssh/do_rsa do@52.27.105.224 -L 3000:ec2-52-27-105-224.us-west-2.compute.amazonaws.com:3000",
-                "name": "slothdb_api"
+                "command": "autossh -M 20000 -L 8888:localhost:8888 box",
+                "name": "box_lab"
             }
         ]
     }

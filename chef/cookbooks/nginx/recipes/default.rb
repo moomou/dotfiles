@@ -41,7 +41,7 @@ domains.each do |domain|
             --email #{user} \
             #{subdomains}
         EOH
-        not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
+        # not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
     end
 
     # add nginx config
@@ -58,7 +58,8 @@ domains.each do |domain|
         variables({
             :root_url => root_url,
             :upstreams => domain.upstreams,
-            :servers => domain.servers
+            :servers => domain.servers,
+            :subodmains => domain['subdomains'],
         })
     end
 

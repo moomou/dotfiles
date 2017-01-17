@@ -4,6 +4,22 @@ upstream <%= upstream[:name] %> {
 }
 <% end %>
 
+
+<% @subdomains.each do |subdomain| %>
+server {
+    listen 80;
+    listen [::]:80;
+    server_name <%= "#{subdomain}.#{@root_url}" %>;
+
+    location ~ /.well-known {
+        root /var/www/html;
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+        allow all;
+    }
+}
+<% end %>
+
 <% @servers.each do |server| %>
 # <%= server[:name] %>
 server {
@@ -59,7 +75,7 @@ server {
 server {
     listen 80;
     listen [::]:80;
-	listen 443 ssl http2;
+    listen 443 ssl http2;
     listen [::]:443 ssl http2;
     server_name <%= @root_url %>;
     return 301 https://www.<%= @root_url %>;
