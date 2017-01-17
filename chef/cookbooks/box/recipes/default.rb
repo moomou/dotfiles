@@ -28,6 +28,11 @@ package 'bison'
 package 'gcc'
 package 'build-essential'
 package 'tmux'
+package 'libreadline6'
+package 'libreadline6-dev'
+package 'openssl'
+package 'bzip2'
+package 'libopenssl-devel'
 
 username=node['box']["username"]
 
