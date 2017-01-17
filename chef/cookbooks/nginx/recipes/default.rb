@@ -80,7 +80,7 @@ domains.each do |domain|
             --email #{user} \
             #{subdomains}
         EOH
-        # not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
+        not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
     end
 end
 
