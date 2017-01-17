@@ -43,7 +43,7 @@
                         "name": "svc"
                     },
                     {
-                        "address": "localhost:2223",
+                        "address": "localhost:8888",
                         "name": "lab"
                     }
                 ]
