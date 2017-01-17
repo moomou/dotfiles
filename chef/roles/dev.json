@@ -6,23 +6,11 @@
                 "servers": [
                     {
                         "name": "lab",
-                        "upstream": "lab",
-                        "locations": [
-                            {
-                                "path": "/",
-                                "upstream": "lab"
-                            }
-                        ]
+                        "upstream": "lab"
                     },
                     {
                         "name": "api",
-                        "upstream": "api",
-                        "locations": [
-                            {
-                                "path": "/",
-                                "upstream": "api"
-                            }
-                        ]
+                        "upstream": "api"
                     },
                     {
                         "name": "app",
@@ -65,7 +53,7 @@
     },
     "run_list": [
         "recipe[box::default]",
-        "recipe[ssh_tunnel::default]",
+        "recipe[reverse_ssh_tunnel::default]",
         "recipe[nginx::default]"
     ],
     "supervisor_job": {
@@ -75,5 +63,8 @@
                 "name": "box_lab"
             }
         ]
+    },
+    "box": {
+        "username": "root"
     }
 }

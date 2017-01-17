@@ -29,21 +29,6 @@ domains.each do |domain|
     subdomains = domain['subdomains'].map { |sub| "-d #{sub}.#{root_url} " }.join
     subdomains = "-d #{root_url} " + subdomains
 
-    # request
-    bash 'setup letsencrypt' do
-        user 'root'
-        code <<-EOH
-        letsencrypt certonly -a webroot \
-            --webroot-path=/var/www/html \
-            --text \
-            --agree-tos \
-            --renew-by-default \
-            --email #{user} \
-            #{subdomains}
-        EOH
-        # not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
-    end
-
     # add nginx config
     template "/etc/nginx/snippets/ssl-#{root_url}.conf" do
         source 'ssl.conf.erb'
@@ -59,7 +44,7 @@ domains.each do |domain|
             :root_url => root_url,
             :upstreams => domain.upstreams,
             :servers => domain.servers,
-            :subodmains => domain['subdomains'],
+            :subdomains => domain['subdomains'],
         })
     end
 
@@ -81,6 +66,21 @@ domains.each do |domain|
             owner 'www-data'
             action :create
         end
+    end
+
+    # request
+    bash 'setup letsencrypt' do
+        user 'root'
+        code <<-EOH
+        letsencrypt certonly -a webroot \
+            --webroot-path=/var/www/html \
+            --text \
+            --agree-tos \
+            --renew-by-default \
+            --email #{user} \
+            #{subdomains}
+        EOH
+        # not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
     end
 end
 
