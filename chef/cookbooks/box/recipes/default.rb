@@ -13,10 +13,12 @@ package 'redis-tools'
 package 'autossh'
 
 # py header
-package 'libpython2.7-dev'
 package 'libpython-dev'
-package 'python2.7-dev'
+package 'libpython2.7-dev'
+package 'python-all-dev'
 package 'python-pip'
+package 'python2.7-dev'
+package 'python3-all-dev'
 package 'python3-dev'
 package 'python3-pip'
 
