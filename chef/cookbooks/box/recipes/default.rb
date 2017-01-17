@@ -94,6 +94,7 @@ end
 # ensure dev exists
 directory "/home/#{username}/dev" do
     mode '0755'
+    not_if { username == "root" }
     # owner "#{username}"
     # group "#{username}"
     action :create

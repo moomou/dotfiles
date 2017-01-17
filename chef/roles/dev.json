@@ -64,7 +64,7 @@
         "user": "me+letsencrypt@moomou.com"
     },
     "run_list": [
-        "recipe[base::default]",
+        "recipe[box::default]",
         "recipe[ssh_tunnel::default]",
         "recipe[nginx::default]"
     ],
