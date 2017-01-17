@@ -53,7 +53,7 @@
     },
     "run_list": [
         "recipe[box::default]",
-        "recipe[reverse_ssh_tunnel::default]",
+        "recipe[supervisor_job::default]",
         "recipe[nginx::default]"
     ],
     "supervisor_job": {

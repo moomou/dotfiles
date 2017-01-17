@@ -1,4 +1,4 @@
-configs = node['ssh_tunnel']['configs']
+configs = node['supervisor_job']['configs']
 
 configs.each do |config|
     supervisord_program "#{config['name']}" do
