@@ -10,6 +10,7 @@ package 'silversearcher-ag'
 package 'git'
 package 'gnupg'
 package 'redis-tools'
+package 'autossh'
 
 # py header
 package 'libpython2.7-dev'
