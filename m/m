@@ -47,7 +47,7 @@ if args.cmd == 'build':
     subprocess.check_output('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (tag, tag), shell=True)
     [os.remove(f) for f in remove_after]
 
-    cmd = 'cd %s && git add . && git ci -m updated %s && git push origin master' % (path('chub'), tag)
+    cmd = 'cd %s && git add . && git ci -m updated %s.gz && git push origin master' % (path('chub'), tag)
     p = subprocess.Popen(cmd, shell=True)
     p.communicate()
 
