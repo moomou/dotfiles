@@ -119,7 +119,7 @@ let g:CommandTMaxCachedDirectories = 10
 let g:CommandTInputDebounce = 50
 let g:CommandTFileScanner = 'git'
 
-NeoBundle 'vim-scripts/DeleteTrailingWhitespace.vim'
+NeoBundle 'vim-scripts/DeleteTrailingWhitespace'
 NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'wellsjo/wellsokai.vim'
