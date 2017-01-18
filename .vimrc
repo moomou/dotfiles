@@ -119,7 +119,8 @@ let g:CommandTMaxCachedDirectories = 10
 let g:CommandTInputDebounce = 50
 let g:CommandTFileScanner = 'git'
 
-"NeoBundle 'ctrlpvim/ctrlp.vim'
+NeoBundle 'vim-scripts/DeleteTrailingWhitespace.vim'
+NeoBundle 'ctrlpvim/ctrlp.vim'
 NeoBundle 'flazz/vim-colorschemes'
 NeoBundle 'wellsjo/wellsokai.vim'
 
@@ -132,6 +133,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'fatih/vim-go'
+
 " Go format
 let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
