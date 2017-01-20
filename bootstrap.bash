@@ -12,6 +12,8 @@ function symlink {
     ln -s $curDir/$1 ~/${2-$1}
 }
 
+symlink "extraBin" ".extraBin"
+
 # Override .vimrc & .vim folder
 symlink ".vim"
 symlink ".vimrc"

@@ -10,13 +10,15 @@
     lg = log -p
     sub = submodule
     bb = branch
-    switch = !legit switch \"$@\"
-    sprout = !legit sprout \"$@\"
-    unpublish = !legit unpublish \"$@\"
-    harvest = !legit harvest \"$@\"
-    sync = !legit sync \"$@\"
+	switch = !legit switch \"$@\"
+	sprout = !legit sprout \"$@\"
+	unpublish = !legit unpublish \"$@\"
+	harvest = !legit harvest \"$@\"
+	sync = !legit sync \"$@\"
     pub = !legit publish \"$@\"
-    graft = !legit graft \"$@\"
+	graft = !legit graft \"$@\"
+	branches = !legit branches
+	publish = !legit publish \"$@\"
 [user]
     name = paul
     email = paul@smyte.com

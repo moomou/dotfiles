@@ -6,7 +6,7 @@ fi
 alias vi='nvim'
 alias vim='nvim'
 
-alias master='ssh k8s-master1'
+alias master='ssh k8s-master2'
 #alias ctags='/usr/local/bin/ctags'
 
 ## Quick folder jmp
@@ -40,6 +40,7 @@ alias arcit='gmendq && arc diff'
 
 # Folder jmp
 alias box='cd ~/authbox/'
+alias chefdir='cd ~/authbox/ops/chef'
 alias gogo='cd ~/authbox/go/src/smyte.com/'
 alias cpp='cd ~/authbox/cpp'
 alias admin='cd ~/authbox/authbox-api/lib/frontend/admin'
@@ -49,6 +50,7 @@ alias dev='cd ~/dev'
 alias kami='cd ~/authbox/customers/'
 alias sops='cd ~/smyte-ops/'
 alias pylib='cd ~/authbox/pylib'
+alias sdkpy='cd ~/authbox/sdk/python/smyte-utils/src'
 
 ## Global ag ignore
 alias ag='ag --path-to-agignore=~/.agignore'
@@ -102,7 +104,8 @@ export PYTHONPATH=~/dev/_opensrc/caffe/python:$PYTHONPATH
 export CUDA_PATH=/Developer/NVIDIA/CUDA-7.0/bin
 export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH
 
-export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin"
+export EXTRA_BIN_DIR=~/.extraBin
+export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:$EXTRA_BIN_DIR"
 
 # Source the original
 source ~/.bashrc
@@ -125,4 +128,4 @@ export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
-box
+# box

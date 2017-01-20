@@ -6,7 +6,8 @@
     "it": true,
     "before": true,
     "expect": true,
-    "after": true
+    "after": true,
+    "defineTest": true,
   },
   "parser": "babel-eslint",
   "plugins": [ "react" ],
