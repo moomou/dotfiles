@@ -5,7 +5,6 @@ if [ "$(uname)" == "Darwin" ]; then
     alias gvim='~/.govim.sh'
     alias vi='mvim -v'
     alias vim='mvim -v'
-    alias imgcat='~/imgcat'
 
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
     export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
@@ -127,6 +126,7 @@ export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
 # fuck homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # pyenv dark magic
 function initpyenv() {

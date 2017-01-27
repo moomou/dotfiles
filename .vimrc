@@ -114,6 +114,8 @@ if $ACPOWER == '1'
     autocmd! BufWritePost,BufEnter * Neomake
 end
 
+"NeoBundle 'sirver/ultisnips'
+
 NeoBundle 'wincent/Command-T'
 let g:CommandTMaxCachedDirectories = 10
 let g:CommandTInputDebounce = 50
