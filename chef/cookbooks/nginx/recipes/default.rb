@@ -87,8 +87,9 @@ end
 # Setup renew job
 cron 'renew letsencrypt cert and reload nginx' do
     command 'letsencrypt renew >> /var/log/le-renew.log && systemctl reload nginx'
+    min '0'
     hour '2'
-    day '1'
+    weekday '1'
 end
 
 # Reload nginx at the end
