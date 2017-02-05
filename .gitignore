@@ -14,3 +14,5 @@ keys
 /secret/key/droplet_rsa
 /secret/key/gitlab_rsa
 /secret/key/personal_rsa
+*.pyc
+*.swp
