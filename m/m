@@ -125,4 +125,6 @@ elif args.cmd == 'compile_template':
         out_dir = compile_config['out_dir']
 
         with open('./%s/%s' % (out_dir, temp_name), 'w') as f:
-            f.write(temp.render(**config.get('context', {})).encode('utf-8'))
+            context = config.get('context', {})
+            context['filename'] = os.path.splitext(os.path.basename(temp_name))[0]
+            f.write(temp.render(**context).encode('utf-8'))

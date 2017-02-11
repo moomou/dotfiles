@@ -23,7 +23,7 @@
     email = paul@cueb.io
 [core]
     editor = /usr/local/bin/vim
-	excludesfile = /home/moomou/.gitignore_global
+	excludesfile = /Users/moomou/.gitignore_global
 [grep]
     linenumber = true
 [filter "media"]
