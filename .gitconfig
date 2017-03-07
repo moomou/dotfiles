@@ -1,8 +1,11 @@
 [color]
     ui = true
 [credential]
-    helper = cache --timeout=36000
+    helper = cache --timeout=96000
+[pager]
+    diff = diff-so-fancy | less --tabs=4 -RFX --pattern '^(Date|added|deleted|modified): '
 [alias]
+    patch = !git --no-pager diff --no-color
     st = status
     ci = commit
     co = checkout

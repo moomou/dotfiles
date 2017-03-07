@@ -6,7 +6,6 @@ fi
 alias vi='nvim'
 alias vim='nvim'
 
-alias master='ssh k8s-master2'
 #alias ctags='/usr/local/bin/ctags'
 
 ## Quick folder jmp
@@ -40,7 +39,7 @@ alias arcit='gmendq && arc diff'
 
 # Folder jmp
 alias box='cd ~/authbox/'
-alias chefdir='cd ~/authbox/ops/chef'
+alias fry='cd ~/authbox/ops/chef'
 alias gogo='cd ~/authbox/go/src/smyte.com/'
 alias cpp='cd ~/authbox/cpp'
 alias admin='cd ~/authbox/authbox-api/lib/frontend/admin'
@@ -51,6 +50,7 @@ alias kami='cd ~/authbox/customers/'
 alias sops='cd ~/smyte-ops/'
 alias pylib='cd ~/authbox/pylib'
 alias sdkpy='cd ~/authbox/sdk/python/smyte-utils/src'
+alias gke='sops && cd gke-primary'
 
 ## Global ag ignore
 alias ag='ag --path-to-agignore=~/.agignore'
@@ -95,7 +95,7 @@ function BashPrompt() {
    history -a; history -c; history -r;
 }
 
-export GOPATH=$HOME/go
+export GOPATH=/home/paul/authbox/go
 export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
 export ELASTIC_HOME='/Applications/elasticsearch-1.5.2'
 
@@ -128,4 +128,5 @@ export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
+export KUBECONFIG=/home/paul/.smyte/gke/kubeconfig kubectl
 # box

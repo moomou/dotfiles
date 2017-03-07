@@ -101,3 +101,7 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
+export GOPATH=/home/paul/authbox/go
+export "PATH=$GOPATH/bin:$PATH"
+export GOPATH=/home/paul/authbox/go
+export "PATH=$GOPATH/bin:$PATH"

@@ -1,3 +1,5 @@
 dist
+ops/chef/cookbooks/windows/metadata.json
+sdk/native-sdks/Android/Documentation/site/js/highlight.pack.js
 codegen
 vendor
