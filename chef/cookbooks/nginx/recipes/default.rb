@@ -42,8 +42,8 @@ domains.each do |domain|
         source 'site.conf.erb'
         variables({
             :root_url => root_url,
-            :upstreams => domain.upstreams,
-            :servers => domain.servers,
+            :upstreams => domain['upstreams'],
+            :servers => domain['servers'],
             :subdomains => domain['subdomains'],
         })
     end

@@ -9,10 +9,10 @@ chef_binary=chef-solo
 # if ! command -v $chef_binary >/dev/null 2>&1; then
     export DEBIAN_FRONTEND=noninteractive
     # Upgrade headlessly (this is only safe-ish on vanilla systems)
-    apt-get update &&
-    apt-get -o Dpkg::Options::="--force-confnew" \
-        --force-yes -fuy dist-upgrade &&
+    #apt-get -o Dpkg::Options::="--force-confnew" \
+        #--force-yes -fuy dist-upgrade &&
     # Install Ruby, Chef, and its dep
+    apt-get update &&
     apt-get install -y \
         ruby2.3 \
         ruby2.3-dev \
