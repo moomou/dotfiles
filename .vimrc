@@ -88,6 +88,9 @@ inoremap <F7> <C-o>:set ft=javascript<CR>
 noremap <F8> :Autoformat<CR><CR>
 inoremap <F8> :Autoformat<CR><CR>
 
+" allow the . to execute once for each line of a visual selection
+vnoremap . :normal .<CR>
+
 " Map control c to esc
 vnoremap <C-c> <Esc>
 

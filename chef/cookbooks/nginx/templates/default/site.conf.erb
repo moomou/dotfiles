@@ -3,6 +3,12 @@ map $http_upgrade $connection_upgrade {
     ''      close;
 }
 
+map $sent_http_content_type $expires {
+    default         off;
+    application/pdf 42d;
+    ~image/         max;
+}
+
 <% @upstreams.each do |upstream| %>
 upstream <%= upstream[:name] %> {
     server <%= upstream[:address] %>;
@@ -81,6 +87,7 @@ server {
         proxy_pass http://<%= location[:upstream] %>;
         <% else %>
         try_files $uri $uri/ $uri.html /index.html =404;
+        expires $expires;
         <% end %>
     }
     <% end %>

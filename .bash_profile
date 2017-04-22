@@ -27,6 +27,9 @@ else
     PROMPT_PREFIX=''
 fi
 
+# autossh as ssh
+alias ssh='autossh -M 0'
+
 # connect to your server
 alias bx='ssh -t dev ssh -i /root/.ssh/keys/personal_rsa box'
 alias ctags='/usr/local/bin/ctags'
@@ -133,3 +136,9 @@ function initpyenv() {
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
 }
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/completion.bash.inc'; fi
