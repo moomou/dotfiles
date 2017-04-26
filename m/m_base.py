@@ -21,9 +21,9 @@ class Base(object):
         p = subprocess.Popen(cmd, shell=True)
 
         try:
-            outs, errs = p.communicate(timeout=timeout)
-        except TimeoutExpired:
+            outs, errs = p.communicate()
+        except Exception as e:
             p.kill()
-            outs, errs = proc.communicate()
+            outs, errs = p.communicate()
 
         return p.returncode, outs, errs

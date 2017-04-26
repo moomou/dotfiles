@@ -121,7 +121,7 @@ bash 'download dotfiles pref' do
     user "#{username}"
     not_if { ::File.exist?(File.expand_path('~/dev')) }
     code <<-EOH
-        git clone https://github.com/moomou/dotfiles.git ~/dev/
+        git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
         cd ~/dev/dotfiles && ./boostrap.sh
     EOH
 end

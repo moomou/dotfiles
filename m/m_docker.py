@@ -5,9 +5,11 @@ import os
 import shutil
 import subprocess
 
-import ruamel.yaml as yaml
-
 import constant
+from util import (
+    get_config_yml,
+    path,
+)
 
 from m_base import Base
 

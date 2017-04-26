@@ -5,15 +5,13 @@ import os
 import shutil
 import subprocess
 
-import ruamel.yaml as yaml
-
 import constant
 
 from m_base import Base
 from util import get_config_yml
 
 class WWW(Base):
-    def compile_template(self, app):
+    def compile_template(self):
         '''Find jinja2 template and build by using var in config.yaml'''
         import jinja2
 
