@@ -106,10 +106,11 @@ function BashPrompt() {
 
 # Some generic env var
 export GOPATH=$HOME/go
-export CUDA_PATH==/usr/local/cuda-8.0
+export CUDA_PATH=/usr/local/cuda-8.0
 export PYENV_PATH=/home/moomou/.pyenv/
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
-export PATH="/usr/local/sbin:$PYENV_PATH/bin:$PATH:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin"
+export H5_BIN=~/dev/_opensrc/hdf5-1.10.0-patch1/hdf5/bin
+export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin:$PATH"
 
 # Source the original
 source ~/.bashrc
@@ -131,6 +132,9 @@ export PROMPT_COMMAND='echo -n $(BashPrompt)'
 export HOMEBREW_NO_AUTO_UPDATE=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
+# make ls on linux simliar to osx
+export LC_COLLATE=C
+
 # pyenv dark magic
 function initpyenv() {
   eval "$(pyenv init -)"
@@ -140,5 +144,6 @@ function initpyenv() {
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/path.bash.inc'; fi
 
-# The next line enables shell command completion for gcloud.
 if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/completion.bash.inc'; fi
+
+initpyenv
