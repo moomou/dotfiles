@@ -104,17 +104,19 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-"NeoBundle 'Valloric/YouCompleteMe'
-"let g:ycm_autoclose_preview_window_after_completion = 1
-"let g:ycm_filetype_blacklist = { 'sql' : 1 }
-"let g:ycm_server_use_vim_stdout = 0
-"let g:ycm_server_keep_logfiles = 1
-"let g:ycm_path_to_python_interpreter = '/Users/moomou/.pyenv/shims/python'
+NeoBundle 'Shougo/deoplete.nvim'
 
-NeoBundle 'neomake/neomake'
-nnoremap <C-w>e :Neomake<CR>
+"NeoBundle 'neomake/neomake'
+NeoBundle 'w0rp/ale'
+"nnoremap <C-w>e :Neomake<CR>
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 if $ACPOWER == '1'
-    autocmd! BufWritePost,BufEnter * Neomake
+    " Write this in your vimrc file
+    let g:ale_lint_on_text_changed = 'never'
+    " " You can disable this option too
+    " " if you don't want linters to run on opening a file
+    let g:ale_lint_on_enter = 0
 end
 
 "NeoBundle 'sirver/ultisnips'
@@ -138,6 +140,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 NeoBundle 'terryma/vim-multiple-cursors'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'fatih/vim-go'
+NeoBundle 'chrisbra/NrrwRgn'
 
 " Go format
 let g:go_fmt_command = "goimports"
