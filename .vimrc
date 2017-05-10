@@ -94,21 +94,15 @@ vnoremap . :normal .<CR>
 " Map control c to esc
 vnoremap <C-c> <Esc>
 
-" NeoBundles configs
-set runtimepath^=~/.vim/bundle/neobundle.vim/
-call neobundle#begin(expand('~/.vim/bundle/'))
+" Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
+call plug#begin('~/.vim/plugged')
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'bling/vim-airline'
+Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-NeoBundle 'Shougo/deoplete.nvim'
+Plug 'Shougo/deoplete.nvim'
 
-"NeoBundle 'neomake/neomake'
-NeoBundle 'w0rp/ale'
-"nnoremap <C-w>e :Neomake<CR>
+Plug 'w0rp/ale'
 nmap <silent> <C-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 if $ACPOWER == '1'
@@ -119,106 +113,45 @@ if $ACPOWER == '1'
     let g:ale_lint_on_enter = 0
 end
 
-"NeoBundle 'sirver/ultisnips'
+Plug 'vim-scripts/DeleteTrailingWhitespace'
+Plug 'flazz/vim-colorschemes'
+Plug 'wellsjo/wellsokai.vim'
 
-NeoBundle 'wincent/Command-T'
-let g:CommandTMaxCachedDirectories = 10
-let g:CommandTInputDebounce = 50
-let g:CommandTFileScanner = 'git'
+Plug 'ervandew/supertab'
+Plug 'mattn/emmet-vim'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-surround'
+Plug 'Chiel92/vim-autoformat'
+Plug 'scrooloose/nerdcommenter'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'myusuf3/numbers.vim'
+Plug 'chrisbra/NrrwRgn'
 
-NeoBundle 'vim-scripts/DeleteTrailingWhitespace'
-NeoBundle 'ctrlpvim/ctrlp.vim'
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'wellsjo/wellsokai.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fz', 'do': 'yes \| ./install --all' }
+nmap <Leader>t :FZF<CR>
 
-NeoBundle 'ervandew/supertab'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'Chiel92/vim-autoformat'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'myusuf3/numbers.vim'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'chrisbra/NrrwRgn'
-
-" Go format
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
 
-NeoBundle 'ternjs/tern_for_vim', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['javascript']
-            \ }
-            \}
+Plug 'ternjs/tern_for_vim'
 nmap <Leader>jd :TernDef<CR>
 nmap <Leader>jt :TernType<CR>
 nmap <Leader>jr :TernRefs<CR>
 nmap <Leader>jn :TernRename<CR>
 
-NeoBundle 'vim-scripts/closetag.vim', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['xml', 'html', 'xhtml']
-            \ }
-            \}
+Plug 'vim-scripts/closetag.vim', { 'for': ['xml', 'html', 'xhtml'] }
+Plug 'fatih/vim-go', { 'for': ['go', 'golang'] }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'mxw/vim-jsx', { 'for': ['javascript'] }
 
-NeoBundle 'fatih/vim-go',{
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['go', 'golang']
-            \ }
-            \}
-
-NeoBundle 'pangloss/vim-javascript', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['javascript']
-            \ }
-            \}
-
-NeoBundle 'mxw/vim-jsx',{
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['javascript']
-            \ }
-            \}
-
-NeoBundle 'valloric/MatchTagAlways', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['javascript', 'html', 'xml']
-            \ }
-            \}
-" Match tag always
+Plug 'valloric/MatchTagAlways', { 'for': ['javascript', 'html', 'xml'] }
 let g:mta_use_matchparen_group = 1
 
+Plug 'elzr/vim-json', { 'for': ['json'] }
 
-NeoBundle 'elzr/vim-json', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['json']
-            \ }
-            \}
-
-NeoBundle 'ap/vim-css-color', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['sass', 'css', 'less', 'scss']
-            \ }
-            \}
-
-NeoBundle 'derekwyatt/vim-scala', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['scala']
-            \ }
-            \}
-
-call neobundle#end() " end of bundle configs
-filetype plugin indent on " required
-NeoBundleCheck
+Plug 'ap/vim-css-color', { 'for': ['sass', 'css', 'less', 'scss'] }
+call plug#end()
 
 set laststatus=2
 set background=dark
