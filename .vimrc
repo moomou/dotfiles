@@ -103,8 +103,8 @@ let g:airline#extensions#tabline#enabled = 1
 Plug 'Shougo/deoplete.nvim'
 
 Plug 'w0rp/ale'
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
+nmap <silent> <C-S-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-S-j> <Plug>(ale_next_wrap)
 if $ACPOWER == '1'
     " Write this in your vimrc file
     let g:ale_lint_on_text_changed = 'never'
