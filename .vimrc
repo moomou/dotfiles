@@ -1,6 +1,8 @@
 set nocompatible
 filetype off
 
+set undodir=~/.vim/undodir
+set undofile
 set cc=100
 
 set encoding=utf-8  " The encoding displayed.
@@ -86,127 +88,70 @@ inoremap <F7> <C-o>:set ft=javascript<CR>
 noremap <F8> :Autoformat<CR><CR>
 inoremap <F8> :Autoformat<CR><CR>
 
+" allow the . to execute once for each line of a visual selection
+vnoremap . :normal .<CR>
+
 " Map control c to esc
 vnoremap <C-c> <Esc>
 
-" NeoBundles configs
-set runtimepath^=~/.vim/bundle/neobundle.vim/
-call neobundle#begin(expand('~/.vim/bundle/'))
+" Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
+call plug#begin('~/.vim/plugged')
 
-" Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'bling/vim-airline'
+Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-NeoBundle 'Valloric/YouCompleteMe'
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_filetype_blacklist = { 'sql' : 1 }
+Plug 'Shougo/deoplete.nvim'
 
-"NeoBundle 'scrooloose/syntastic'
-"let g:syntastic_javascript_checkers = ['eslint']
-"let g:syntastic_mode_map = { 'mode': 'passive', 'active_filetypes': [],'passive_filetypes': [] }
-NeoBundle 'neomake/neomake'
-autocmd BufWritePost,BufEnter * Neomake
-nnoremap <C-w>e :Neomake<CR>
+Plug 'w0rp/ale'
+nmap <silent> <C-S-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-S-j> <Plug>(ale_next_wrap)
+if $ACPOWER == '1'
+    " Write this in your vimrc file
+    let g:ale_lint_on_text_changed = 'never'
+    " " You can disable this option too
+    " " if you don't want linters to run on opening a file
+    let g:ale_lint_on_enter = 0
+end
 
-"NeoBundle 'wincent/Command-T'
-"let g:CommandTMaxCachedDirectories = 10
-"let g:CommandTInputDebounce = 50
-"let g:CommandTFileScanner = 'git'
+Plug 'vim-scripts/DeleteTrailingWhitespace'
+Plug 'flazz/vim-colorschemes'
+Plug 'wellsjo/wellsokai.vim'
 
-NeoBundle 'ctrlpvim/ctrlp.vim'
-let g:ctrlp_clear_cache_on_exit = 0
+Plug 'ervandew/supertab'
+Plug 'mattn/emmet-vim'
+Plug 'godlygeek/tabular'
+Plug 'tpope/vim-surround'
+Plug 'Chiel92/vim-autoformat'
+Plug 'scrooloose/nerdcommenter'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'myusuf3/numbers.vim'
+Plug 'chrisbra/NrrwRgn'
 
-NeoBundle 'flazz/vim-colorschemes'
-NeoBundle 'wellsjo/wellsokai.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fz', 'do': 'yes \| ./install --all' }
+nmap <Leader>t :FZF<CR>
 
-NeoBundle 'ervandew/supertab'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'godlygeek/tabular'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'Chiel92/vim-autoformat'
-NeoBundle 'scrooloose/nerdcommenter'
-NeoBundle 'terryma/vim-multiple-cursors'
-NeoBundle 'myusuf3/numbers.vim'
-NeoBundle 'fatih/vim-go'
-" Go format
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
 
-NeoBundle 'ternjs/tern_for_vim', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['javascript']
-            \ }
-            \}
+Plug 'ternjs/tern_for_vim'
 nmap <Leader>jd :TernDef<CR>
 nmap <Leader>jt :TernType<CR>
 nmap <Leader>jr :TernRefs<CR>
 nmap <Leader>jn :TernRename<CR>
 
-NeoBundle 'vim-scripts/closetag.vim', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['xml', 'html', 'xhtml']
-            \ }
-            \}
+Plug 'vim-scripts/closetag.vim', { 'for': ['xml', 'html', 'xhtml'] }
+Plug 'fatih/vim-go', { 'for': ['go', 'golang'] }
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+Plug 'mxw/vim-jsx', { 'for': ['javascript'] }
 
-NeoBundle 'fatih/vim-go',{
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['go', 'golang']
-            \ }
-            \}
-
-NeoBundle 'pangloss/vim-javascript', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['javascript']
-            \ }
-            \}
-
-NeoBundle 'mxw/vim-jsx',{
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['javascript']
-            \ }
-            \}
-
-NeoBundle 'valloric/MatchTagAlways', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['javascript', 'html', 'xml']
-            \ }
-            \}
-" Match tag always
+Plug 'valloric/MatchTagAlways', { 'for': ['javascript', 'html', 'xml'] }
 let g:mta_use_matchparen_group = 1
 
+Plug 'elzr/vim-json', { 'for': ['json'] }
 
-NeoBundle 'elzr/vim-json', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['json']
-            \ }
-            \}
-
-NeoBundle 'ap/vim-css-color', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['sass', 'css', 'less', 'scss']
-            \ }
-            \}
-
-NeoBundle 'derekwyatt/vim-scala', {
-            \ 'lazy': 1,
-            \ 'autoload': {
-            \   'filetypes': ['scala']
-            \ }
-            \}
-
-call neobundle#end() " end of bundle configs
-filetype plugin indent on " required
-NeoBundleCheck
+Plug 'ap/vim-css-color', { 'for': ['sass', 'css', 'less', 'scss'] }
+call plug#end()
 
 set laststatus=2
 set background=dark
@@ -217,7 +162,7 @@ au BufNewFile,BufRead *.jsx set filetype=javascript
 au BufWrite * :DeleteTrailingWhitespace
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
-autocmd FileType ruby,html,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
+autocmd FileType html,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
 autocmd FileType python inoremap # X<BS>#
 autocmd FileType scala set cc=100
@@ -245,7 +190,7 @@ inoremap <3-MiddleMouse> <Nop>
 inoremap <4-MiddleMouse> <Nop>
 
 " Custom Macro
-let @t = 'dwiimport wwxifromwdwds($'
+let @t = 'dwiimport wwxifromwdwds($'
 
 colorscheme wellsokai
 com! FormatJSON %!python -m json.tool

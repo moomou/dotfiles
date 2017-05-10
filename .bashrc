@@ -105,3 +105,5 @@ export GOPATH=/home/paul/authbox/go
 export "PATH=$GOPATH/bin:$PATH"
 export GOPATH=/home/paul/authbox/go
 export "PATH=$GOPATH/bin:$PATH"
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

@@ -12,3 +12,7 @@ venv
 *.swp
 **/.cache
 **/.*
+apps/action-scale/test.json
+**/ki_gore.zip
+**/ki_gore2.zip
+ops/docker/prometheus

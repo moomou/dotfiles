@@ -106,6 +106,7 @@ export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH
 
 export EXTRA_BIN_DIR=~/.extraBin
 export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:$EXTRA_BIN_DIR"
+export PATH="/home/paul/.local/bin:$PATH"
 
 # Source the original
 source ~/.bashrc
@@ -129,4 +130,5 @@ export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 
 export KUBECONFIG=/home/paul/.smyte/gke/kubeconfig kubectl
+
 # box
