@@ -25,7 +25,7 @@
     name = paul
     email = paul@smyte.com
 [core]
-    editor = /usr/bin/vim
+    editor = /usr/bin/nvim
 	excludesfile = /home/paul/.gitignore
 [grep]
     linenumber = true

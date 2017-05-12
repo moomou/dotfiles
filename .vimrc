@@ -100,7 +100,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
-Plug 'Shougo/deoplete.nvim'
+Plug 'sbdchd/neoformat'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#file#enable_buffer_path = 1
 
 Plug 'w0rp/ale'
 nmap <silent> <C-S-k> <Plug>(ale_previous_wrap)
