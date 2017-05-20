@@ -22,5 +22,6 @@ class Chef(Base):
         print(m_path('dotfiles/chef'), chef_run_dir)
 
         self.shell('cp -r %s/* %s' % (m_path('dotfiles/chef'), chef_run_dir))
+
         # run bash install.sh' "$role"
-        self.shell('cd %s && sudo bash install.sh %s' % (chef_run_dir, role))
+        self.shell('cd %s && sudo run_chef_role.sh %s' % (chef_run_dir, role))
