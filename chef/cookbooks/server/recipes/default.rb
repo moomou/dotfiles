@@ -65,24 +65,6 @@ package 'neovim' do
     action :upgrade
 end
 
-bash 'install tools via curl' do
-    user "#{username}"
-    code <<-EOH
-        echo 'installing n'
-        curl -L https://git.io/n-install | bash -s -- -q
-
-        echo 'installing pyenv'
-        curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-
-        echo 'installing gvm (go version manager)'
-        (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)) || true
-
-        echo setting up .fzf...
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-        ~/.fzf/install
-    EOH
-    not_if { ::File.directory?('~/.fzf') }
-end
 
 node['server']['users'].each do |user_info|
     username = user_info['username']
@@ -107,10 +89,29 @@ node['server']['users'].each do |user_info|
     # setup alias and stuff
     bash 'download dotfiles pref' do
         user username
-        only_if { username == 'moomou' && ::File.exist?(File.expand_path('~/dev')) }
+        only_if { username == 'moomou' && !::File.exist?(File.expand_path('~/dev')) }
         code <<-EOH
             git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
             cd ~/dev/dotfiles && ./boostrap.sh
         EOH
+    end
+
+    bash 'install tools via curl' do
+        user username
+        code <<-EOH
+            echo 'installing n'
+            curl -L https://git.io/n-install | bash -s -- -q
+
+            echo 'installing pyenv'
+            curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+
+            echo 'installing gvm (go version manager)'
+            (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)) || true
+
+            echo setting up .fzf...
+            git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+            ~/.fzf/install
+        EOH
+        only_if { username == 'moomou' && !::File.directory?('~/.fzf') }
     end
 end
