@@ -106,7 +106,7 @@ node['server']['users'].each do |user_info|
             type pyenv >/dev/null 2>&1 || curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
             echo 'installing gvm (go version manager)'
-            (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)) || true
+            type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
 
             echo setting up .fzf...
             git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
