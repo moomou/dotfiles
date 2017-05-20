@@ -85,7 +85,7 @@ bash 'install tools via curl' do
 end
 
 node['server']['users'].each do |user_info|
-    username = user_info.username
+    username = user_info['username']
 
     # creat user
     user username
