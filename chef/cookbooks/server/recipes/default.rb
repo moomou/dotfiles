@@ -100,17 +100,17 @@ node['server']['users'].each do |user_info|
         user username
         code <<-EOH
             echo 'installing n'
-            curl -L https://git.io/n-install | bash -s -- -q
+            type n >/dev/null 2>&1 && curl -L https://git.io/n-install | bash -s -- -q
 
             echo 'installing pyenv'
-            curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+            type pyenv >/dev/null 2>&1 && curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
             echo 'installing gvm (go version manager)'
             (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)) || true
 
             echo setting up .fzf...
             git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-            ~/.fzf/install
+            yes | ~/.fzf/install
         EOH
         only_if { username == 'moomou' && !::File.directory?('~/.fzf') }
     end
