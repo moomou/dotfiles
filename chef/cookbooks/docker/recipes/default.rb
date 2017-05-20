@@ -1,5 +1,3 @@
-user 'ubuntu'
-
 bash 'install docker' do
     user 'root'
     code <<-EOH
@@ -10,7 +8,7 @@ bash 'install docker' do
 		apt-get install -y docker-engine=1.11.2-0~xenial
 
         # add default ubuntu user
-        sudo usermod -aG docker ubuntu
+        sudo usermod -aG docker #{node['server']['username']}
     EOH
-    not_if { ::File.exist?("/usr/bin/docker") }
+    not_if { ::File.exist?('/usr/bin/docker') }
 end

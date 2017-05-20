@@ -8,6 +8,7 @@ import subprocess
 import ruamel.yaml as yaml
 
 from m_base import Base
+from util import m_path
 
 class Chef(Base):
     def reheat(self, role):
@@ -18,8 +19,8 @@ class Chef(Base):
             os.mkdir(chef_run_dir)
 
         # copy over chef
-        print(path('dotfiles/chef'), chef_run_dir)
+        print(m_path('dotfiles/chef'), chef_run_dir)
 
-        self.shell('cp -r %s/* %s' % (path('dotfiles/chef'), chef_run_dir))
+        self.shell('cp -r %s/* %s' % (m_path('dotfiles/chef'), chef_run_dir))
         # run bash install.sh' "$role"
         self.shell('cd %s && sudo bash install.sh %s' % (chef_run_dir, role))

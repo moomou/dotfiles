@@ -13,14 +13,14 @@
                         "upstream": "api"
                     },
                     {
-                        "name": "app",
-                        "upstream": "app",
                         "locations": [
                             {
                                 "path": "/dist",
                                 "root": "/var/app/ohsloth"
                             }
-                        ]
+                        ],
+                        "name": "app",
+                        "upstream": "app"
                     },
                     {
                         "name": "www",
@@ -52,19 +52,19 @@
         "user": "me+letsencrypt@moomou.com"
     },
     "run_list": [
-        "recipe[box::default]",
+        "recipe[server::default]",
         "recipe[supervisor_job::default]",
         "recipe[nginx::default]"
     ],
-    "supervisor_job": {
-        "configs": [
+    "server": {
+        "username": "moomou",
+        "users": [
             {
-                "command": "autossh -M 20000 -L 8888:localhost:8888 box",
-                "name": "box_lab"
+                "username": "moomou"
             }
         ]
     },
-    "box": {
-        "username": "root"
+    "supervisor_job": {
+        "configs": []
     }
 }

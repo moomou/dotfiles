@@ -1,1 +1,1 @@
-name "docker"
+name 'docker'

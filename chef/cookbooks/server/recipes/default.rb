@@ -1,8 +1,7 @@
 ## TODO: Install n for managing node
-## TODO: Install golang
 ## TODO: Install java
-include_recipe "docker::default"
-include_recipe "supervisord::default"
+include_recipe 'docker::default'
+include_recipe 'supervisord::default'
 
 # common tool
 package 'software-properties-common'
@@ -45,7 +44,8 @@ package 'tmux'
 package 'xz-utils'
 package 'zlib1g-dev'
 
-username=node['box']["username"]
+# default user - usually `root`
+username = node['server']['username']
 
 # debugging
 # output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"
@@ -76,52 +76,41 @@ bash 'install tools via curl' do
 
         echo 'installing gvm (go version manager)'
         (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)) || true
+
+        echo setting up .fzf...
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        ~/.fzf/install
     EOH
-    not_if 'which gvm', :user => "#{username}"
+    not_if { ::File.directory?('~/.fzf') }
 end
 
-#bash 'update pref' do
-    #user 'root'
-    #code <<-EOH
-        #update-alternatives --install /usr/bin/vi vi /usr/bin/nvim 60
-        #update-alternatives --config vi
-        #update-alternatives --install /usr/bin/vim vim /usr/bin/nvim 60
-        #update-alternatives --config vim
-        #update-alternatives --install /usr/bin/editor editor /usr/bin/nvim 60
-        #update-alternatives --config editor
-    #EOH
-#end
+node['server']['users'].each do |user_info|
+    username = user_info.username
 
-# create git user
-user 'git'
-directory "/home/git" do
-    owner 'git'
-    action :create
-end
+    # creat user
+    user username
+    directory "/home/#{username}" do
+        owner username
+        group username
+        action :create
+    end
 
-# creates me and home dir
-user "#{username}"
-directory "/home/#{username}" do
-    # owner "#{username}"
-    # group "#{username}"
-    action :create
-end
+    # ensure dev exists
+    directory "/home/#{username}/dev" do
+        mode '0755'
+        only_if { username == 'moomou' }
+        owner username
+        group username
+        action :create
+    end
 
-# ensure dev exists
-directory "/home/#{username}/dev" do
-    mode '0755'
-    not_if { username == "root" }
-    # owner "#{username}"
-    # group "#{username}"
-    action :create
-end
-
-# setup alias and stuff
-bash 'download dotfiles pref' do
-    user "#{username}"
-    not_if { ::File.exist?(File.expand_path('~/dev')) }
-    code <<-EOH
-        git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
-        cd ~/dev/dotfiles && ./boostrap.sh
-    EOH
+    # setup alias and stuff
+    bash 'download dotfiles pref' do
+        user username
+        only_if { username == 'moomou' && ::File.exist?(File.expand_path('~/dev')) }
+        code <<-EOH
+            git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
+            cd ~/dev/dotfiles && ./boostrap.sh
+        EOH
+    end
 end

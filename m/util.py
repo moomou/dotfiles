@@ -4,7 +4,7 @@ import ruamel.yaml as yaml
 
 import constant
 
-def path(folder):
+def m_path(folder):
     return os.path.join(constant.ROOT, folder)
 
 def get_config_yml():

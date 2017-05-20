@@ -1,1 +1,1 @@
-name "ssh_user"
+name 'ssh_user'

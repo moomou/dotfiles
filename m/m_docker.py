@@ -8,7 +8,7 @@ import subprocess
 import constant
 from util import (
     get_config_yml,
-    path,
+    m_path,
 )
 
 from m_base import Base
@@ -37,5 +37,5 @@ class Docker(Base):
         self.shell('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (app, app))
         [os.remove(f) for f in remove_after]
 
-        cmd = 'cd %s && git add . && git ci -m updated %s.gz && git push origin master' % (path('chub'), app)
+        cmd = 'cd %s && git add . && git ci -m updated %s.gz && git push origin master' % (m_path('chub'), app)
         self.shell(cmd)
