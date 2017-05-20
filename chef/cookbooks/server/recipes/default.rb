@@ -102,8 +102,8 @@ node['server']['users'].each do |user_info|
             echo 'installing n'
             type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
 
-            echo 'installing pyenv'
-            type pyenv >/dev/null 2>&1 || (curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash) || true
+            # echo 'installing pyenv'
+            # type pyenv >/dev/null 2>&1 || (curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash) || true
 
             echo 'installing gvm (go version manager)'
             type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
