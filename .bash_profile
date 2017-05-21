@@ -21,8 +21,8 @@ if hash nvim 2>/dev/null && [ "$(uname)" == "Linux" ]; then
     alias vi='nvim'
     alias vim='nvim'
 fi
-if [ -f ~/dev/.prompt_prefix ]; then
-    PROMPT_PREFIX=`cat ~/dev/.prompt_prefix`
+if [ -f ~/.prompt_prefix ]; then
+    PROMPT_PREFIX=`cat ~/.prompt_prefix`
 else
     PROMPT_PREFIX=''
 fi
