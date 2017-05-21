@@ -11,6 +11,9 @@ map $sent_http_content_type $expires {
 
 <% @upstreams.each do |upstream| %>
 upstream <%= upstream[:name] %> {
+    keepalive 1;
+    proxy_http_version 1.1;
+    proxy_set_header Connection "";
     server <%= upstream[:address] %>;
 }
 <% end %>
@@ -65,7 +68,7 @@ server {
     server_name <%= "#{server[:name]}.#{@root_url}" %>;
     add_header Strict-Transport-Security "max-age=15768000; includeSubDomains: always;";
 
-    access_log /var/log/nginx/<%= @root_url %>/<%= server[:name]%>/access.log;
+    access_log /var/log/nginx/<%= @root_url %>/<%= server[:name]%>/access.log buffer=32k flush=30s;
     error_log /var/log/nginx/<%= @root_url %>/<%= server[:name]%>/error.log;
 
     # WebSocket support
@@ -87,6 +90,7 @@ server {
         proxy_pass http://<%= location[:upstream] %>;
         <% else %>
         try_files $uri $uri/ $uri.html /index.html =404;
+        sendfile on;
         expires $expires;
         <% end %>
     }
