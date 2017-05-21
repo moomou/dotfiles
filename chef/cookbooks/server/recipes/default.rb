@@ -44,6 +44,8 @@ package 'tmux'
 package 'xz-utils'
 package 'zlib1g-dev'
 
+package 'htop'
+
 # default user - usually `root`
 username = node['server']['username']
 
@@ -65,6 +67,15 @@ package 'neovim' do
     action :upgrade
 end
 
+# setup alias and stuff
+bash 'install git lfs' do
+    user 'root'
+    code <<-EOH
+        curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
+        apt-get install git-lfs
+        git lfs install
+    EOH
+end
 
 node['server']['users'].each do |user_info|
     username = user_info['username']
