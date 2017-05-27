@@ -131,6 +131,13 @@ Plug 'mattn/emmet-vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'Chiel92/vim-autoformat'
+Plug 'sbdchd/neoformat'
+" auto format on save
+augroup fmt
+  autocmd!
+  autocmd BufWritePre * Neoformat
+augroup END
+
 Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'myusuf3/numbers.vim'
