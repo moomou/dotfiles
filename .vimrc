@@ -132,6 +132,9 @@ Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'Chiel92/vim-autoformat'
 Plug 'sbdchd/neoformat'
+autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ es5
+" Use formatprg when available
+let g:neoformat_try_formatprg = 1
 " auto format on save
 augroup fmt
   autocmd!
@@ -176,8 +179,7 @@ set background=dark
 au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
 au BufNewFile,BufRead *.jsx set filetype=javascript
 au BufWrite * :DeleteTrailingWhitespace
-autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
-autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
+autocmd FileType html,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
 autocmd FileType python inoremap # X<BS>#
@@ -210,3 +212,8 @@ let @t = 'dwiimport wwxifromwdwds($'
 
 colorscheme wellsokai
 com! FormatJSON %!python -m json.tool
+
+let s:uname = system("uname -s")
+if s:uname == "Darwin"
+    let g:python3_host_prog = '/usr/local/bin/python3'
+end

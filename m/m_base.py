@@ -14,7 +14,7 @@ class Base(object):
         logging.config.fileConfig(os.path.join(constant.M_ROOT, './log.conf'))
         self.logger = logging.getLogger(__name__)
         self._modules = {}
-        self._lazy_import = []
+        self._lazy_import = lazy_import
 
         if os.environ.get('DEBUG', None):
             self.logger.setLevel(logging.DEBUG)

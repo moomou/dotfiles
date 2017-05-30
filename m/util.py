@@ -18,14 +18,13 @@ def get_config_yml():
 
 
 def run_once(fn):
-    ran = False
+    ran = [ False ]
 
     def wrapper(*args, **kwargs):
-        global ran
-        if not ran:
+        if not ran[0]:
             fn(*args, **kwargs)
         result = fn(*args, **kwargs)
-        ran = True
+        ran[0] = True
         return result
 
     return wrapper
