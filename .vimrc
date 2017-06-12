@@ -101,6 +101,15 @@ Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
 Plug 'sbdchd/neoformat'
+autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ es5
+" Use formatprg when available
+let g:neoformat_try_formatprg = 1
+" auto format on save
+"augroup fmt
+  "autocmd!
+  "autocmd BufWritePre * Neoformat
+"augroup END
+
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#file#enable_buffer_path = 1
@@ -115,6 +124,9 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 Plug 'w0rp/ale'
 nmap <silent> <C-S-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-S-j> <Plug>(ale_next_wrap)
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
 if $ACPOWER == '1'
     " Write this in your vimrc file
     let g:ale_lint_on_text_changed = 'never'
@@ -172,7 +184,7 @@ au BufNewFile,BufRead *.jsx set filetype=javascript
 au BufWrite * :DeleteTrailingWhitespace
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
-autocmd FileType html,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
+autocmd FileType cpp,html,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
 autocmd FileType python inoremap # X<BS>#
 autocmd FileType scala set cc=100
