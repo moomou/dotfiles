@@ -1,4 +1,4 @@
-#!/usr/local/bin/m_venv/bin/python
+#!/usr/local/bin/m_venv3/bin/python
 import fire
 
 from m_docker import Docker
@@ -12,6 +12,9 @@ class M2:
         self.chef = Chef()
         self.deploy = Deploy()
         self.www = WWW()
+
+    def debug(self):
+        print(fire.__version__)
 
 if __name__ == '__main__':
     fire.Fire(M2())

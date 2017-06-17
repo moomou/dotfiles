@@ -1,5 +1,7 @@
 ruamel.yaml==0.13.11
 jinja2==2.9
-fire==0.1.0
+git+https://github.com/google/python-fire.git#egg=fire
 pip>=0.9
 h5py
+requests
+markdown2

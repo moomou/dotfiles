@@ -6,16 +6,21 @@ import subprocess
 from importlib import import_module
 
 import constant
-from util import run_once
+from util import (
+    read_yml,
+    run_once,
+)
 
 
 class Base(object):
     def __init__(self, lazy_import=[]):
-        logging.config.fileConfig(os.path.join(constant.M_ROOT, './log.conf'))
-        self.logger = logging.getLogger(__name__)
+        logging.config.dictConfig(read_yml(
+            os.path.join(constant.M_ROOT, './log.yml')))
+
         self._modules = {}
         self._lazy_import = lazy_import
 
+        self.logger = logging.getLogger(type(self).__name__)
         if os.environ.get('DEBUG', None):
             self.logger.setLevel(logging.DEBUG)
 

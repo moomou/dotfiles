@@ -1,12 +1,14 @@
 #!/bin/sh
 
-M_VENV=/usr/local/bin/m_venv
+FNAME=m_venv3
+M_VENV=/usr/local/bin/$FNAME
 
+PY3=`which python3`
 if [ ! -d "$M_VENV" ]; then
-    (cd /usr/local/bin && virtualenv m_venv)
+    (cd /usr/local/bin && virtualenv --no-site-packages --distribute --python=$PY3 $FNAME)
 fi
 
-/usr/local/bin/m_venv/bin/pip install -r pip-requirements.txt
+$M_VENV/bin/pip install -r pip-requirements.txt
 
 rm -f /usr/local/bin/m
 ln -s `pwd`/m /usr/local/bin/m

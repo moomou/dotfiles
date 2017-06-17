@@ -153,7 +153,7 @@ Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
 
-Plug 'ternjs/tern_for_vim'
+Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
 nmap <Leader>jd :TernDef<CR>
 nmap <Leader>jt :TernType<CR>
 nmap <Leader>jr :TernRefs<CR>
@@ -180,7 +180,7 @@ au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
 au BufNewFile,BufRead *.jsx set filetype=javascript
 au BufWrite * :DeleteTrailingWhitespace
 autocmd FileType html,jinjahtml,eruby,mako let b:closetag_html_style=1
-autocmd FileType html,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
+autocmd FileType htmldjango,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
 autocmd FileType python inoremap # X<BS>#
 autocmd FileType scala set cc=100

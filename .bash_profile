@@ -1,3 +1,5 @@
+set -o history -o histexpand
+
 ## shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color --group-directories-first'
@@ -26,6 +28,9 @@ if [ -f ~/.prompt_prefix ]; then
 else
     PROMPT_PREFIX=''
 fi
+
+# cd alias
+alias ..="cd .."
 
 # autossh as ssh
 alias ssh='autossh -M 0'
@@ -89,20 +94,29 @@ function ResetColor() {
  echo "$(tput sgr0)"
 }
 function BashPrompt() {
-   local last_status=$?
    local reset=$(ResetColor)
+   local last_command=`echo $last_command_exit_code | awk -F "#" '{print $1}'`
+   local last_status=`echo $last_command_exit_code | awk -F "#" '{print $2}'`
 
    local failure='(ಠ_ಠ) '
    local success='ヽ(・∀・)ﾉ '
 
    if [[ "$last_status" != '0' ]]; then
+    if [ "$last_status" == '127' ] || [ "$last_status" == '126' ]; then
+        # last command not found, could be a folder, jump to it if it is
+        if [ -d "$last_command" ]; then
+            cd $last_command
+        fi
+    else
        last_status="$(Color 2)$failure$reset[$PROMPT_PREFIX]."
+    fi
    else
        last_status="$(Color 1)$success$reset[$PROMPT_PREFIX]."
    fi
 
    echo -n -e $last_status;
 }
+
 
 # Some generic env var
 export GOPATH=$HOME/go
@@ -127,7 +141,7 @@ export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
-export PROMPT_COMMAND='echo -n $(BashPrompt)'
+export PROMPT_COMMAND='last_command_exit_code="${_}#${?}" && BashPrompt'
 
 # fuck homebrew
 export HOMEBREW_NO_AUTO_UPDATE=1
