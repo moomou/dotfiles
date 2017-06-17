@@ -1,4 +1,5 @@
 secret/cert/LightsailDefaultPrivateKey-eu-central-1.pem
+secret/cert/LightsailDefaultPrivateKey-eu-west-1.pem
 secret/cert/ppycom.pem
 secret/cert/sloth.pem
 secret/foo.txt
