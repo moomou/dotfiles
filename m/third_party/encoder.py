@@ -1,3 +1,5 @@
+#!/usr/local/bin/m_venv3/bin/python
+
 import sys
 import os
 import h5py
@@ -59,10 +61,12 @@ class Encoder(object):
     def save(self):
         """Saves weights data (binary) and weights metadata (json)
         """
-        weights_filepath = '{}_weights.buf'.format(os.path.splitext(self.weights_hdf5_filepath)[0])
+        weights_filepath = '{}_weights.buf'.format(
+            os.path.splitext(self.weights_hdf5_filepath)[0])
         with open(weights_filepath, mode='wb') as f:
             f.write(self.weights)
-        metadata_filepath = '{}_metadata.json'.format(os.path.splitext(self.weights_hdf5_filepath)[0])
+        metadata_filepath = '{}_metadata.json'.format(
+            os.path.splitext(self.weights_hdf5_filepath)[0])
         with open(metadata_filepath, mode='w') as f:
             json.dump(self.metadata, f)
 
