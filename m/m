@@ -6,6 +6,7 @@ from m_deploy import Deploy
 from m_chef import Chef
 from m_www import WWW
 
+
 class M2:
     def __init__(self):
         self.docker = Docker()
@@ -14,7 +15,8 @@ class M2:
         self.www = WWW()
 
     def debug(self):
-        print(fire.__version__)
+        print('TBD')
+
 
 if __name__ == '__main__':
     fire.Fire(M2())

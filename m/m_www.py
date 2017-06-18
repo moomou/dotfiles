@@ -1,8 +1,10 @@
 import os
+import json
 
 from m_base import Base
 from util import (
     get_config_yml,
+    update_config_yml,
     get_gh_token,
     setup,
 )
@@ -11,6 +13,7 @@ from util import (
 def compile_context(mk2, context):
     if isinstance(context, list):
         return [compile_context(mk2, item) for item in context]
+
     elif isinstance(context, dict):
         for k, v in context.items():
             if k.startswith('markdown_'):
@@ -60,8 +63,45 @@ class WWW(Base):
                 f.write(temp.render(**context).encode('utf-8'))
 
     @setup
-    def generate_release_from_gh(self):
-        requests = self._modules['jinja2']
+    def fetch_gh_release(self):
+        '''
+        Fetch last 100 releases and update config.yml
+        '''
+        requests = self._modules['requests']
         gh_token = get_gh_token()
 
-        # TODO
+        query = '''
+            {
+              repository(name:"ohsloth-release", owner:"ohsloth"){
+                releases(last: 100) {
+                  edges {
+                    node {
+                      name
+                      url
+                      publishedAt
+                      description
+                    }
+                  }
+                }
+              }
+            }
+        '''
+
+        result = requests.post('https://api.github.com/graphql', headers={
+            'Authorization': 'bearer %s' % gh_token,
+        }, data=json.dumps({'query': query}))
+
+        data = result.json()
+
+        self.logger.debug(data)
+        config = get_config_yml()
+
+        releases = []
+        for edge in reversed(data['data']['repository']['releases']['edges']):
+            edge['node']['markdown_description'] = edge['node']['description']
+            releases.append(edge['node'])
+
+        config['context']['releases'] = releases
+        update_config_yml(config)
+
+        self.logger.info('updated local config')

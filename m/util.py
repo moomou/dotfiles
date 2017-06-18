@@ -34,6 +34,11 @@ def get_config_yml():
     return {}
 
 
+def update_config_yml(obj):
+    with open('./config.yml', 'w') as f:
+        yaml.round_trip_dump(obj, f, indent=4, block_seq_indent=2)
+
+
 def run_once(fn):
     ran = [False]
 
@@ -57,5 +62,5 @@ def setup(fn):
 
 @memoize
 def get_gh_token():
-    with open(os.path.join(constant.DOTFILES)) as f:
-        return f.read()
+    with open(os.path.join(constant.DOTFILES, 'secret/gh_graphql.txt')) as f:
+        return f.read().strip()

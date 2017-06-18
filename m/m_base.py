@@ -5,6 +5,8 @@ import subprocess
 
 from importlib import import_module
 
+import coloredlogs
+
 import constant
 from util import (
     read_yml,
@@ -21,7 +23,11 @@ class Base(object):
         self._lazy_import = lazy_import
 
         self.logger = logging.getLogger(type(self).__name__)
+
+        coloredlogs.install(level='INFO', logger=self.logger)
+
         if os.environ.get('DEBUG', None):
+            coloredlogs.install(level='DEBUG', logger=self.logger)
             self.logger.setLevel(logging.DEBUG)
 
     @run_once
