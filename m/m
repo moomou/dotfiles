@@ -7,6 +7,8 @@ from m_chef import Chef
 from m_www import WWW
 from m_keras import Keras
 
+from m_audio import Audio
+
 
 class M2:
     def __init__(self):
@@ -15,6 +17,8 @@ class M2:
         self.deploy = Deploy()
         self.www = WWW()
         self.keras = Keras()
+
+        self.audio = Audio()
 
     def debug(self):
         print('TBD')

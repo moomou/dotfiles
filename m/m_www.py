@@ -5,9 +5,7 @@ from m_base import Base
 from util import (
     get_config_yml,
     update_config_yml,
-    get_gh_token,
-    setup,
-)
+    get_gh_token, )
 
 
 def compile_context(mk2, context):
@@ -32,11 +30,10 @@ class WWW(Base):
             'markdown2',
         ])
 
-    @setup
     def compile_template(self):
         '''Find jinja2 template and build by using var in config.yaml'''
-        jinja2 = self._modules['jinja2']
-        markdown2 = self._modules['markdown2']
+        jinja2 = self._module('jinja2')
+        markdown2 = self._module('markdown2')
 
         config = get_config_yml()
         compile_config = config['compile']
@@ -52,7 +49,7 @@ class WWW(Base):
             filter_func=lambda x: not x.startswith(
                 '_') and x.endswith(compile_config['ext'])
         ):
-            self.logger.info('Compiling %s...' % temp_name)
+            self._logger.info('Compiling %s...' % temp_name)
             temp = env.get_template(temp_name)
 
             out_dir = compile_config['out_dir']
@@ -62,12 +59,11 @@ class WWW(Base):
                     os.path.basename(temp_name))[0]
                 f.write(temp.render(**context).encode('utf-8'))
 
-    @setup
     def fetch_gh_release(self):
         '''
         Fetch last 100 releases and update config.yml
         '''
-        requests = self._modules['requests']
+        requests = self._module('requests')
         gh_token = get_gh_token()
 
         query = '''
@@ -87,13 +83,18 @@ class WWW(Base):
             }
         '''
 
-        result = requests.post('https://api.github.com/graphql', headers={
-            'Authorization': 'bearer %s' % gh_token,
-        }, data=json.dumps({'query': query}))
+        result = requests.post(
+            'https://api.github.com/graphql',
+            headers={
+                'Authorization': 'bearer %s' % gh_token,
+            },
+            data=json.dumps({
+                'query': query
+            }))
 
         data = result.json()
 
-        self.logger.debug(data)
+        self._logger.debug(data)
         config = get_config_yml()
 
         releases = []
@@ -104,4 +105,4 @@ class WWW(Base):
         config['context']['releases'] = releases
         update_config_yml(config)
 
-        self.logger.info('updated local config')
+        self._logger.info('updated local config')

@@ -1,8 +1,19 @@
+# Common
+# ipython -> makes fire slow...
+
 ruamel.yaml==0.13.11
-jinja2==2.9
 git+https://github.com/google/python-fire.git#egg=fire
 pip>=0.9
-h5py
 requests
-markdown2
 coloredlogs
+h5py
+
+# general
+scipy==0.19.0
+
+# m_audio
+git+https://github.com/jameslyons/python_speech_features#egg=python_speech_features
+
+# m_www
+jinja2==2.9
+markdown2
