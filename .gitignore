@@ -19,3 +19,4 @@ keys
 /secret/gh_graphql.txt
 /secret/cert/LightsailDefaultPrivateKey-eu-central-1.pem
 /secret/cert/LightsailDefaultPrivateKey-eu-west-1.pem
+*.wav

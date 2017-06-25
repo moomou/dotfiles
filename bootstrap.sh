@@ -12,9 +12,9 @@ function symlink {
     ln -s $curDir/$1 ~/${2-$1}
 }
 
-# make nvim dir exists
+# make sure nvim dir exists
 mkdir -p ~/.config/nvim
-echo 'source ~/.nvimrc' > ~/.config/nvim/init.vim
+symlink ".vimrc" ".config/nvim/init.vim"
 
 # Override .vimrc & .vim folder
 symlink ".vim"
@@ -60,4 +60,5 @@ fi
 git config --global core.excludesfile ~/.gitignore_global
 
 # Setting up m
+echo Setting up m
 (cd ./m && ./bootstrap.sh)
