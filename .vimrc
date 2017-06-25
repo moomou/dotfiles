@@ -101,7 +101,7 @@ Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1
 let g:deoplete#file#enable_buffer_path = 1
 if exists('g:plugs["tern_for_vim"]')
   let g:tern_show_argument_hints = 'on_hold'
@@ -215,5 +215,9 @@ com! FormatJSON %!python -m json.tool
 
 let s:uname = system("uname -s")
 if s:uname == "Darwin"
-    let g:python3_host_prog = '/usr/local/bin/python3'
+   let g:deoplete#enable_at_startup = 0
+   let g:python3_host_prog = '/Users/moomou/.pyenv/versions/neovim3/bin/python'
+else
+    let g:python2_host_prog = '/home/moomou/.pyenv/versions/neovim3/bin/python'
+    let g:python3_host_prog = '/home/moomou/.pyenv/versions/neovim3/bin/python'
 end
