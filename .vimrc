@@ -213,11 +213,13 @@ let @t = 'dwiimport wwxifromwdwds($'
 colorscheme wellsokai
 com! FormatJSON %!python -m json.tool
 
+" Disable py2
+let g:loaded_python_provider = 1
+
 let s:uname = system("uname -s")
 if s:uname == "Darwin"
    let g:deoplete#enable_at_startup = 0
    let g:python3_host_prog = '/Users/moomou/.pyenv/versions/neovim3/bin/python'
 else
-    let g:python2_host_prog = '/home/moomou/.pyenv/versions/neovim3/bin/python'
     let g:python3_host_prog = '/home/moomou/.pyenv/versions/neovim3/bin/python'
 end
