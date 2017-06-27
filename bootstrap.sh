@@ -12,6 +12,8 @@ function symlink {
     ln -s $curDir/$1 ~/${2-$1}
 }
 
+symlink ".yapf" ".config/yapf/style"
+
 # make sure nvim dir exists
 mkdir -p ~/.config/nvim
 symlink ".vimrc" ".config/nvim/init.vim"

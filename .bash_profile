@@ -1,4 +1,6 @@
 set -o history -o histexpand
+complete -d cd
+shopt -s autocd
 
 ## shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
