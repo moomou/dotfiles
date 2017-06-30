@@ -11,7 +11,13 @@ class AudioData(Base):
         ])
 
     def about(self, in_file):
+        '''Uses ffmpeg to read file'''
         self.shell('ffmpeg -i %s' % in_file)
+
+    def sph_2_riff_wav(self, in_file, out_file=None):
+        '''Uses sox program to convert sph (aka NIST) to RIFF wav'''
+        out_file = out_file if out_file is not None else in_file + '.riff.wav'
+        self.shell('sox -t sph %s -b 16 -t wav %s' % (in_file, out_file))
 
     def extract_audio_line(self, in_file, out_file, start, end):
         '''Extract audio from `start` to `end` as wave'''

@@ -10,7 +10,7 @@ fi
 
 $M_VENV/bin/pip install -r pip-requirements.txt
 
-sudo rm -f /usr/local/bin/m
+rm -f /usr/local/bin/m
 ln -s `pwd`/m /usr/local/bin/m
 
 echo "Setup complete"

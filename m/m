@@ -1,4 +1,7 @@
 #!/usr/local/bin/m_venv3/bin/python
+import os
+import logging
+
 import fire
 
 from m_docker import Docker
@@ -8,6 +11,12 @@ from m_www import WWW
 from m_keras import Keras
 
 from m_audio import Audio
+
+import constant
+from util import read_yml
+
+logging.config.dictConfig(read_yml(os.path.join(constant.M_ROOT, './log.yml')))
+logger = logging.getLogger()
 
 
 class M2:
@@ -21,7 +30,7 @@ class M2:
         self.audio = Audio()
 
     def debug(self):
-        print('TBD')
+        logger.info('TBD')
 
 
 if __name__ == '__main__':

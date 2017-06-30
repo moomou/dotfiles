@@ -1,8 +1,10 @@
 version: 1
 
+disable_existing_loggers: False  # this fixes the problem
+
 formatters:
     simpleFormater:
-        format: '%(asctime)s %(name)s %(levelname)s: %(message)s'
+        format: '[%(asctime)s %(filename)s:%(lineno)d] %(levelname)s\n %(message)s'
         datefmt: '%Y/%m/%d %H:%M:%S'
 
 handlers:
@@ -11,11 +13,7 @@ handlers:
     level: INFO
     formatter: simpleFormater
     stream: ext://sys.stdout
-  #file:
-    #class: logging.handlers.RotatingFileHandler
-    #filename: logconfig.log
-    #maxBytes: 1024
-    #backupCount: 3
+
 
 root:
     level: INFO

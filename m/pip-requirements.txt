@@ -10,9 +10,10 @@ h5py
 
 # general
 scipy==0.19.0
+scikits.audiolab==0.11.0
 
 # m_audio
-git+https://github.com/jameslyons/python_speech_features#egg=python_speech_features
+librosa==0.5.1
 
 # m_www
 jinja2==2.9

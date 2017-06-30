@@ -7,24 +7,19 @@ from importlib import import_module
 
 import coloredlogs
 
-import constant
-from util import read_yml
+FMT = '[%(asctime)s %(filename)s:%(lineno)d %(levelname)s] %(message)s'
 
 
 class Base(object):
     def __init__(self, lazy_import=[]):
-        logging.config.dictConfig(
-            read_yml(os.path.join(constant.M_ROOT, './log.yml')))
-
         self._modules_cache = {}
         self._lazy_import = lazy_import
 
         self._logger = logging.getLogger(type(self).__name__)
-
-        coloredlogs.install(level='INFO', logger=self._logger)
+        coloredlogs.install(level='INFO', fmt=FMT)
 
         if os.environ.get('DEBUG', None):
-            coloredlogs.install(level='DEBUG', logger=self._logger)
+            coloredlogs.install(level='DEBUG', fmt=FMT)
             self._logger.setLevel(logging.DEBUG)
 
     def _module(self, m_name):
