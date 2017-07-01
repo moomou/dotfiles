@@ -18,13 +18,15 @@ class Base(object):
         self._logger = logging.getLogger(type(self).__name__)
         coloredlogs.install(level='INFO', fmt=FMT)
 
+        self._debugging = False
         if os.environ.get('DEBUG', None):
+            self._debugging = True
             coloredlogs.install(level='DEBUG', fmt=FMT)
             self._logger.setLevel(logging.DEBUG)
 
     def _module(self, m_name):
         if m_name not in self._modules_cache:
-            assert m_name in self._lazy_import, 'Import not declared'
+            assert m_name in self._lazy_import, 'Import not declared:: `%s`' % m_name
             m = import_module(m_name)
             self._modules_cache[m_name] = m
 
@@ -36,6 +38,9 @@ class Base(object):
             self._modules_cache[m_name] = m
 
         return self._modules_cache
+
+    def _debug_mode(self):
+        return self._debugging
 
     def shell(self, cmd, timeout=None):
         self._logger.debug(cmd)

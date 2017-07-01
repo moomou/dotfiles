@@ -1,8 +1,24 @@
 import os
-
-import ruamel.yaml as yaml
+from importlib import import_module
 
 import constant
+
+
+def try_import(module, alias=None):
+    def decorator(fn):
+        def wrapper(*args, **kwargs):
+            ref = alias or module
+
+            try:
+                globals()[ref]
+            except:
+                globals()[ref] = import_module(module)
+
+            return fn(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
 
 
 def memoize(fn):
@@ -22,6 +38,7 @@ def m_path(folder, root=constant.ROOT):
     return os.path.join(root, folder)
 
 
+@try_import('ruamel.yaml', 'yaml')
 def read_yml(path):
     with open(path) as f:
         config_yml = yaml.safe_load(f)
@@ -34,6 +51,7 @@ def get_config_yml():
     return {}
 
 
+@try_import('ruamel.yaml', 'yaml')
 def update_config_yml(obj):
     with open('./config.yml', 'w') as f:
         yaml.round_trip_dump(obj, f, indent=4, block_seq_indent=2)

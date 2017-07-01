@@ -1,9 +1,7 @@
-import subprocess
-import os
-
 from m_base import Base
 
 from util import m_path
+
 
 class Deploy(Base):
     def slothapp(self, app):

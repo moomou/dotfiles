@@ -17,7 +17,7 @@ class AudioFeature(Base):
         h5py = self._module('h5py')
         audio_util = self._module('audio_util')
 
-        sig, freq = audio_util.open_wav(in_file)
+        sig, sr = audio_util.open_wav(in_file)
         basename, _ = os.path.splitext(os.path.basename(in_file))
         row_id = h5_id + '.' + basename
 
@@ -28,15 +28,20 @@ class AudioFeature(Base):
         else:
             self._logger.info('id:: %s', row_id)
 
-    def extract_mfcc(self, in_file, h5_id=None, out_h5=None, prefix='mfcc_20'):
+    def extract_mfcc(self,
+                     in_file,
+                     h5_id=None,
+                     out_h5=None,
+                     prefix='mfcc_13',
+                     max_freq=3600):
         '''Given `in_file` (must be wav), write mfcc feature into `out_h5`'''
 
         librosa = self._module('librosa')
         h5py = self._module('h5py')
         audio_util = self._module('audio_util')
 
-        sig, freq = audio_util.open_wav(in_file)
-        mfcc_feature = librosa.feature.mfcc(sig, freq, n_mfcc=20)
+        sig, sr = audio_util.open_wav(in_file)
+        mfcc_feature = librosa.feature.mfcc(sig, sr, n_mfcc=13, fmax=max_freq)
         basename, _ = os.path.splitext(os.path.basename(in_file))
         row_id = h5_id + '.' + basename
 

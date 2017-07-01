@@ -4,8 +4,7 @@ import shutil
 import constant
 from util import (
     get_config_yml,
-    m_path,
-)
+    m_path, )
 
 from m_base import Base
 
@@ -26,11 +25,12 @@ class Docker(Base):
                 remove_after.append(dst)
 
         # Copy gitlab cert
-        shutil.copy2(os.path.join(constant.SSH_DIR,
-                                  'key', 'gitlab_rsa'), './gitlab_rsa')
+        shutil.copy2(
+            os.path.join(constant.SSH_DIR, 'key', 'gitlab_rsa'),
+            './gitlab_rsa')
         # Copy over dockerignore
-        shutil.copy2(os.path.join(constant.M_ROOT,
-                                  '.dockerignore'), './.dockerignore')
+        shutil.copy2(
+            os.path.join(constant.M_ROOT, '.dockerignore'), './.dockerignore')
 
         self.shell('docker build . -t %s' % app)
         self.shell('docker save %s | gzip -c > ~/dev/chub/%s.gz' % (app, app))
