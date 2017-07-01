@@ -24,3 +24,7 @@ def write_wav(sig, freq, path, norm=True):
     logger.debug('Writing wav to:: %s', path)
 
     librosa.output.write_wav(path, sig, freq, norm=norm)
+
+
+def frame_size_in_ms(sr, ms):
+    return int((sr / 1000) * ms)
