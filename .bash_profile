@@ -46,7 +46,7 @@ alias admin='cd ~/authbox/authbox-api/lib/frontend/admin'
 alias api='cd ~/authbox/authbox-api'
 alias apps='cd ~/authbox/apps'
 alias dev='cd ~/dev'
-alias kami='cd ~/authbox/.customer-submodules'
+alias kami='cd ~/customers'
 alias sops='cd ~/smyte-ops/'
 alias pylib='cd ~/authbox/pylib'
 alias sdkpy='cd ~/authbox/sdk/python/smyte-utils/src'
@@ -107,6 +107,8 @@ export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-7.0/lib:$DYLD_LIBRARY_PATH
 export EXTRA_BIN_DIR=~/.extraBin
 export PATH="/usr/local/sbin:$PATH:$CUDA_PATH:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:$EXTRA_BIN_DIR"
 export PATH="/home/paul/.local/bin:$PATH"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 
 # Source the original
 source ~/.bashrc
@@ -128,7 +130,14 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
-
+export HISTTIMEFORMAT="%d/%m/%y %T "
 export KUBECONFIG=/home/paul/.smyte/gke/kubeconfig kubectl
 
-# box
+function initpyenv() {
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+}
+
+if [ "$(uname)" == "Linux" ]; then
+    initpyenv
+fi

@@ -126,6 +126,7 @@ nmap <silent> <C-S-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-S-j> <Plug>(ale_next_wrap)
 let g:ale_linters = {
 \   'javascript': ['eslint'],
+\   'python': ['/home/paul/.pyenv/versions/neovim3/bin/flake8'],
 \}
 if $ACPOWER == '1'
     " Write this in your vimrc file
@@ -146,6 +147,9 @@ Plug 'tpope/vim-surround'
 Plug 'Chiel92/vim-autoformat'
 Plug 'scrooloose/nerdcommenter'
 Plug 'terryma/vim-multiple-cursors'
+let g:multi_cursor_exit_from_insert_mode = 0
+let g:multi_cursor_exit_from_insert_mode = 0
+
 Plug 'myusuf3/numbers.vim'
 Plug 'chrisbra/NrrwRgn'
 
@@ -215,4 +219,12 @@ inoremap <4-MiddleMouse> <Nop>
 let @t = 'dwiimport wwxifromwdwds($'
 
 colorscheme wellsokai
-com! FormatJSON %!python -m json.tool
+com! FormatJSON %!jq . --sort-keys
+
+
+" Disable py2
+let g:loaded_python_provider = 1
+
+let s:uname = system("uname -s")
+let g:deoplete#enable_at_startup = 1
+let g:python3_host_prog = '/home/paul/.pyenv/versions/neovim3/bin/python'

@@ -16,3 +16,4 @@ apps/action-scale/test.json
 **/ki_gore.zip
 **/ki_gore2.zip
 ops/docker/prometheus
+apps/ml2/test_models/gore/
