@@ -1,4 +1,7 @@
+import csv
 import logging
+import os
+from datetime import datetime, timedelta
 
 import librosa
 
@@ -28,3 +31,58 @@ def write_wav(sig, freq, path, norm=True):
 
 def frame_size_in_ms(sr, ms):
     return int((sr / 1000) * ms)
+
+
+def parse_info_txt(fname):
+    with open(fname) as csvfile:
+        reader = csv.DictReader(csvfile)
+        rows = [row for row in reader]
+        return rows
+
+
+def parse_clean_txt(fname):
+    with open(fname) as f:
+        _ids = f.read().split('\n')
+        _ids = [_id.strip() for _id in _ids if _id]
+        return _ids
+
+
+def _parse_time(time_str):
+    colon_count = time_str.count(':')
+
+    if colon_count == 1:
+        t = datetime.strptime(time_str, '%M:%S')
+    else:
+        t = datetime.strptime(time_str, '%S')
+
+    return t
+
+
+def parse_time(start_time_str, end_time_str):
+    start_time = _parse_time(start_time_str)
+    end_time = _parse_time(end_time_str)
+
+    assert end_time > start_time, 'Sanity check'
+
+    delta = end_time - start_time
+    return (start_time, end_time, delta, )
+
+
+def speaker_fname(fprefix, speaker_id):
+    '''
+        `fprefix` + `speaker_id` makese a unique user and `counter` is
+        used to different different files
+    '''
+    return '%s_%s' % (fprefix, speaker_id)
+
+
+def file_cut_ffmpeg_exp(input_f, start, duration, output_f):
+    return '''
+        ffmpeg -i '%s' -ss %s -t %s -c copy %s
+    ''' % (input_f, start, duration, output_f)
+
+
+def file_split_ffmpeg_exp(input_f, seg_len, output_exp):
+    return '''
+        ffmpeg -i '%s' -f segment -segment_time %s -c copy %s
+    ''' % (input_f, seg_len, output_exp)

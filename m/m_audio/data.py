@@ -1,13 +1,20 @@
 import csv
 import os
+from collections import defaultdict
+
+from tqdm import tqdm
 
 from m_base import Base
+
+YOUTUBE_PREFIX = 'https://www.youtube.com/watch?v=%s'
+YOUTUBE_DL_CMD = 'youtube-dl -x --audio-format mp3 -o "%(id)s.%(ext)s" '
 
 
 class AudioData(Base):
     def __init__(self):
         super().__init__([
             'm_audio.ass',
+            'm_audio.audio_util',
         ])
 
     def about(self, in_file):
@@ -65,3 +72,59 @@ class AudioData(Base):
                         'line': evt.fields['Text'],
                         'speaker': '',
                     })
+
+    def gather_youtube_clean(self, fname):
+        au = self._module('m_audio.audio_util')
+
+        data = au.parse_clean_txt(fname)
+
+        try:
+            os.mkdir('data')
+        except:
+            pass
+
+        for row in tqdm(data):
+            _ids = row.split(',')
+            prefix = au.speaker_fname(_ids[0], 0)
+            counter = 0
+
+            for _id in _ids:
+                url = YOUTUBE_PREFIX % _id
+                self.shell(YOUTUBE_DL_CMD + url)
+                self.shell('mv -- %s.mp3 ./data/%s_%d.mp3' % (_id, prefix,
+                                                              counter))
+                counter += 1
+
+    def gather_youtube_info(self, fname):
+        au = self._module('m_audio.audio_util')
+
+        try:
+            os.mkdir('data')
+        except:
+            pass
+
+        data = au.parse_info_txt(fname)
+        counter_dict = defaultdict(lambda: 0)
+        for row in tqdm(data):
+            url = YOUTUBE_PREFIX % row['file']
+            fname = '%s.mp3' % row['file']
+
+            speaker_prefix = au.speaker_fname(row['file'], row['id'])
+            speaker_file = '%s_%d.mp3' % (speaker_prefix,
+                                          counter_dict[speaker_prefix])
+            counter_dict[speaker_prefix] += 1
+
+            if not os.path.isfile(fname):
+                # download file if not already there
+                self.shell(YOUTUBE_DL_CMD + url)
+
+            start_time, end_time, delta = au.parse_time(
+                row['start_m_sec'], row['end_m_sec'])
+
+            ffmpeg_exp = au.file_cut_ffmpeg_exp(fname,
+                                                start_time.strftime('%M:%S'),
+                                                delta.total_seconds(),
+                                                speaker_file)
+
+            self.shell(ffmpeg_exp)
+            self.shell('mv -- %s ./data/%s' % (speaker_file, speaker_file))
