@@ -15,6 +15,7 @@ class AudioData(Base):
         super().__init__([
             'm_audio.ass',
             'm_audio.audio_util',
+            'librosa',
         ])
 
     def about(self, in_file):
@@ -128,3 +129,9 @@ class AudioData(Base):
 
             self.shell(ffmpeg_exp)
             self.shell('mv -- %s ./data/%s' % (speaker_file, speaker_file))
+
+    def resample_audio(self, input_wav, output_wav, sr=8000, duration=10):
+        librosa = self._module('librosa')
+
+        wav, sr = librosa.core.load(input_wav, sr=sr, duration=duration)
+        librosa.output.write_wav(output_wav, wav, sr)

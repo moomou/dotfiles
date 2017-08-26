@@ -8,8 +8,13 @@ class AudioFilter(Base):
 
     def __init__(self):
         super().__init__([
-            'h5py', 'librosa', 'librosa.display', 'm_audio.audio_util',
-            'matplotlib.pyplot', 'numpy', 'scipy.io.wavfile'
+            'h5py',
+            'librosa',
+            'librosa.display',
+            'm_audio.audio_util',
+            'matplotlib.pyplot',
+            'numpy',
+            'scipy.io.wavfile',
         ])
 
     def _write_wav_file(self, in_file, out_file, op, sr, filtered_sig):

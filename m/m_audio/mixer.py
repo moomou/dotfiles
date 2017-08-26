@@ -8,6 +8,7 @@ class AudioMixer(Base):
         super().__init__([
             'python_speech_features',
             'scipy.io.wavfile',
+            'pydub.AudioSegment',
             'h5py',
             'numpy',
         ])
@@ -67,7 +68,6 @@ class AudioMixer(Base):
 
     def mix_freq(self, *in_file):
         wavfile = self._module('scipy.io.wavfile')
-
         pass
 
     def mix_time(self, *in_file):

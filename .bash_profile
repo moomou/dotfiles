@@ -1,6 +1,5 @@
 set -o history -o histexpand
 complete -d cd
-shopt -s autocd
 
 ## shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
@@ -37,7 +36,7 @@ alias ..="cd .."
 alias ssh='autossh -M 0'
 
 # connect to your server
-alias bx='ssh -t spa ssh -i /root/.ssh/keys/personal_rsa moomou@localhost -p 2222'
+alias bx='ssh -t spa /usr/bin/ssh -i /root/.ssh/keys/personal_rsa moomou@localhost -p 2222'
 alias ctags='/usr/local/bin/ctags'
 
 ## github alias

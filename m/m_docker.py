@@ -14,7 +14,11 @@ class Docker(Base):
         '''Load a docker gz file into docker images'''
         self.shell('docker load < %s.gz' % (app, app))
 
-    def build(self, app):
+    def build2gz(self, app):
+        self.shell('docker build . -t %s' % app)
+        self.shell('docker save %s | gzip -c > %s.gz' % (app, app))
+
+    def release(self, app):
         '''Build a docker image of the app and push to remote repo'''
         config_yml = get_config_yml()
         remove_after = ['./gitlab_rsa', './.dockerignore']
