@@ -4,6 +4,8 @@ include_recipe 'docker::default'
 include_recipe 'supervisord::default'
 
 # common tool
+package 'ffmpeg'
+package 'hdf5-tools'
 package 'software-properties-common'
 package 'silversearcher-ag'
 package 'git'
@@ -30,7 +32,7 @@ package 'gcc'
 package 'libbz2-dev'
 package 'libncurses5-dev'
 package 'libncursesw5-dev'
-#package 'libopenssl-devel'
+# package 'libopenssl-devel'
 package 'libreadline-dev'
 package 'libreadline6'
 package 'libreadline6-dev'
@@ -54,75 +56,93 @@ username = node['server']['username']
 # log output
 
 apt_repository 'nvim' do
-    uri 'ppa:neovim-ppa/unstable'
+  uri 'ppa:neovim-ppa/unstable'
 end
 apt_repository 'git' do
-    uri 'ppa:git-core/ppa'
+  uri 'ppa:git-core/ppa'
 end
 
 package 'git' do
-    action :upgrade
+  action :upgrade
 end
 package 'neovim' do
-    action :upgrade
+  action :upgrade
 end
 
 # setup alias and stuff
 bash 'install git lfs' do
-    user 'root'
-    code <<-EOH
+  user 'root'
+  code <<-EOH
         curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
         apt-get install git-lfs
         git lfs install
     EOH
 end
 
+bash 'install gsutil' do
+  user 'root'
+  code <<-EOH
+    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+    echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+    sudo apt-get update && sudo apt-get install google-cloud-sdk
+    EOH
+end
+
+bash 'install misc' do
+  user 'root'
+  code <<-EOH
+    sudo pip install --upgrade youtube_dl
+    EOH
+end
+
 node['server']['users'].each do |user_info|
-    username = user_info['username']
+  username = user_info['username']
 
-    # creat user
-    user username
-    directory "/home/#{username}" do
-        owner username
-        group username
-        action :create
-    end
+  # creat user
+  user username
+  directory "/home/#{username}" do
+    owner username
+    group username
+    action :create
+  end
 
-    # ensure dev exists
-    directory "/home/#{username}/dev" do
-        mode '0755'
-        only_if { username == 'moomou' }
-        owner username
-        group username
-        action :create
-    end
+  # ensure dev exists
+  directory "/home/#{username}/dev" do
+    mode '0755'
+    only_if { username == 'moomou' }
+    owner username
+    group username
+    action :create
+  end
 
-    # setup alias and stuff
-    bash 'download dotfiles pref' do
-        user username
-        only_if { username == 'moomou' && !::File.exist?(File.expand_path('~/dev')) }
-        code <<-EOH
-            git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
-            cd ~/dev/dotfiles && ./boostrap.sh
-        EOH
-    end
+  # setup alias and stuff
+  # bash 'download dotfiles pref' do
+  # user 'moomou'
+  # only_if { username == 'moomou' && !::File.exist?(File.expand_path('~/dev')) }
+  # code <<-EOH
+  # git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
+  # cd ~/dev/dotfiles && ./boostrap.sh
+  # EOH
+  # end
 
-    #bash 'install tools via curl' do
-        #user username
-        #code <<-EOH
-            #echo 'installing n'
-            #type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
+  # bash 'install tools via curl' do
+  # user username
+  # code <<-EOH
+  # echo 'installing n'
+  # type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
 
-            ## echo 'installing pyenv'
-            ## type pyenv >/dev/null 2>&1 || (curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash) || true
+  ## echo 'installing pyenv'
+  ## type pyenv >/dev/null 2>&1 || (curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash) || true
 
-            #echo 'installing gvm (go version manager)'
-            #type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
+  # echo 'installing gvm (go version manager)'
+  # type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
 
-            #echo setting up .fzf...
-            #git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-            #yes | ~/.fzf/install
-        #EOH
-        #only_if { username == 'moomou' && !::File.directory?('~/.fzf') }
-    #end
+  # echo setting up .fzf...
+  # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  # yes | ~/.fzf/install
+  # EOH
+  # only_if { username == 'moomou' && !::File.directory?('~/.fzf') }
+  # end
 end

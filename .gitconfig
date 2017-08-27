@@ -23,7 +23,7 @@
     email = paul@cueb.io
 [core]
     editor = $EDITOR
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/moomou/.gitignore_global
 [grep]
     linenumber = true
 [filter "media"]

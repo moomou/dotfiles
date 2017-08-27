@@ -2,7 +2,7 @@
 
 # Usage: ./deploy.sh [host]
 host="${1}"
-role="${2:-server}"
+role="${2:-box}"
 
 # The host key might change when we instantiate a new VM, so
 # we remove (-R) the old host key from known_hosts
