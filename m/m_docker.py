@@ -14,11 +14,19 @@ class Docker(Base):
         '''Load a docker gz file into docker images'''
         self.shell('docker load < %s.gz' % (app, app))
 
-    def build2gz(self, app):
+    def build_2_gz(self, app, name=None):
+        name = name or app
         self.shell('docker build . -t %s' % app)
-        self.shell('docker save %s | gzip -c > %s.gz' % (app, app))
+        self.shell('docker save %s | gzip -c > %s.gz' % (app, name))
 
-    def release(self, app):
+    def build_2_gcloud(self, app, name=None):
+        self.build_2_gz(app, name)
+        
+        self.shell(
+            'gsutil -o GSUtil:parallel_composite_upload_threshold=150M cp %s gs://moomou2/%s.gz'
+            % name)
+
+    def build(self, app):
         '''Build a docker image of the app and push to remote repo'''
         config_yml = get_config_yml()
         remove_after = ['./gitlab_rsa', './.dockerignore']
