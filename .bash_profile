@@ -124,7 +124,8 @@ export CUDA_PATH=/usr/local/cuda-8.0
 export PYENV_PATH=/home/moomou/.pyenv/
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 export H5_BIN=~/dev/_opensrc/hdf5-1.10.0-patch1/hdf5/bin
-export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin:$PATH"
+export GOBIN=/usr/local/bin/go/bin
+export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin:$GOBIN:$PATH"
 export PATH="~/.local/bin:~/.fz/bin:$PATH"
 
 # Source the original
