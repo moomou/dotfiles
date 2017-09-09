@@ -41,7 +41,10 @@ class Docker(Base):
     def build(self, app, include_cert=False):
         '''Build a docker image of the app and push to remote repo'''
         config_yml = get_config_yml()
-        remove_after = ['./gitlab_rsa', './.dockerignore']
+        remove_after = [
+            './.dockerignore',
+            './gitlab_rsa',
+        ]
 
         if config_yml.get('resolve'):
             for src, dst in config_yml.get('resolve').items():
