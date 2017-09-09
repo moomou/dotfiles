@@ -27,8 +27,8 @@ class Docker(Base):
         self.build_2_gz(app, name)
 
         self.shell(
-            'gsutil -o GSUtil:parallel_composite_upload_threshold=150M cp %s gs://moomou2/%s.gz'
-            % name)
+            'gsutil -o GSUtil:parallel_composite_upload_threshold=150M cp %s.gz gs://moomou2/%s.gz'
+            % (name, name))
 
     def build_2_chub(self, app, name=None):
         self.build(app, True)
