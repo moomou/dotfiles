@@ -22,6 +22,8 @@ class Docker(Base):
         self.shell('docker save %s | gzip -c > %s.gz' % (app, name))
 
     def build_2_gcloud(self, app, name=None):
+        name = name or app
+
         self.build_2_gz(app, name)
 
         self.shell(
