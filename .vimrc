@@ -124,7 +124,8 @@ end
 
 Plug 'vim-scripts/DeleteTrailingWhitespace'
 Plug 'flazz/vim-colorschemes'
-Plug 'wellsjo/wellsokai.vim'
+Plug 'crusoexia/vim-monokai'
+" Plug 'wellsjo/wellsokai.vim'
 
 Plug 'ervandew/supertab'
 Plug 'mattn/emmet-vim'
@@ -210,7 +211,7 @@ inoremap <4-MiddleMouse> <Nop>
 " Custom Macro
 let @t = 'dwiimport wwxifromwdwds($'
 
-colorscheme wellsokai
+colorscheme monokai
 com! FormatJSON %!python -m json.tool
 
 " Disable py2
