@@ -2,6 +2,7 @@ import csv
 import datetime
 import os
 import random
+import json
 from collections import defaultdict
 
 from tqdm import tqdm
@@ -76,6 +77,11 @@ class AudioData(Base):
                         'speaker': '',
                     })
 
+    def resample_audio(self, input_wav, output_wav, sr=8000, duration=10):
+
+        wav, sr = librosa.core.load(input_wav, sr=sr, duration=duration)
+        librosa.output.write_wav(output_wav, wav, sr)
+
     def gather_youtube_clean(self, fname):
         au = self._module('m_audio.audio_util')
 
@@ -132,11 +138,16 @@ class AudioData(Base):
             self.shell(ffmpeg_exp)
             self.shell('mv -- %s ./data/%s' % (speaker_file, speaker_file))
 
-    def resample_audio(self, input_wav, output_wav, sr=8000, duration=10):
-        librosa = self._module('librosa')
+    def gather_yt_id(self, folder, output=None):
+        audios = [w for w in os.listdir(folder) if os.path.isfile(w)]
+        yt_ids = [w[:11] for w in audios]
+        yt_ids = set(yt_ids)
 
-        wav, sr = librosa.core.load(input_wav, sr=sr, duration=duration)
-        librosa.output.write_wav(output_wav, wav, sr)
+        if output is not None:
+            with open(output, 'w') as f:
+                f.write(json.dumps(list(yt_ids)))
+        else:
+            self._logger.info(yt_ids)
 
     def random_cut(self, input_file, output, duration_sec=300):
         au = self._module('m_audio.audio_util')
