@@ -20,3 +20,4 @@ keys
 /secret/cert/LightsailDefaultPrivateKey-eu-central-1.pem
 /secret/cert/LightsailDefaultPrivateKey-eu-west-1.pem
 *.wav
+/secret/key/ireland1.pem
