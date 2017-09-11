@@ -1,6 +1,7 @@
 import os
 import json
 
+from constant import M_ROOT
 from m_base import Base
 from util import (
     get_config_yml,
@@ -29,6 +30,9 @@ class WWW(Base):
             'requests',
             'markdown2',
         ])
+
+    def serve(self):
+        self.shell('go run %s/server.go' % M_ROOT)
 
     def compile_template(self):
         '''Find jinja2 template and build by using var in config.yaml'''

@@ -6,7 +6,7 @@ if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color --group-directories-first'
     alias gvi='~/.govim.sh'
     alias gvim='~/.govim.sh'
-    alias vi='mvim -v'
+    alias vi='nvim'
 
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
     export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
