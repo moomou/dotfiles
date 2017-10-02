@@ -78,7 +78,7 @@ def speaker_fname(fprefix, speaker_id):
 
 def file_cut_ffmpeg_exp(input_f, start, duration, output_f):
     return '''
-        ffmpeg -i '%s' -ss %s -t %s -c copy %s
+        ffmpeg -ss %s -i '%s' -t %s -c copy %s
     ''' % (input_f, start, duration, output_f)
 
 

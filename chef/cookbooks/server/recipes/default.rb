@@ -12,6 +12,7 @@ package 'git'
 package 'gnupg'
 package 'redis-tools'
 package 'autossh'
+package 'tk-dev'
 
 # py header
 package 'libpython-dev'
@@ -126,23 +127,22 @@ node['server']['users'].each do |user_info|
   # cd ~/dev/dotfiles && ./boostrap.sh
   # EOH
   # end
+  bash 'install tools via curl' do
+    user username
+    code <<-EOH
 
-  # bash 'install tools via curl' do
-  # user username
-  # code <<-EOH
-  # echo 'installing n'
-  # type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
+   echo 'installing n'
+   type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
 
-  ## echo 'installing pyenv'
-  ## type pyenv >/dev/null 2>&1 || (curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash) || true
+  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
   # echo 'installing gvm (go version manager)'
   # type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
 
-  # echo setting up .fzf...
-  # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  # yes | ~/.fzf/install
-  # EOH
-  # only_if { username == 'moomou' && !::File.directory?('~/.fzf') }
-  # end
+   #echo setting up .fzf...
+   #git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+   #yes | ~/.fzf/install
+   EOH
+    only_if { !::File.directory?('~/.fzf') }
+  end
 end

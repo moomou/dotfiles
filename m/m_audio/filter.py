@@ -266,3 +266,13 @@ class AudioFilter(Base):
 
         audio_util.write_wav(fore_sig, sr, './fore.wav')
         audio_util.write_wav(back_sig, sr, './back.wav')
+
+    def trim(self, in_file, sr=8000):
+        audio_util = self._module('m_audio.audio_util')
+        librosa = self._module('librosa')
+
+        data, sr = librosa.core.load(in_file, sr=sr)
+        data, _ = librosa.effects.trim(data, top_db=15)
+
+        fname, ext = os.path.basename(in_file).split('.')
+        audio_util.write_wav(data, sr, '%s_trim.wav' % fname)
