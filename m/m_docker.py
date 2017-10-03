@@ -13,7 +13,7 @@ from m_base import Base
 class Docker(Base):
     def load(self, app):
         '''Load a docker gz file into docker images'''
-        self.shell('docker load < %s.gz' % (app, app))
+        self.shell('docker load < %s.gz' % app)
 
     def build_2_gz(self, app, name=None):
         name = name or app

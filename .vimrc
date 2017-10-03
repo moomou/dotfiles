@@ -154,11 +154,11 @@ Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 let g:go_fmt_command = "goimports"
 let g:go_fmt_experimental = 1
 
-Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
-nmap <Leader>jd :TernDef<CR>
-nmap <Leader>jt :TernType<CR>
-nmap <Leader>jr :TernRefs<CR>
-nmap <Leader>jn :TernRename<CR>
+"Plug 'ternjs/tern_for_vim', {'do': 'npm install'}
+"nmap <Leader>jd :TernDef<CR>
+"nmap <Leader>jt :TernType<CR>
+"nmap <Leader>jr :TernRefs<CR>
+"nmap <Leader>jn :TernRename<CR>
 
 Plug 'vim-scripts/closetag.vim', { 'for': ['xml', 'html', 'xhtml'] }
 Plug 'fatih/vim-go', { 'for': ['go', 'golang'] }

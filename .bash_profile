@@ -7,6 +7,7 @@ if [ "$(uname)" == "Darwin" ]; then
     alias gvi='~/.govim.sh'
     alias gvim='~/.govim.sh'
     alias vi='nvim'
+    alias canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --remote-debugging-port=9222"
 
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
     export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
