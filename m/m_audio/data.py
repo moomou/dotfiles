@@ -1,4 +1,5 @@
 import csv
+import datetime
 import os
 import random
 from collections import defaultdict
@@ -137,11 +138,14 @@ class AudioData(Base):
         wav, sr = librosa.core.load(input_wav, sr=sr, duration=duration)
         librosa.output.write_wav(output_wav, wav, sr)
 
-    def random_cut(self, input_file, output, duration_sec=60):
+    def random_cut(self, input_file, output, duration_sec=300):
         au = self._module('m_audio.audio_util')
+
         start_time = random.randint(30, 120)
+        start_time = datetime.timedelta(seconds=start_time)
 
         ffmpeg_exp = au.file_cut_ffmpeg_exp(input_file, start_time,
                                             duration_sec, output)
+        print(ffmpeg_exp)
 
         self.shell(ffmpeg_exp)
