@@ -1,5 +1,3 @@
-## TODO: Install n for managing node
-## TODO: Install java
 include_recipe 'docker::default'
 include_recipe 'supervisord::default'
 
@@ -13,6 +11,7 @@ package 'gnupg'
 package 'redis-tools'
 package 'autossh'
 package 'tk-dev'
+package 'htop'
 
 # py header
 package 'libpython-dev'
@@ -33,6 +32,9 @@ package 'gcc'
 package 'libbz2-dev'
 package 'libncurses5-dev'
 package 'libncursesw5-dev'
+package 'libopenblas-dev'
+package 'liblapack-dev'
+package 'libopencv-dev'
 # package 'libopenssl-devel'
 package 'libreadline-dev'
 package 'libreadline6'
@@ -46,11 +48,6 @@ package 'openssl'
 package 'tmux'
 package 'xz-utils'
 package 'zlib1g-dev'
-
-package 'htop'
-
-# default user - usually `root`
-username = node['server']['username']
 
 # debugging
 # output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"
@@ -118,31 +115,45 @@ node['server']['users'].each do |user_info|
     action :create
   end
 
-  # setup alias and stuff
-  # bash 'download dotfiles pref' do
-  # user 'moomou'
-  # only_if { username == 'moomou' && !::File.exist?(File.expand_path('~/dev')) }
-  # code <<-EOH
-  # git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
-  # cd ~/dev/dotfiles && ./boostrap.sh
-  # EOH
-  # end
-  bash 'install tools via curl' do
+  bash 'install pyenv and python3' do
     user username
     code <<-EOH
+        export PYENV_ROOT=/home/#{username}/.pyenv
 
-   echo 'installing n'
-   type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
+        apt-get update && \
+            apt-get install -y git mercurial build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev curl tk-dev && \
+            curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
-  curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+        pyenv install 3.6.3
+        env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.3
 
-  # echo 'installing gvm (go version manager)'
-  # type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
+        pyenv global 3.6.3
+      EOH
+  end
 
-   #echo setting up .fzf...
-   #git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-   #yes | ~/.fzf/install
+  bash 'install misc. tools' do
+    user username
+    code <<-EOH
+        echo 'installing n'
+        type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
+
+        echo 'installing gvm (go version manager)'
+        type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
+
+        echo setting up .fzf...
+        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        yes | ~/.fzf/install
    EOH
     only_if { !::File.directory?('~/.fzf') }
+  end
+
+  # setup alias and stuff
+  bash 'download dotfiles pref' do
+    user username
+    only_if { username == 'moomou' && !::File.exist?(File.expand_path('~/dev/dotfiles')) }
+    code <<-EOH
+       git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
+       cd ~/dev/dotfiles && ./boostrap.sh
+      EOH
   end
 end

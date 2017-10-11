@@ -1,4 +1,4 @@
-name 'server'
+name 'box'
 
 depends 'docker'
 depends 'supervisord'
