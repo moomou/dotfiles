@@ -115,17 +115,13 @@ class AudioData(Base):
         data = au.parse_info_txt(fname)
         counter_dict = defaultdict(lambda: 0)
         for row in tqdm(data):
-            url = YOUTUBE_PREFIX % row['file']
-            fname = '%s.mp3' % row['file']
-
             speaker_prefix = au.speaker_fname(row['file'], row['id'])
             speaker_file = '%s_%d.mp3' % (speaker_prefix,
                                           counter_dict[speaker_prefix])
             counter_dict[speaker_prefix] += 1
 
-            if not os.path.isfile(fname):
-                # download file if not already there
-                self.shell(YOUTUBE_DL_CMD + url)
+            cmd = au.ytid_dl_cmd(row['file'])
+            self.shell(cmd)
 
             start_time, end_time, delta = au.parse_time(
                 row['start_m_sec'], row['end_m_sec'])

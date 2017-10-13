@@ -7,6 +7,9 @@ import librosa
 
 logger = logging.getLogger(__name__)
 
+YOUTUBE_PREFIX = 'https://www.youtube.com/watch?v=%s'
+YOUTUBE_DL_CMD = 'youtube-dl -x --audio-format mp3 -o "%(id)s.%(ext)s" '
+
 
 def open_wav(in_file, **kwargs):
     assert in_file.lower().endswith(
@@ -86,3 +89,14 @@ def file_split_ffmpeg_exp(input_f, seg_len, output_exp):
     return '''
         ffmpeg -i '%s' -f segment -segment_time %s -c copy %s
     ''' % (input_f, seg_len, output_exp)
+
+
+def ytid_dl_cmd(ytid):
+    url = YOUTUBE_PREFIX % ytid
+    fname = '%s.mp3' % ytid
+
+    if not os.path.isfile(fname) or os.state(fname).st_ize == 0:
+        # download file if not already there
+        return (YOUTUBE_DL_CMD + url, fname)
+
+    return ('echo %s exists' % fname, fname)

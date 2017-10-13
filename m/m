@@ -11,6 +11,7 @@ from m_deploy import Deploy
 from m_docker import Docker
 from m_keras import Keras
 from m_www import WWW
+from m_pipe import Pipe
 
 from constant import M_ROOT
 
@@ -27,6 +28,7 @@ class M2:
         self.www = WWW
         self.keras = Keras
         self.audio = Audio
+        self.pipe = Pipe
 
     def debug(self):
         logger.info('TBD')

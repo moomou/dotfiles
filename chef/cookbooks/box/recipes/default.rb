@@ -124,10 +124,9 @@ node['server']['users'].each do |user_info|
             apt-get install -y git mercurial build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev curl tk-dev && \
             curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
 
-        pyenv install 3.6.3
-        env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.6.3
+        env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.5.4
 
-        pyenv global 3.6.3
+        pyenv global 3.5.4
       EOH
   end
 

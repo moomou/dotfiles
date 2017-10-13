@@ -45,6 +45,7 @@ alias g="git"
 alias gshort="git rev-parse --short"
 # if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
 alias groot='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && cd $(git rev-parse --show-cdup)'
+alias grootdir='[[ ! -z `echo "$(git rev-parse --show-cdup)" | xargs` ]] && echo $(git rev-parse --show-cdup) || echo .'
 alias gmendq='(groot; sleep 0 && git add . && git ci --amend --no-edit)'
 alias gmend='(groot; sleep 0 && git add . && git ci --amend)'
 alias rebase='git pull --rebase origin master && git sub update --init --jobs 4'

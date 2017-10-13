@@ -149,6 +149,11 @@ Plug 'chrisbra/NrrwRgn'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fz', 'do': 'yes \| ./install --all' }
 nmap <Leader>t :FZF<CR>
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! GFZF execute 'FZF' s:find_git_root()
+nmap <Leader>g :GFZF<CR>
 
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 let g:go_fmt_command = "goimports"

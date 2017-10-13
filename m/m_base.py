@@ -11,9 +11,10 @@ FMT = '[%(asctime)s %(filename)s:%(lineno)d %(levelname)s] %(message)s'
 
 
 class Base(object):
-    def __init__(self, lazy_import=[]):
+    def __init__(self, lazy_import=[], renames=None):
         self._modules_cache = {}
         self._lazy_import = lazy_import
+        self._renames = renames or {}
 
         self._logger = logging.getLogger(type(self).__name__)
         coloredlogs.install(level='INFO', fmt=FMT)
@@ -26,7 +27,11 @@ class Base(object):
 
     def _module(self, m_name):
         if m_name not in self._modules_cache:
+            m_name = self._renames.get(m_name, m_name)
+            self._logger.debug('Loading:: %s', m_name)
+
             assert m_name in self._lazy_import, 'Import not declared:: `%s`' % m_name
+
             m = import_module(m_name)
             self._modules_cache[m_name] = m
 
@@ -34,8 +39,7 @@ class Base(object):
 
     def _all_modules(self):
         for m_name in self._lazy_import:
-            m = import_module(m_name)
-            self._modules_cache[m_name] = m
+            self._module(m_name)
 
         return self._modules_cache
 
