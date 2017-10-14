@@ -60,7 +60,3 @@ fi
 
 # Setting up git
 git config --global core.excludesfile ~/.gitignore_global
-
-# Setting up m
-echo Setting up m
-(cd ./m && ./bootstrap.sh)

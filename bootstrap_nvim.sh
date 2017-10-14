@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# install vim-plug
+curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
 pyenv install 3.4.4
 pyenv virtualenv 3.4.4 neovim3
 
