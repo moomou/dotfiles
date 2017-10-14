@@ -9,3 +9,4 @@ secret/key/droplet_rsa
 secret/key/gitlab_rsa
 secret/key/ireland1.pem
 secret/key/personal_rsa
+secret/key/whatupdave.pem
