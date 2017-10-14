@@ -95,9 +95,7 @@ bash 'install misc' do
     EOH
 end
 
-node['server']['users'].each do |user_info|
-  username = user_info['username']
-
+node['bootstrapUser'].each do |username|
   group "create #{username} sudo" do
     group_name 'sudo'
     members username

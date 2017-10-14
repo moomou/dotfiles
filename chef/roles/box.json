@@ -2,6 +2,9 @@
   "run_list": [
     "recipe[box::default]"
   ],
+  "bootstrapUser": [
+    "moomou"
+  ],
   "server": {
     "username": "moomou",
     "users": [
