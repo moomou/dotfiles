@@ -153,6 +153,5 @@ class AudioData(Base):
 
         ffmpeg_exp = au.file_cut_ffmpeg_exp(input_file, start_time,
                                             duration_sec, output)
-        print(ffmpeg_exp)
-
+        self._logger.debug(ffmpeg_exp)
         self.shell(ffmpeg_exp)

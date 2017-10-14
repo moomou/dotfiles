@@ -2,10 +2,11 @@ import logging
 import logging.config
 import os
 import subprocess
-
 from importlib import import_module
 
 import coloredlogs
+
+import shell_util
 
 FMT = '[%(asctime)s %(filename)s:%(lineno)d %(levelname)s] %(message)s'
 
@@ -48,13 +49,4 @@ class Base(object):
 
     def shell(self, cmd, timeout=None):
         self._logger.debug(cmd)
-
-        p = subprocess.Popen(cmd, shell=True)
-
-        try:
-            outs, errs = p.communicate()
-        except Exception as e:
-            p.kill()
-            outs, errs = p.communicate()
-
-        return p.returncode, outs, errs
+        return shell_util.shell(cmd, timeout)

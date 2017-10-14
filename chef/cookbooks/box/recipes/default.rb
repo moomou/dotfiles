@@ -96,19 +96,10 @@ bash 'install misc' do
 end
 
 node['bootstrapUser'].each do |username|
-  group "create #{username} sudo" do
-    group_name 'sudo'
-    members username
-    action :modify
-    append true
-  end
-
   # creat user
-  user username
-  directory "/home/#{username}" do
-    owner username
-    group username
-    action :create
+  user username do
+    home "/home/#{username}"
+    manage_home true
   end
 
   # ensure dev exists
@@ -118,6 +109,13 @@ node['bootstrapUser'].each do |username|
     owner username
     group username
     action :create
+  end
+
+  group "create #{username} sudo" do
+    group_name 'sudo'
+    members username
+    action :modify
+    append true
   end
 
   # bash 'install misc. tools' do
@@ -139,11 +137,10 @@ node['bootstrapUser'].each do |username|
   # setup alias and stuff
   bash 'download dotfiles pref' do
     user username
-    only_if { username == 'moomou' && !::File.exist?(File.expand_path('~/dev/dotfiles')) }
+    only_if { username == 'moomou' && !::File.exist?(File.expand_path("/home/#{username}/dotfiles")) }
     code <<-EOH
         mkdir -p ~/dev
-        git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
-        cd ~/dev/dotfiles && ./boostrap.sh
+        git clone https://github.com/moomou/dotfiles.git /home/#{username}/dev/dotfiles
     EOH
   end
 end
