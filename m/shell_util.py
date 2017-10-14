@@ -1,7 +1,7 @@
 import subprocess
 
 
-def shell(self, cmd, timeout=None):
+def shell(cmd, timeout=None):
     p = subprocess.Popen(cmd, shell=True)
 
     try:
