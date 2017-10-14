@@ -120,40 +120,30 @@ node['bootstrapUser'].each do |username|
     action :create
   end
 
-  bash 'install pyenv and python3' do
-    user username
-    code <<-EOH
-        export PYENV_ROOT=/home/#{username}/.pyenv
+  # bash 'install misc. tools' do
+  # user username
+  # code <<-EOH
+  # echo 'installing n'
+  # type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
 
-        curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-        # env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.5.4
-        # pyenv global 3.5.4
-      EOH
-  end
+  # echo 'installing gvm (go version manager)'
+  # type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
 
-  bash 'install misc. tools' do
-    user username
-    code <<-EOH
-        echo 'installing n'
-        type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
-
-        echo 'installing gvm (go version manager)'
-        type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
-
-        echo setting up .fzf...
-        git clone --depth 1 https://github.com/junegunn/fzf.git /home/#{username}/.fzf
-        yes | ~/.fzf/install
-   EOH
-    only_if { !::File.directory?('~/.fzf') }
-  end
+  # echo setting up .fzf...
+  # git clone --depth 1 https://github.com/junegunn/fzf.git /home/#{username}/.fzf
+  # yes | ~/.fzf/install
+  # EOH
+  # only_if { !::File.directory?('~/.fzf') }
+  # end
 
   # setup alias and stuff
   bash 'download dotfiles pref' do
     user username
     only_if { username == 'moomou' && !::File.exist?(File.expand_path('~/dev/dotfiles')) }
     code <<-EOH
-       git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
-       cd ~/dev/dotfiles && ./boostrap.sh
-      EOH
+        mkdir -p ~/dev
+        git clone https://github.com/moomou/dotfiles.git ~/dev/dotfiles
+        cd ~/dev/dotfiles && ./boostrap.sh
+    EOH
   end
 end
