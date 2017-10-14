@@ -21,3 +21,4 @@ keys
 /secret/cert/LightsailDefaultPrivateKey-eu-west-1.pem
 *.wav
 /secret/key/ireland1.pem
+/secret/key/whatupdave.pem

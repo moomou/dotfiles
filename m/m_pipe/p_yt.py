@@ -1,5 +1,6 @@
 import subprocess
 
+import tqdm
 import deco
 
 
@@ -23,7 +24,7 @@ def process(cmds):
 
 @deco.synchronized
 def parallel(tasks):
-    for cmds in tasks:
+    for cmds in tqdm.tqdm(tasks):
         process(cmds)
 
 
@@ -42,21 +43,19 @@ class Worker:
         '''
         json_util = self.pipe._module('json_util')
         fs_util = self.pipe._module('fs_util')
-        tqdm = self.pipe._module('tqdm')
         au = self.pipe._module('audio_util')
 
         data_dir = fs_util.mkdir_data(self.name)
         ytids = json_util.load(filename)
 
         tasks = []
-        for ytid, start, end in tqdm.tqdm(ytids):
+        for ytid, start, end in ytids:
             cmd, fname = au.ytid_dl_cmd(ytid)
 
             seg_fname = 'seg_%s.mp3' % ytid
             ffmpeg_exp = au.file_cut_ffmpeg_exp(fname, start,
                                                 float(end) - float(start),
                                                 seg_fname)
-
             tasks.append([
                 cmd,
                 ffmpeg_exp,

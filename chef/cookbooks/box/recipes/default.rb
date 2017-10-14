@@ -84,7 +84,7 @@ bash 'install gsutil' do
     echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
 
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-    sudo apt-get update && sudo apt-get install google-cloud-sdk
+    sudo apt-get update && sudo apt-get install -y google-cloud-sdk
     EOH
 end
 
@@ -97,6 +97,13 @@ end
 
 node['server']['users'].each do |user_info|
   username = user_info['username']
+
+  group "create #{username} sudo" do
+    group_name 'sudo'
+    members username
+    action :modify
+    append true
+  end
 
   # creat user
   user username
@@ -120,13 +127,9 @@ node['server']['users'].each do |user_info|
     code <<-EOH
         export PYENV_ROOT=/home/#{username}/.pyenv
 
-        apt-get update && \
-            apt-get install -y git mercurial build-essential libssl-dev libbz2-dev libreadline-dev libsqlite3-dev curl tk-dev && \
-            curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
-
-        env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.5.4
-
-        pyenv global 3.5.4
+        curl -L https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer | bash
+        # env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.5.4
+        # pyenv global 3.5.4
       EOH
   end
 
@@ -140,7 +143,7 @@ node['server']['users'].each do |user_info|
         type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
 
         echo setting up .fzf...
-        git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+        git clone --depth 1 https://github.com/junegunn/fzf.git /home/#{username}/.fzf
         yes | ~/.fzf/install
    EOH
     only_if { !::File.directory?('~/.fzf') }
