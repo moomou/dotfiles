@@ -223,7 +223,7 @@ com! FormatJSON %!python -m json.tool
 let g:loaded_python_provider = 1
 
 if $HOME =~ "/Users"
-   let g:python3_host_prog = '/Users/moomou/.pyenv/versions/neovim3/bin/python'
+   let g:python3_host_prog = "/Users/".$USER."/.pyenv/versions/neovim3/bin/python"
 else
-    let g:python3_host_prog = '/home/moomou/.pyenv/versions/neovim3/bin/python'
+    let g:python3_host_prog = "/home/".$USER."/.pyenv/versions/neovim3/bin/python"
 end

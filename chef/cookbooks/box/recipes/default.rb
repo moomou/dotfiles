@@ -135,14 +135,4 @@ node['bootstrapUser'].each do |username|
   # EOH
   # only_if { !::File.directory?('~/.fzf') }
   # end
-
-  # setup alias and stuff
-  bash 'download dotfiles pref' do
-    user username
-    only_if { username == 'moomou' && !::File.exist?(File.expand_path("/home/#{username}/dotfiles")) }
-    code <<-EOH
-        mkdir -p ~/dev
-        git clone https://github.com/moomou/dotfiles.git /home/#{username}/dev/dotfiles
-    EOH
-  end
 end
