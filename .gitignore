@@ -22,3 +22,5 @@ keys
 *.wav
 /secret/key/ireland1.pem
 /secret/key/whatupdave.pem
+flake8
+yapf
