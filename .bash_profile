@@ -123,7 +123,7 @@ function BashPrompt() {
 # Some generic env var
 export GOPATH=$HOME/go
 export CUDA_PATH=/usr/local/cuda-8.0
-export PYENV_PATH=/home/moomou/.pyenv/
+export PYENV_PATH=/home/$USER/.pyenv/
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 export H5_BIN=~/dev/_opensrc/hdf5-1.10.0-patch1/hdf5/bin
 export GOBIN=/usr/local/bin/go/bin
