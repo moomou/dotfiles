@@ -8,4 +8,4 @@ pyenv global 3.5.4
 
 # Setting up m
 echo Setting up m
-(cd ./m && ./bootstrap.sh)
+(cd ./m && sudo ./bootstrap.sh)

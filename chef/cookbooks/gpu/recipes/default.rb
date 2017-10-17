@@ -17,12 +17,14 @@ bash 'download and install nvidia drivers' do
     tar -xvf cudnn-8.0-linux-x64-v5.1.tgz
     (
         cd cuda &&  \
+        mkdir -p /usr/local/cuda/lib64 &&  \
+        mkdir -p /usr/local/cuda/include && \
         cp lib64/* /usr/local/cuda/lib64 && \
         cp include/* /usr/local/cuda/include
     )
 
     # recommended by tensorflow
-    apt-get install libcupti-dev
+    apt-get install -y libcupti-dev
 
     # TODO: relying these to be in dotfiles repo a good idea?
     # echo export LD_LIBRARY_PATH=/usr/local/cuda/lib64/:$LD_LIBRARY_PATH >> ~/.bash_profile

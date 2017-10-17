@@ -14,6 +14,7 @@ keys
 /secret/key/droplet_rsa
 /secret/key/gitlab_rsa
 /secret/key/personal_rsa
+/secret/key/dave-oregon.pem
 *.pyc
 *.swp
 /secret/gh_graphql.txt
@@ -24,3 +25,4 @@ keys
 /secret/key/whatupdave.pem
 flake8
 yapf
+
