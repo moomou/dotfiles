@@ -9,7 +9,7 @@ bash 'download and install nvidia drivers' do
     wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1604/x86_64/cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
     dpkg -i cuda-repo-ubuntu1604_8.0.61-1_amd64.deb
     apt-get update
-    apt-get install cuda
+    apt-get install -y cuda-8-0
 
     # Install CUDNN versino v5.1
     wget https://storage.googleapis.com/moomou2/dep/cudnn-8.0-linux-x64-v5.1.tgz
