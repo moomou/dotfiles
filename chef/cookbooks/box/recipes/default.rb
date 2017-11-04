@@ -53,6 +53,10 @@ package 'openssl'
 package 'tmux'
 package 'xz-utils'
 package 'zlib1g-dev'
+package 'libmicrohttpd-dev'
+package 'libssl-dev'
+package 'cmake'
+package 'libhwloc-dev'
 
 # debugging
 # output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"

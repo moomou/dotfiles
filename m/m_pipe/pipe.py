@@ -18,8 +18,13 @@ class PipeRunner(Base):
 
     def run(self, script):
         '''Provide all the utilities available to in_'''
-        spec = importlib.util.spec_from_file_location(script,
-                                                      './%s.py' % script)
+        if not script.endswith('.py'):
+            mod_name = script
+            script = '%s.py' % script
+        else:
+            mod_name = script[:-3]
+
+        spec = importlib.util.spec_from_file_location(mod_name, script)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
 
