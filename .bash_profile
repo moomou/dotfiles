@@ -51,6 +51,9 @@ alias sops='cd ~/smyte-ops/'
 alias pylib='cd ~/authbox/pylib'
 alias sdkpy='cd ~/authbox/sdk/python/smyte-utils/src'
 alias gke='sops && cd gke-primary'
+alias pp='ssh prod-prerelease1'
+
+alias kd='KUBECONFIG=/home/paul/.smyte/gke/kubeconfig-dev kubectl'
 
 ## Global ag ignore
 alias ag='ag --path-to-agignore=~/.agignore'
@@ -131,7 +134,6 @@ export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='echo -n $(BashPrompt)'
 export HISTTIMEFORMAT="%d/%m/%y %T "
-export KUBECONFIG=/home/paul/.smyte/gke/kubeconfig kubectl
 
 function initpyenv() {
   eval "$(pyenv init -)"
@@ -141,3 +143,5 @@ function initpyenv() {
 if [ "$(uname)" == "Linux" ]; then
     initpyenv
 fi
+
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

@@ -126,15 +126,15 @@ nmap <silent> <C-S-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-S-j> <Plug>(ale_next_wrap)
 let g:ale_linters = {
 \   'javascript': ['eslint'],
-\   'python': ['/home/paul/.pyenv/versions/neovim3/bin/flake8'],
+\   'python': ['flake8'],
 \}
-if $ACPOWER == '1'
-    " Write this in your vimrc file
-    let g:ale_lint_on_text_changed = 'never'
-    " " You can disable this option too
-    " " if you don't want linters to run on opening a file
-    let g:ale_lint_on_enter = 0
-end
+"if $ACPOWER == '1'
+    "" Write this in your vimrc file
+    "let g:ale_lint_on_text_changed = 'never'
+    "" " You can disable this option too
+    "" " if you don't want linters to run on opening a file
+    "let g:ale_lint_on_enter = 0
+"end
 
 Plug 'vim-scripts/DeleteTrailingWhitespace'
 Plug 'flazz/vim-colorschemes'
@@ -155,6 +155,12 @@ Plug 'chrisbra/NrrwRgn'
 
 Plug 'junegunn/fzf', { 'dir': '~/.fz', 'do': 'yes \| ./install --all' }
 nmap <Leader>t :FZF<CR>
+nmap <Leader>e :FZF ~/authbox/authbox-api/tests<CR>
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! GFZF execute 'FZF' s:find_git_root()
+nmap <Leader>g :GFZF<CR>
 
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 let g:go_fmt_command = "goimports"
