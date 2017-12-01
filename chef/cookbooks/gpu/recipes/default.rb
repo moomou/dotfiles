@@ -28,7 +28,7 @@ bash 'download and install nvidia drivers' do
     apt-get install -y libcupti-dev
 
     # nccl
-    wget https://storage.googleapis.com/moomou2/dep/nccl-repo-ubuntu1604-2.0.5-ga-cuda8.0_2-1_amd64.deb
+    wget https://storage.googleapis.com/mlab9/dep/nccl-repo-ubuntu1604-2.0.5-ga-cuda8.0_2-1_amd64.deb
     dpkg -i nccl-repo-ubuntu1604-2.0.5-ga-cuda8.0_2-1_amd64.deb
     apt update
     apt install -y libnccl2=2.0.5-2+cuda8.0 \
@@ -39,14 +39,14 @@ bash 'download and install nvidia drivers' do
     EOH
 end
 
-bash 'download and install openmpi' do
-  cwd '/tmp'
-  user 'root'
-  code <<-EOH
-    wget https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.0.tar.gz
-    gunzip -c openmpi-3.0.0.tar.gz | tar xf -
-    cd openmpi-3.0.0
-    ./configure --prefix=/usr/local --with-cuda
-    make all install
-    EOH
-end
+# bash 'download and install openmpi' do
+# cwd '/tmp'
+# user 'root'
+# code <<-EOH
+# wget https://www.open-mpi.org/software/ompi/v3.0/downloads/openmpi-3.0.0.tar.gz
+# gunzip -c openmpi-3.0.0.tar.gz | tar xf -
+# cd openmpi-3.0.0
+# ./configure --prefix=/usr/local --with-cuda
+# make all install
+# EOH
+# end
