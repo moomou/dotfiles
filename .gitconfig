@@ -23,7 +23,9 @@
     email = paul@cueb.io
 [core]
     editor = $EDITOR
-	excludesfile = /Users/moomou/.gitignore_global
+	excludesfile = ~/.gitignore_global
+	fscache = true
+	preloadindex = true
 [grep]
     linenumber = true
 [filter "media"]
@@ -37,8 +39,5 @@
 	clean = git hawser clean %f
 	smudge = git hawser smudge %f
 	required = true
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+[gc]
+	auto = 256

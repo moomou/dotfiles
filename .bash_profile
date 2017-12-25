@@ -64,7 +64,7 @@ ginit() {
 alias dev='cd ~/dev'
 alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
-alias vpnw='ssh -C2qTnN -D 8081 vpn'
+alias vpnw='ssh -C2qTnN -D 8081 vpn -C'
 
 # tmux shortcuts
 alias tl="tmux list-session"
@@ -126,7 +126,6 @@ export CUDA_PATH=/usr/local/cuda-8.0
 export PYENV_PATH=/home/$USER/.pyenv/
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 export H5_BIN=~/dev/_opensrc/hdf5-1.10.0-patch1/hdf5/bin
-export GOBIN=/usr/local/bin/go/bin
 export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin:$GOBIN:$PATH"
 export PATH="~/.local/bin:~/.fz/bin:$PATH"
 
@@ -143,6 +142,7 @@ source ~/.git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
+
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='last_command_exit_code="${_}#${?}" && BashPrompt'
 
