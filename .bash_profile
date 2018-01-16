@@ -144,4 +144,6 @@ if [ "$(uname)" == "Linux" ]; then
     initpyenv
 fi
 
+. ~/.extraBin/z.sh
+
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
