@@ -97,6 +97,10 @@ vnoremap <C-c> <Esc>
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.vim/plugged')
 
+Plug 'HerringtonDarkholme/yats.vim'
+
+Plug 'mhartington/nvim-typescript'
+
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 
@@ -194,7 +198,7 @@ au BufNewFile,BufRead *.jsx set filetype=javascript
 au BufWrite * :DeleteTrailingWhitespace
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,partial,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag.vim/plugin/closetag.vim
-autocmd FileType cpp,html,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
+autocmd FileType cpp,html,java,coffee,typescript,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
 autocmd FileType python set cc=80
 autocmd FileType python inoremap # X<BS>#
 autocmd FileType scala set cc=100
