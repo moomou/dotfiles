@@ -8,9 +8,10 @@ pyenv install 3.4.4
 pyenv virtualenv 3.4.4 neovim3
 
 pyenv activate neovim3
-pip3 install neovim yapf flake8
+pip3 install neovim yapf flake8 mypy
 
 ln -s `pyenv which flake8` ~/.local/bin/flake8
 ln -s `pyenv which yapf` ~/.local/bin/yapf
+ln -s `pyenv which mypy` ~/.local/bin/mypy
 
 echo `which python3`

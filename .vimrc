@@ -125,7 +125,6 @@ end
 Plug 'vim-scripts/DeleteTrailingWhitespace'
 Plug 'flazz/vim-colorschemes'
 Plug 'crusoexia/vim-monokai'
-" Plug 'wellsjo/wellsokai.vim'
 
 Plug 'ervandew/supertab'
 Plug 'mattn/emmet-vim'
