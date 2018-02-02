@@ -34,7 +34,7 @@ fi
 alias ..="cd .."
 
 # ssh alias
-alias ssh='autossh -M 0'
+# alias ssh='autossh -M 0'
 
 # connect to your server
 alias bx='ssh -t spa /usr/bin/ssh -i /root/.ssh/keys/personal_rsa moomou@localhost -p 2222'
