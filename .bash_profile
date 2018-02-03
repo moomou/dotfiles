@@ -11,7 +11,6 @@ if [ "$(uname)" == "Darwin" ]; then
 
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
     export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
-    export ELASTIC_HOME='/Applications/elasticsearch-1.5.2'
 
     # set power status on osx
     if [[ $(pmset -g ps | head -1) =~ "AC Power" ]]; then
@@ -123,13 +122,13 @@ function BashPrompt() {
 
 # Some generic env var
 export GOPATH=$HOME/go
+export PYENV_PATH=$HOME/.pyenv/
 export PROTOC_BIN=/usr/local/protoc/bin
 export CUDA_PATH=/usr/local/cuda-8.0
-export PYENV_PATH=/home/$USER/.pyenv/
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 export H5_BIN=~/dev/_opensrc/hdf5-1.10.0-patch1/hdf5/bin
-export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$ELASTIC_HOME/bin:$MATLAB_HOME/bin:/Users/moomou/bin:$PROTOC_BIN:$PATH"
-export PATH="~/.local/bin:~/.fz/bin:$PATH"
+export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$MATLAB_HOME/bin:~/bin:$PROTOC_BIN:$PATH"
+export PATH="~/.fz/bin:$PATH"
 
 # Source the original
 source ~/.bashrc

@@ -114,6 +114,7 @@ inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 Plug 'w0rp/ale'
 nmap <silent> <C-S-k> <Plug>(ale_previous_wrap)
 nmap <silent> <C-S-j> <Plug>(ale_next_wrap)
+
 if $ACPOWER == '1'
     " Write this in your vimrc file
     let g:ale_lint_on_text_changed = 'never'
@@ -220,7 +221,6 @@ com! FormatJSON %!python -m json.tool
 
 " Disable py2
 let g:loaded_python_provider = 1
-
 if $HOME =~ "/Users"
    let g:python3_host_prog = "/Users/".$USER."/.pyenv/versions/neovim3/bin/python"
 else

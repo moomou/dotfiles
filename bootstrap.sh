@@ -8,6 +8,8 @@ pyenv global 3.5.4
 
 so ~/.bash_profile
 
+mkdir -p ~/bin
+
 # Setting up m
 echo Setting up m
 (cd ./m && sudo ./bootstrap.sh)
