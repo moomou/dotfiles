@@ -98,7 +98,7 @@ vnoremap <C-c> <Esc>
 call plug#begin('~/.vim/plugged')
 
 Plug 'HerringtonDarkholme/yats.vim'
-
+Plug 'luochen1990/rainbow'
 Plug 'mhartington/nvim-typescript'
 
 Plug 'bling/vim-airline'
@@ -166,9 +166,9 @@ endfunction
 command! GFZF execute 'FZF' s:find_git_root()
 nmap <Leader>g :GFZF<CR>
 
-Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-let g:go_fmt_command = "goimports"
-let g:go_fmt_experimental = 1
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries',  'for': ['go', 'golang'] }
+"let g:go_fmt_command = "goimports"
+"let g:go_fmt_experimental = 1
 
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 nmap <Leader>jd :TernDef<CR>
@@ -177,7 +177,6 @@ nmap <Leader>jr :TernRefs<CR>
 nmap <Leader>jn :TernRename<CR>
 
 Plug 'vim-scripts/closetag.vim', { 'for': ['xml', 'html', 'xhtml'] }
-Plug 'fatih/vim-go', { 'for': ['go', 'golang'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': ['javascript'] }
 
