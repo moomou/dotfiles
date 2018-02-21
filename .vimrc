@@ -124,8 +124,10 @@ if $ACPOWER == '1'
 end
 
 Plug 'vim-scripts/DeleteTrailingWhitespace'
+Plug 'luochen1990/rainbow'
 Plug 'flazz/vim-colorschemes'
 Plug 'crusoexia/vim-monokai'
+Plug 'ludovicchabant/vim-gutentags'
 
 Plug 'ervandew/supertab'
 Plug 'mattn/emmet-vim'
