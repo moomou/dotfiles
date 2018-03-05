@@ -97,8 +97,11 @@ vnoremap <C-c> <Esc>
 " Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged)
 call plug#begin('~/.vim/plugged')
 
+Plug 'nathanaelkane/vim-indent-guides'
+
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
+let g:airline_section_c = '%F'
 
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 let g:deoplete#enable_at_startup = 1

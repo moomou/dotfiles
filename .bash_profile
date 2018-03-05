@@ -72,7 +72,7 @@ alias ta="tmux attach-session -t"
 alias ts="tmux new-session -s"
 
 ## Global ag ignore
-alias ag='ag --path-to-agignore=~/.agignore'
+alias ag='ag --path-to-ignore=~/.agignore'
 
 ## Make vim the default
 export EDITOR=vim
@@ -128,6 +128,7 @@ export CUDA_PATH=/usr/local/cuda-8.0
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 export H5_BIN=~/dev/_opensrc/hdf5-1.10.0-patch1/hdf5/bin
 export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$MATLAB_HOME/bin:~/bin:$PROTOC_BIN:$PATH"
+export PATH=~/.local/bin:$PATH
 export PATH="~/.fz/bin:$PATH"
 
 # Source the original
