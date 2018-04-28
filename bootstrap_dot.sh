@@ -45,6 +45,7 @@ symlink ".eslintrc"
 symlink ".gitignore_global"
 symlink ".jshintrc"
 symlink ".sbtconfig"
+symlink ".prettierrc"
 
 # Random script for different os
 if [ `uname` = "Darwin" ]; then

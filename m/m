@@ -13,6 +13,7 @@ from m_keras import Keras
 from m_pipe import Pipe
 from m_watcher import Watcher
 from m_www import WWW
+from m_shell import Shell
 
 from constant import M_ROOT
 
@@ -31,6 +32,7 @@ class M2:
         self.audio = Audio
         self.pipe = Pipe
         self.watcher = Watcher
+        self.shell = Shell
 
     def debug(self):
         logger.info('TBD')

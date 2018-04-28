@@ -75,7 +75,7 @@ alias ts="tmux new-session -s"
 alias ag='ag --path-to-ignore=~/.agignore'
 
 ## Make vim the default
-export EDITOR=vim
+export EDITOR=vi
 
 ## Bash Completion
 if [ -f /etc/bash_completion ]; then
@@ -172,3 +172,5 @@ if [ "$(uname)" == "Linux" ]; then
 fi
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+export PATH="$HOME/.cargo/bin:$PATH"

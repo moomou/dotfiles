@@ -11,3 +11,7 @@ __pycache__
 tags
 tags.lock
 tags.temp
+node_modules
+x_*
+vendor/
+go/pkg/
