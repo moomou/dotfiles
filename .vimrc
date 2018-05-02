@@ -98,6 +98,7 @@ vnoremap <C-c> <Esc>
 call plug#begin('~/.vim/plugged')
 
 Plug 'nathanaelkane/vim-indent-guides'
+let g:indent_guides_enable_on_vim_startup = 1
 
 Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
@@ -137,6 +138,8 @@ Plug 'mattn/emmet-vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'Chiel92/vim-autoformat'
+"let g:formatter_yapf_style = 'pep8'
+
 Plug 'sbdchd/neoformat'
 autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ es5
 " Use formatprg when available
