@@ -40,8 +40,8 @@ class Shell(Base):
                 dup[md5] += 1
             else:
                 target = pathlib.Path('%s.csv' % md5)
-                self.__logger.info(src, '->', target)
+                self._logger.info(src, '->', target)
                 src.rename(target)
                 renamed.add(md5)
 
-        self.__logger.warning('Dup files: %s', dup)
+        self._logger.warning('Dup files: %s', dup)
