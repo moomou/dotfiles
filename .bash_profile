@@ -72,7 +72,7 @@ alias ta="tmux attach-session -t"
 alias ts="tmux new-session -s"
 
 ## Global ag ignore
-alias ag='ag --path-to-ignore=~/.agignore'
+alias ag='ag' # --path-to-ignore=~/.agignore'
 
 ## Make vim the default
 export EDITOR=vi
@@ -132,7 +132,7 @@ export PATH=~/.local/bin:$PATH
 export PATH="~/.fz/bin:$PATH"
 
 # Source the original
-source ~/.bashrc
+source ~/.bashrc 2> /dev/null
 
 # source files if exists
 # TODO: refactor into common func
