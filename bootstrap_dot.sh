@@ -50,8 +50,8 @@ symlink ".prettierrc"
 # Random script for different os
 if [ `uname` = "Darwin" ]; then
     symlink "vimGoWrapper.sh" ".govim.sh"
-    symlink "gogo.sh" "gogo.sh"
-    symlink "godep.sh" "godep.sh"
+    symlink "gogo" "gogo"
+    symlink "godep" "godep"
     symlink "./extraBin/imgcat" "imgcat"
 fi
 

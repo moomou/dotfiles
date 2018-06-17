@@ -167,9 +167,7 @@ if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/mo
 if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/completion.bash.inc'; fi
 
 
-if [ "$(uname)" == "Linux" ]; then
-    initpyenv
-fi
+initpyenv
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
