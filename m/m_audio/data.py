@@ -34,9 +34,8 @@ class AudioData(Base):
 
     def extract_audio_line(self, in_file, out_file, start, end):
         '''Extract audio from `start` to `end` as wave'''
-        cmd = '''ffmpeg -i %s -ss %s -t %s -f wav %s''' % (in_file, start,
-                                                           end - start,
-                                                           out_file)
+        cmd = '''ffmpeg -i %s -ss %s -t %s -f wav %s''' % (
+            in_file, start, end - start, out_file)
 
         self.shell(cmd)
 
@@ -84,6 +83,9 @@ class AudioData(Base):
         librosa.output.write_wav(output_wav, wav, sr)
 
     def gather_youtube_clean(self, fname, cut=True):
+        '''
+        Downloads a list of youtube ids and randomly sample a segment
+        '''
         au = self._module('m_audio.audio_util')
 
         data = au.parse_clean_txt(fname)
@@ -111,13 +113,12 @@ class AudioData(Base):
 
         _sync()
 
-    def gather_youtube_info(self, fname):
+    def gather_youtube_segments(self, fname):
+        '''
+        Parses a csv of youtube ids and cut the specified segment
+        '''
         au = self._module('m_audio.audio_util')
-
-        try:
-            os.mkdir('data')
-        except:
-            pass
+        os.mkdir('data', exist_ok=True)
 
         data = au.parse_info_txt(fname)
         counter_dict = defaultdict(lambda: 0)
