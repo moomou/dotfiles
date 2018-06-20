@@ -34,8 +34,9 @@ class AudioData(Base):
 
     def extract_audio_line(self, in_file, out_file, start, end):
         '''Extract audio from `start` to `end` as wave'''
-        cmd = '''ffmpeg -i %s -ss %s -t %s -f wav %s''' % (
-            in_file, start, end - start, out_file)
+        cmd = '''ffmpeg -i %s -ss %s -t %s -f wav %s''' % (in_file, start,
+                                                           end - start,
+                                                           out_file)
 
         self.shell(cmd)
 
@@ -118,14 +119,13 @@ class AudioData(Base):
         Parses a csv of youtube ids and cut the specified segment
         '''
         au = self._module('m_audio.audio_util')
-        os.mkdir('data', exist_ok=True)
+        os.makedirs('data', exist_ok=True)
 
         data = au.parse_info_txt(fname)
         counter_dict = defaultdict(lambda: 0)
         for row in tqdm(data):
             speaker_prefix = au.speaker_fname(row['file'], row['id'])
-            speaker_file = '%s_%d.mp3' % (speaker_prefix,
-                                          counter_dict[speaker_prefix])
+
             counter_dict[speaker_prefix] += 1
 
             cmd = au.ytid_dl_cmd(row['file'])
@@ -133,8 +133,12 @@ class AudioData(Base):
 
             start_time, end_time, delta = au.parse_time(
                 row['start_m_sec'], row['end_m_sec'])
+            speaker_file = '%s~%d~%s~%s.mp3' % (speaker_prefix,
+                                                counter_dict[speaker_prefix],
+                                                row['start_m_sec'],
+                                                row['end_m_sec'])
 
-            ffmpeg_exp = au.file_cut_ffmpeg_exp(fname,
+            ffmpeg_exp = au.file_cut_ffmpeg_exp('%s.mp3' % row['file'],
                                                 start_time.strftime('%M:%S'),
                                                 delta.total_seconds(),
                                                 speaker_file)

@@ -18,8 +18,8 @@ def open_wav(in_file, **kwargs):
     sig, freq = librosa.load(in_file, **kwargs)
 
     logger.debug('wav freq:: %s' % freq)
-    logger.debug('wav sig:: %s, %s, %s, %s', sig, sig.shape,
-                 sig.min(), sig.max())
+    logger.debug('wav sig:: %s, %s, %s, %s', sig, sig.shape, sig.min(),
+                 sig.max())
 
     return sig, freq
 
@@ -68,7 +68,11 @@ def parse_time(start_time_str, end_time_str):
     assert end_time > start_time, 'Sanity check'
 
     delta = end_time - start_time
-    return (start_time, end_time, delta, )
+    return (
+        start_time,
+        end_time,
+        delta,
+    )
 
 
 def speaker_fname(fprefix, speaker_id):
@@ -95,7 +99,7 @@ def ytid_dl_cmd(ytid):
     url = YOUTUBE_PREFIX % ytid
     fname = '%s.mp3' % ytid
 
-    if not os.path.isfile(fname) or os.state(fname).st_ize == 0:
+    if not os.path.isfile(fname) or os.stat(fname).st_size == 0:
         # download file if not already there
         return (YOUTUBE_DL_CMD + url, fname)
 
