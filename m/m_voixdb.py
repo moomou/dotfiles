@@ -19,12 +19,7 @@ class Voixdb(Base):
             'librosa',
         ])
 
-    def register(self, dir, dataset_id='0', server='http://localhost:5000'):
-        '''
-        Given a data dir prepared by m_audio.gather_youtube_segments, register these
-        voixdb instance.
-        '''
-        AudioSegment = self._module('pydub').AudioSegment
+    def _process(self, dir, dataset_id, server, svc):
         librosa = self._module('librosa')
 
         for f in os.listdir(dir):
@@ -40,11 +35,21 @@ class Voixdb(Base):
                 file = io.BytesIO(
                     json.dumps(data.tolist())[1:-1].encode('utf-8'))
 
-                requests.post(
-                    server + '/register/%s/%s' % (dataset_id, spkid),
+                result = requests.post(
+                    server + '/%s/%s/%s' % (svc, dataset_id, spkid),
                     files={
                         'bin': file,
                     },
                     data={'meta': json.dumps({
                         'sr': SAMPLE_RATE,
                     })})
+
+    def identify(self, dir, dataset_id='0', server='http://localhost:5000'):
+        return self._process(dir, dataset_id, server, 'identify')
+
+    def register(self, dir, dataset_id='0', server='http://localhost:5000'):
+        '''
+        Given a data dir prepared by m_audio.gather_youtube_segments, register these
+        voixdb instance.
+        '''
+        return self._process(dir, dataset_id, server, 'register')
