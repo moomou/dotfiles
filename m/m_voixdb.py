@@ -24,8 +24,8 @@ class Voixdb(Base):
         Given a data dir prepared by m_audio.gather_youtube_segments, register these
         voixdb instance.
         '''
-        AudioSegment = self._modules['pydub'].AudioSegment
-        librosa = self._modules['librosa']
+        AudioSegment = self._module('pydub').AudioSegment
+        librosa = self._module('librosa')
 
         for f in os.listdir(dir):
             if f.endswith('mp3'):
