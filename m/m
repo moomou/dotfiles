@@ -14,6 +14,7 @@ from m_pipe import Pipe
 from m_watcher import Watcher
 from m_www import WWW
 from m_shell import Shell
+from m_voixdb import Voixdb
 
 from constant import M_ROOT
 
@@ -33,6 +34,7 @@ class M2:
         self.pipe = Pipe
         self.watcher = Watcher
         self.shell = Shell
+        self.voixdb = Voixdb
 
     def debug(self):
         logger.info('TBD')
