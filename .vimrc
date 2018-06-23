@@ -104,16 +104,16 @@ Plug 'bling/vim-airline'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_section_c = '%F'
 
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#file#enable_buffer_path = 1
-if exists('g:plugs["tern_for_vim"]')
-  let g:tern_show_argument_hints = 'on_hold'
-  let g:tern_show_signature_in_pum = 1
-  autocmd FileType javascript setlocal omnifunc=tern#Complete
-endif
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"let g:deoplete#enable_at_startup = 1
+"let g:deoplete#file#enable_buffer_path = 1
+"if exists('g:plugs["tern_for_vim"]')
+  "let g:tern_show_argument_hints = 'on_hold'
+  "let g:tern_show_signature_in_pum = 1
+  "autocmd FileType javascript setlocal omnifunc=tern#Complete
+"endif
 " deoplete tab-complete
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+"inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 Plug 'w0rp/ale'
 nmap <silent> <C-S-k> <Plug>(ale_previous_wrap)

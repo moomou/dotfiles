@@ -72,7 +72,7 @@ alias ta="tmux attach-session -t"
 alias ts="tmux new-session -s"
 
 ## Global ag ignore
-alias ag='ag --path-to-agignore=~/.agignore'
+alias ag='ag --path-to-ignore=~/.agignore'
 
 ## Make vim the default
 export EDITOR=vi
