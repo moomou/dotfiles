@@ -19,24 +19,39 @@ class Voixdb(Base):
             'librosa',
         ])
 
-    def _process(self, dir, dataset_id, server, svc):
+    def _process(
+            self,
+            dir,
+            dataset_id,
+            server,
+            svc,
+            duration=5,
+            # TODO: not used yet
+            random_offset_set=False):
         librosa = self._module('librosa')
 
         for f in os.listdir(dir):
             if f.endswith('mp3'):
-                ytid, spkid, start_time, end_time = f[:-4].split('~')
-                data, sr = librosa.core.load(
+                _, spkid, _, _, _ = f[:-4].split('~')
+                data, _ = librosa.core.load(
                     os.path.join(dir, f),
                     sr=SAMPLE_RATE,
-                    duration=30,
+                    duration=duration,
                     mono=True)
 
                 # skip '[' and ']'
                 file = io.BytesIO(
                     json.dumps(data.tolist())[1:-1].encode('utf-8'))
 
+                if svc == 'register':
+                    url = server + '/%s/%s/%s' % (svc, dataset_id, spkid)
+                elif svc == 'identify':
+                    url = server + '/%s/%s' % (svc, dataset_id)
+                else:
+                    raise NotImplementedError
+
                 result = requests.post(
-                    server + '/%s/%s/%s' % (svc, dataset_id, spkid),
+                    url,
                     files={
                         'bin': file,
                     },
@@ -44,12 +59,24 @@ class Voixdb(Base):
                         'sr': SAMPLE_RATE,
                     })})
 
-    def identify(self, dir, dataset_id='0', server='http://localhost:5000'):
-        return self._process(dir, dataset_id, server, 'identify')
+                print(svc, spkid, result.json())
 
-    def register(self, dir, dataset_id='0', server='http://localhost:5000'):
+    def identify(self,
+                 dir,
+                 duration=5,
+                 dataset_id='0',
+                 server='http://localhost:5000'):
+        return self._process(
+            dir, dataset_id, server, 'identify', duration=duration)
+
+    def register(self,
+                 dir,
+                 duration=30,
+                 dataset_id='0',
+                 server='http://localhost:5000'):
         '''
         Given a data dir prepared by m_audio.gather_youtube_segments, register these
         voixdb instance.
         '''
-        return self._process(dir, dataset_id, server, 'register')
+        return self._process(
+            dir, dataset_id, server, 'register', duration=duration)

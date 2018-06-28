@@ -80,7 +80,7 @@ def speaker_fname(fprefix, speaker_id):
         `fprefix` + `speaker_id` makese a unique user and `counter` is
         used to different different files
     '''
-    return '%s_%s' % (fprefix, speaker_id)
+    return '%s~%s' % (fprefix, speaker_id)
 
 
 def file_cut_ffmpeg_exp(input_f, start, duration, output_f):

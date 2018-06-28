@@ -34,9 +34,8 @@ class AudioData(Base):
 
     def extract_audio_line(self, in_file, out_file, start, end):
         '''Extract audio from `start` to `end` as wave'''
-        cmd = '''ffmpeg -i %s -ss %s -t %s -f wav %s''' % (in_file, start,
-                                                           end - start,
-                                                           out_file)
+        cmd = '''ffmpeg -i %s -ss %s -t %s -f wav %s''' % (
+            in_file, start, end - start, out_file)
 
         self.shell(cmd)
 
@@ -133,10 +132,9 @@ class AudioData(Base):
 
             start_time, end_time, delta = au.parse_time(
                 row['start_m_sec'], row['end_m_sec'])
-            speaker_file = '%s~%d~%s~%s.mp3' % (speaker_prefix,
-                                                counter_dict[speaker_prefix],
-                                                row['start_m_sec'],
-                                                row['end_m_sec'])
+            speaker_file = '%s~%d~%s~%s.mp3' % (
+                speaker_prefix, counter_dict[speaker_prefix],
+                row['start_m_sec'], row['end_m_sec'])
 
             ffmpeg_exp = au.file_cut_ffmpeg_exp('%s.mp3' % row['file'],
                                                 start_time.strftime('%M:%S'),
