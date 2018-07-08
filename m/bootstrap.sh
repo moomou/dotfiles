@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# required for audiolab
+sudo apt-get install -y libsndfile1 libsndfile1-dev
+
 FNAME=m_venv3
 M_VENV=/usr/local/bin/$FNAME
 
