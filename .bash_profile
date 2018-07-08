@@ -3,7 +3,7 @@ complete -d cd
 
 ## shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
-    alias ls='gls -X --color --group-directories-first'
+    alias ls='gls -X --color=auto --group-directories-first'
     alias gvi='~/.govim.sh'
     alias gvim='~/.govim.sh'
     alias vi='nvim'
@@ -161,9 +161,6 @@ function initpyenv() {
   eval "$(pyenv virtualenv-init -)"
 }
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/path.bash.inc'; fi
-
 if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/completion.bash.inc'; fi
 
 
@@ -172,3 +169,9 @@ initpyenv
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 export PATH="$HOME/.cargo/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/path.bash.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/completion.bash.inc'; fi
