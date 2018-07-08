@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# assume debian
+sudo apt-get install -y build-essential
+
 # install pyenv
 curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
 
@@ -12,5 +15,4 @@ mkdir -p ~/bin
 
 # Setting up m
 echo Setting up m
-(cd /usr/local/bin && wget https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy && chmod +x diff-so-fancy)
 (cd ./m && sudo ./bootstrap.sh)
