@@ -1,3 +1,4 @@
+import getpass
 import glob
 import hashlib
 import os
@@ -6,6 +7,7 @@ from collections import defaultdict
 
 import deco
 from m_base import Base
+from shell_util import shell
 
 
 @deco.concurrent
@@ -29,6 +31,25 @@ def file_hashes(files):
 
 
 class Shell(Base):
+    def encrypt(self, input_file, out_file=None):
+        if out_file is None:
+            out_file = os.path.basename(input_file) + '.enc'
+
+        pwd = getpass.getpass('Passphrase: ')
+        self.shell(
+            'gpg --yes --batch --passphrase %s --output %s --symmetric --cipher-algo AES256 %s'
+            % (pwd, out_file, input_file))
+
+    def decrypt(self, input_file, out_file=None):
+        if out_file is None:
+            out_file = os.path.basename(input_file)
+            if out_file.endswith('.enc'):
+                out_file = out_file[:-4]
+
+        pwd = getpass.getpass('Passphrase: ')
+        self.shell('gpg --yes --batch --passphrase=%s --output %s %s' %
+                   (pwd, out_file, input_file))
+
     def rename_md5(self, glob_pattern):
         files = glob.glob(glob_pattern)
 
