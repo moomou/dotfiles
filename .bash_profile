@@ -4,6 +4,7 @@ complete -d cd
 ## shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
     alias ls='gls -X --color=auto --group-directories-first'
+    alias shred='gshred'
     alias gvi='~/.govim.sh'
     alias gvim='~/.govim.sh'
     alias vi='nvim'

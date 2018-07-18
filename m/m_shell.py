@@ -31,7 +31,7 @@ def file_hashes(files):
 
 
 class Shell(Base):
-    def encrypt(self, input_file, out_file=None):
+    def encrypt(self, input_file, out_file=None, keep=False):
         if out_file is None:
             out_file = os.path.basename(input_file) + '.enc'
 
@@ -40,6 +40,9 @@ class Shell(Base):
             'gpg --yes --batch --passphrase %s --output %s --symmetric --cipher-algo AES256 %s'
             % (pwd, out_file, input_file))
 
+        if not keep:
+            self.shell('shred %s' % input_file)
+
     def decrypt(self, input_file, out_file=None):
         if out_file is None:
             out_file = os.path.basename(input_file)
@@ -47,8 +50,8 @@ class Shell(Base):
                 out_file = out_file[:-4]
 
         pwd = getpass.getpass('Passphrase: ')
-        self.shell('gpg --yes --batch --passphrase=%s --output %s %s' %
-                   (pwd, out_file, input_file))
+        self.shell('gpg --yes --batch --passphrase=%s --output %s --decrypt %s'
+                   % (pwd, out_file, input_file))
 
     def rename_md5(self, glob_pattern):
         files = glob.glob(glob_pattern)
