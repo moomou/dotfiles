@@ -173,7 +173,7 @@ let g:go_fmt_experimental = 1
 "nmap <Leader>jr :TernRefs<CR>
 "nmap <Leader>jn :TernRename<CR>
 
-Plug 'vim-scripts/closetag.vim', { 'for': ['xml', 'html', 'xhtml'] }
+"Plug 'vim-scripts/closetag.vim', { 'for': ['xml', 'html', 'xhtml'] }
 Plug 'fatih/vim-go', { 'for': ['go', 'golang'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': ['javascript'] }
