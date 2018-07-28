@@ -1,16 +1,9 @@
 #!/bin/bash
 
+# load all the helper fns
+source "$(dirname $0)/lib.sh"
+
 echo "You should have Vim (+ruby) and git installed."
-
-function symlink {
-    curDir=${PWD}
-    echo Setting up $1
-
-    yes | rm -r ~/${2-$1} 2> /dev/null
-
-    # src -> dest
-    ln -s $curDir/$1 ~/${2-$1}
-}
 
 symlink ".yapf" ".config/yapf/style"
 
