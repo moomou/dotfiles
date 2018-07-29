@@ -6,6 +6,7 @@ import pathlib
 from collections import defaultdict
 
 import deco
+import requests
 from m_base import Base
 from shell_util import shell
 
@@ -31,9 +32,25 @@ def file_hashes(files):
 
 
 class Shell(Base):
+    def encrypt_ssh_pub(self, pub_key_file, input_file, out_file=None, keep=False):
+        if pub_key_url.startswith('http'):
+            raise NotImplementedError
+        if out_file is None:
+            out_file = os.path.basename(input_file) + '.enc'
+
+        self.shell(
+            'openssl rsautl -encrypt -pubin -inkey %s -ssl -in %s -out %s' % (
+                pub_key_file, input_file, out_file))
+
+        if not keep:
+            self.shell('shred %s' % input_file)
+
     def encrypt(self, input_file, out_file=None, keep=False):
         if out_file is None:
             out_file = os.path.basename(input_file) + '.enc'
+
+        if not keep:
+            print('We will shred your file after')
 
         pwd = getpass.getpass('Passphrase: ')
         self.shell(
