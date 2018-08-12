@@ -3,7 +3,7 @@
 # load all the helper fns
 source "$(dirname $0)/lib.sh"
 
-echo "You should have Vim (+ruby) and git installed."
+echo "You should have neovim (+ruby) and git installed."
 
 symlink ".yapf" ".config/yapf/style"
 
@@ -17,7 +17,7 @@ symlink ".vimrc"
 symlink ".vimrc" ".nvimrc"
 symlink ".vim" ".nvim"
 
-# Tmux
+# tmux
 symlink ".tmux.conf"
 
 # Setup .ssh
@@ -31,6 +31,7 @@ symlink ".git-prompt.sh"
 
 # Link bash_*
 symlink ".bash_profile"
+symlink ".bash_aliases"
 
 # Link other utils
 symlink ".agignore"
