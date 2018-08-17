@@ -3,60 +3,60 @@ complete -d cd
 
 ## shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
-	export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
-	export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
-	# set power status on osx
-	if [[ $(pmset -g ps | head -1) =~ "AC Power" ]]; then
-		export ACPOWER=1
-	else
-		export ACPOWER=0
-	fi
+    export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
+    export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
+    # set power status on osx
+    if [[ $(pmset -g ps | head -1) =~ "AC Power" ]]; then
+        export ACPOWER=1
+    else
+        export ACPOWER=0
+    fi
 fi
 
 if [ -f ~/.prompt_prefix ]; then
-	PROMPT_PREFIX=$(cat ~/.prompt_prefix)
+    PROMPT_PREFIX=$(cat ~/.prompt_prefix)
 else
-	PROMPT_PREFIX=''
+    PROMPT_PREFIX=''
 fi
 
 ginit() {
-	git init
-	lan=$(echo $1 | python -c "print raw_input().capitalize()")
-	wget -q https://raw.githubusercontent.com/github/gitignore/master/${lan}.gitignore -O .gitignore
-	git add .
-	git ci -am 'init with .gitignore'
+    git init
+    lan=$(echo $1 | python -c "print raw_input().capitalize()")
+    wget -q https://raw.githubusercontent.com/github/gitignore/master/${lan}.gitignore -O .gitignore
+    git add .
+    git ci -am 'init with .gitignore'
 }
 
 ## Make vim the default
-export EDITOR=vi
+export EDITOR=nvim
 
 ## Bash Completion
 if [ -f /etc/bash_completion ]; then
-	. /etc/bash_completion
+    . /etc/bash_completion
 fi
 
 ## Git auto complete
 if [ -f ~/.git-completion.bash ]; then
-	. ~/.git-completion.bash
+    . ~/.git-completion.bash
 fi
 
 # Custom Prompt
 function Color() {
-	echo "$(tput setaf $1)"
+    echo "$(tput setaf $1)"
 }
 function ResetColor() {
-	echo "$(tput sgr0)"
+    echo "$(tput sgr0)"
 }
 function BashPrompt() {
-	local reset=$(ResetColor)
-	local last_command=$(echo $last_command_exit_code | awk -F "#" '{print $1}')
-	local last_status=$(echo $last_command_exit_code | awk -F "#" '{print $2}')
+    local reset=$(ResetColor)
+    local last_command=$(echo $last_command_exit_code | awk -F "#" '{print $1}')
+    local last_status=$(echo $last_command_exit_code | awk -F "#" '{print $2}')
 
-	local failure='(ಠ_ಠ) '
-	local success='ヽ(・∀・)ﾉ '
+    local failure='(ಠ_ಠ) '
+    local success='ヽ(・∀・)ﾉ '
 
-	last_status="$(Color 1)$success$reset[$PROMPT_PREFIX]."
-	echo -n -e $last_status
+    last_status="$(Color 1)$success$reset[$PROMPT_PREFIX]."
+    echo -n -e $last_status
 }
 
 # Some generic env var
@@ -93,8 +93,8 @@ export LC_COLLATE=C
 
 # pyenv dark magic
 function initpyenv() {
-	eval "$(pyenv init -)"
-	eval "$(pyenv virtualenv-init -)"
+    eval "$(pyenv init -)"
+    eval "$(pyenv virtualenv-init -)"
 }
 
 initpyenv
