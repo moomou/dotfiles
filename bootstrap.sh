@@ -1,20 +1,25 @@
 #!/bin/bash
 
-# assume debian from https://github.com/pyenv/pyenv/wiki/Common-build-problems#requirements
-sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev \
-libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
-xz-utils tk-dev libffi-dev
+# import constant
+source ./shell_lib/const.sh
+
+# run some os specific setup
+if [ $(uname) = "Darwin" ]; then
+    ./shell_lib/bootstrap_mac.sh
+else
+    ./shell_lib/bootstrap_linux.sh
+fi
 
 # install pyenv
 curl -L https://raw.githubusercontent.com/pyenv/pyenv-installer/master/bin/pyenv-installer | bash
 
-env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install 3.5.4
-pyenv global 3.5.4
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install $DEFAULT_PYTHON_VERSION
+pyenv global $DEFAULT_PYTHON_VERSION
 
 source ~/.bash_profile
 
 mkdir -p ~/bin
 
 # Setting up m
-echo Setting up m
+echo "Setting up m"
 (cd ./m && sudo ./bootstrap.sh)
