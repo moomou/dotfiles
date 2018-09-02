@@ -4,7 +4,6 @@ complete -d cd
 ## shortcut for commands
 if [ "$(uname)" == "Darwin" ]; then
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
-    export MATLAB_HOME='/Applications/MATLAB_R2014a.app'
     # set power status on osx
     if [[ $(pmset -g ps | head -1) =~ "AC Power" ]]; then
         export ACPOWER=1
@@ -34,7 +33,6 @@ export EDITOR=nvim
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
-
 ## Git auto complete
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
@@ -96,11 +94,9 @@ function initpyenv() {
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 }
-
 initpyenv
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
-
 export PATH="$HOME/.cargo/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
