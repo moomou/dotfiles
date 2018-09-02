@@ -1,10 +1,11 @@
 #!/bin/bash
 
 # load all the helper fns
-source "$(dirname $0)/lib.sh"
+source "$(dirname $0)/shell_lib/lib.sh"
 
 echo "You should have neovim (+ruby) and git installed."
 
+symlink "./shell_lib/lib.sh" ".lib.sh"
 symlink ".yapf" ".config/yapf/style"
 
 # make sure nvim dir exists
@@ -21,9 +22,9 @@ symlink ".vim" ".nvim"
 symlink ".tmux.conf"
 
 # Setup .ssh
-symlink ".ssh/config"
-symlink ".ssh/cert"
-symlink ".ssh/key"
+# symlink ".ssh/config"
+# symlink ".ssh/cert"
+# symlink ".ssh/key"
 
 # Link .git settings
 symlink ".gitconfig"
