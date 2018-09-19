@@ -1,11 +1,19 @@
 function symlink() {
     curDir=${PWD}
-    echo Setting up $1
+    src_fname=$1
+    dst_fname=${2-$(basename $1)}
 
-    yes | rm -r ~/${2-$1} 2>/dev/null
+    prefix=${3-"~"}
+    dst_path=$prefix/$dst_fname
 
-    # src -> dest
-    ln -s $curDir/$1 ~/${2-$1}
+    echo "Setting up $src_fname and linking to $dst_path"
+    yes | rm -r $dst_path 2>/dev/null
+
+    ln -s $curDir/$src_fname $dst_path
+}
+
+function symlink_bin() {
+    symlink $1 $1 /usr/local/sbin
 }
 
 # iterm2 specific escape codes
