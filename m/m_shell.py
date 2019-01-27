@@ -70,7 +70,7 @@ class Shell(Base):
         self.shell('gpg --yes --batch --passphrase=%s --output %s --decrypt %s'
                    % (pwd, out_file, input_file))
 
-    def rename_md5(self, glob_pattern):
+    def rename_md5(self, glob_pattern, suffix=None):
         files = glob.glob(glob_pattern)
 
         renamed = set()
@@ -80,7 +80,7 @@ class Shell(Base):
             if md5 in renamed:
                 dup[md5] += 1
             else:
-                target = pathlib.Path('%s.csv' % md5)
+                target = pathlib.Path(md5 + ('' if suffix is None else '.%s' % suffix))
                 self._logger.info(src, '->', target)
                 src.rename(target)
                 renamed.add(md5)
