@@ -81,8 +81,9 @@ class Shell(Base):
                 dup[md5] += 1
             else:
                 target = pathlib.Path(md5 + ('' if suffix is None else '.%s' % suffix))
-                self._logger.info(src, '->', target)
+                self._logger.info('{0} -> {1}'.format(src, target))
                 src.rename(target)
                 renamed.add(md5)
 
-        self._logger.warning('Dup files: %s', dup)
+        if len(dup):
+            self._logger.warning('Dup files: %s', dup)
