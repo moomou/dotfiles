@@ -58,10 +58,6 @@ package 'libssl-dev'
 package 'cmake'
 package 'libhwloc-dev'
 
-# debugging
-# output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"
-# log output
-
 apt_repository 'nvim' do
   uri 'ppa:neovim-ppa/unstable'
 end
@@ -104,42 +100,6 @@ bash 'install misc' do
     EOH
 end
 
-node['bootstrapUser'].each do |username|
-  # creat user
-  user username do
-    home "/home/#{username}"
-    manage_home true
-  end
-
-  # ensure dev exists
-  directory "/home/#{username}/dev" do
-    mode '0755'
-    only_if { username == 'moomou' }
-    owner username
-    group username
-    action :create
-  end
-
-  group "create #{username} sudo" do
-    group_name 'sudo'
-    members username
-    action :modify
-    append true
-  end
-
-  # bash 'install misc. tools' do
-  # user username
-  # code <<-EOH
-  # echo 'installing n'
-  # type n >/dev/null 2>&1 || curl -L https://git.io/n-install | bash -s -- -q
-
-  # echo 'installing gvm (go version manager)'
-  # type gvm >/dev/null 2>&1 || (bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer))
-
-  # echo setting up .fzf...
-  # git clone --depth 1 https://github.com/junegunn/fzf.git /home/#{username}/.fzf
-  # yes | ~/.fzf/install
-  # EOH
-  # only_if { !::File.directory?('~/.fzf') }
-  # end
-end
+# TODO: uncomment for debugging
+# output="#{Chef::JSONCompat.to_json_pretty(node.to_hash)}"
+# log output

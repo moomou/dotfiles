@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/bash -xe
 
-# Usage: ./deploy.sh [host]
+# Usage: ./bootstrap_remote.sh [host] [role]
+
 host="${1}"
 role="${2:-box}"
 
@@ -12,8 +13,6 @@ echo Running role $role...
 echo
 
 tar cj . | ssh -o 'StrictHostKeyChecking no' "$host" '
-sudo rm -rf ~/chef &&
-mkdir ~/chef &&
-cd ~/chef &&
+cd $(mktemp -d) &&
 tar xj &&
 sudo bash run_chef_role.sh' "$role"

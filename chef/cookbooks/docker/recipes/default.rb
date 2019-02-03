@@ -9,7 +9,6 @@ bash 'install docker' do
 
         # add default ubuntu user
         sudo usermod -aG docker #{node['server']['username']}
-        sudo usermod -aG docker ubuntu
     EOH
   not_if { ::File.exist?('/usr/bin/docker') }
 end
