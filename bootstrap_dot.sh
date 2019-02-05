@@ -32,6 +32,7 @@ symlink ".git-prompt.sh"
 # Link bash_*
 symlink ".bash_profile"
 symlink ".bash_aliases"
+symlink ".bash_lib"
 
 # Link other utils
 symlink ".agignore"

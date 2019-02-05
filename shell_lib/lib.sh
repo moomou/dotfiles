@@ -3,7 +3,7 @@ function symlink() {
     src_fname=$1
     dst_fname=${2-$(basename $1)}
 
-    prefix=${3-"~"}
+    prefix=${3-~}
     dst_path=$prefix/$dst_fname
 
     echo "Setting up $src_fname and linking to $dst_path"
