@@ -18,14 +18,6 @@ else
     PROMPT_PREFIX=''
 fi
 
-ginit() {
-    git init
-    lan=$(echo $1 | python -c "print raw_input().capitalize()")
-    wget -q https://raw.githubusercontent.com/github/gitignore/master/${lan}.gitignore -O .gitignore
-    git add .
-    git ci -am 'init with .gitignore'
-}
-
 ## Make vim the default
 export EDITOR=nvim
 
@@ -37,25 +29,6 @@ fi
 if [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
-
-# Custom Prompt
-function Color() {
-    echo "$(tput setaf $1)"
-}
-function ResetColor() {
-    echo "$(tput sgr0)"
-}
-function BashPrompt() {
-    local reset=$(ResetColor)
-    local last_command=$(echo $last_command_exit_code | awk -F "#" '{print $1}')
-    local last_status=$(echo $last_command_exit_code | awk -F "#" '{print $2}')
-
-    local failure='(ಠ_ಠ) '
-    local success='ヽ(・∀・)ﾉ '
-
-    last_status="$(Color 1)$success$reset[$PROMPT_PREFIX]."
-    echo -n -e $last_status
-}
 
 # Some generic env var
 export GOPATH=$HOME/go
@@ -88,14 +61,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # make ls on linux simliar to osx
 export LC_COLLATE=C
-
-# pyenv dark magic
-function initpyenv() {
-    eval "$(pyenv init -)"
-    eval "$(pyenv virtualenv-init -)"
-}
-initpyenv
-source ~/.lib.sh
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 export PATH="$HOME/.cargo/bin:$PATH"

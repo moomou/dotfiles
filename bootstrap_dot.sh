@@ -5,8 +5,6 @@ source "$(dirname $0)/shell_lib/lib.sh"
 
 echo "You should have neovim (+ruby) and git installed."
 
-symlink "./shell_lib/lib.sh" ".lib.sh"
-
 # make sure nvim dir exists
 mkdir -p ~/.config/nvim
 symlink ".vimrc" ".config/nvim/init.vim"
