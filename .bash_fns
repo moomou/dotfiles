@@ -55,3 +55,13 @@ function initpyenv() {
     eval "$(pyenv virtualenv-init -)"
 }
 initpyenv
+
+# ranger color
+function color-ranger() {
+    if [[ -n "$ITERM_SESSION_ID" ]]; then
+        trap "tab-reset" RETURN
+        tab-color 255 218 185
+    fi
+    ranger $*
+}
+alias ranger=color-ranger
