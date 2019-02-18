@@ -30,7 +30,7 @@ symlink ".git-prompt.sh"
 # Link bash_*
 symlink ".bash_profile"
 symlink ".bash_aliases"
-symlink ".bash_lib"
+symlink ".bash_fns"
 
 # Link other utils
 symlink ".agignore"
@@ -48,10 +48,7 @@ if [ $(uname) = "Darwin" ]; then
     symlink "./extraBin/imgcat" "imgcat"
 fi
 
-# Using .bashrc as custom config on different machines
-if [ "$BASHRC" = "1" ]; then
-    symlink ".bashrc"
-fi
+symlink ".bashrc"
 
 # Setting up git
 git config --global core.excludesfile ~/.gitignore_global
