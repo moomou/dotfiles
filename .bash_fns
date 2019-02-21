@@ -15,7 +15,7 @@ color-ssh() {
         if [[ "$*" =~ "production|ec2-.*compute-1" ]]; then
             tab-color 255 0 0
         else
-            tab-color 0 255 0
+            tab-color 255 145 117
         fi
     fi
     ssh $*
@@ -60,7 +60,7 @@ initpyenv
 function color-ranger() {
     if [[ -n "$ITERM_SESSION_ID" ]]; then
         trap "tab-reset" RETURN
-        tab-color 255 218 185
+        tab-color 213 95 192
     fi
     ranger $*
 }
