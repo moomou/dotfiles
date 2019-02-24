@@ -5,7 +5,7 @@ from util import m_path
 
 
 class Chef(Base):
-    def reheat(self, role):
+    def _setup(self):
         # cp chef folder to ~/.chef
         chef_run_dir = os.path.expanduser('~/.chef')
 
@@ -14,8 +14,11 @@ class Chef(Base):
 
         # copy over chef
         self._logger.info(m_path('dotfiles/chef'), chef_run_dir)
-
         self.shell('cp -r %s/* %s' % (m_path('dotfiles/chef'), chef_run_dir))
 
+        return chef_run_dir
+
+    def role(self, role):
+        chef_run_dir = self._setup()
         # run bash install.sh' "$role"
         self.shell('cd %s && sudo run_chef_role.sh %s' % (chef_run_dir, role))
