@@ -7,5 +7,5 @@ def mkdir(dirname, exist_ok=True):
 
 
 def mkdir_data(dirname, **kwargs):
-    data_dir = os.path.join(dirname, 'data')
+    data_dir = os.path.join(dirname, "data")
     return mkdir(data_dir, **kwargs)

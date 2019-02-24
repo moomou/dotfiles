@@ -38,7 +38,7 @@ def m_path(folder, root=constant.ROOT):
     return os.path.join(root, folder)
 
 
-@try_import('ruamel.yaml', 'yaml')
+@try_import("ruamel.yaml", "yaml")
 def read_yml(path):
     with open(path) as f:
         config_yml = yaml.safe_load(f)
@@ -46,14 +46,14 @@ def read_yml(path):
 
 
 def get_config_yml():
-    if os.path.isfile('./config.yml'):
-        return read_yml('./config.yml')
+    if os.path.isfile("./config.yml"):
+        return read_yml("./config.yml")
     return {}
 
 
-@try_import('ruamel.yaml', 'yaml')
+@try_import("ruamel.yaml", "yaml")
 def update_config_yml(obj):
-    with open('./config.yml', 'w') as f:
+    with open("./config.yml", "w") as f:
         yaml.round_trip_dump(obj, f, indent=4, block_seq_indent=2)
 
 
@@ -80,5 +80,5 @@ def setup(fn):
 
 @memoize
 def get_gh_token():
-    with open(os.path.join(constant.DOTFILES, 'secret/gh_graphql.txt')) as f:
+    with open(os.path.join(constant.DOTFILES, "secret/gh_graphql.txt")) as f:
         return f.read().strip()

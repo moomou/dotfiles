@@ -7,6 +7,5 @@ from util import m_path
 
 class Keras(Base):
     def encode_h5(self, fname):
-        '''Convert keras h5 file for kerasjs use'''
-        self.shell('%s/encoder.py %s' % (m_path('third_party', root=M_ROOT),
-                                         fname))
+        """Convert keras h5 file for kerasjs use"""
+        self.shell("%s/encoder.py %s" % (m_path("third_party", root=M_ROOT), fname))

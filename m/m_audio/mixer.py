@@ -5,24 +5,25 @@ from m_base import Base
 
 class AudioMixer(Base):
     def __init__(self):
-        super().__init__([
-            'python_speech_features',
-            'scipy.io.wavfile',
-            'pydub.AudioSegment',
-            'h5py',
-            'numpy',
-        ])
+        super().__init__(
+            [
+                "python_speech_features",
+                "scipy.io.wavfile",
+                "pydub.AudioSegment",
+                "h5py",
+                "numpy",
+            ]
+        )
 
     def _scale_unsigned(self, *sigs):
-        np = self._module('numpy')
+        np = self._module("numpy")
 
-        assert len(sigs), 'At least 1 signal must be passed'
+        assert len(sigs), "At least 1 signal must be passed"
 
         sig1 = sigs[0]
         assert all(
-            sigs,
-            lambda sig: sig.shape == sig1.shape and sig.dtype == sig1.dtype
-        ), 'Shape must match'
+            sigs, lambda sig: sig.shape == sig1.shape and sig.dtype == sig1.dtype
+        ), "Shape must match"
 
         orig_dtype = sig1.dtype
         typeinfo = np.iinfo(orig_dtype)
@@ -35,7 +36,7 @@ class AudioMixer(Base):
         return sigs
 
     def _mix_time(self, *sigs):
-        np = self._module('numpy')
+        np = self._module("numpy")
 
         sigs = self._scale_unsigned(sigs)
 
@@ -49,7 +50,7 @@ class AudioMixer(Base):
         return clipped
 
     def _mix_freq(self, *sigs):
-        np = self._module('numpy')
+        np = self._module("numpy")
 
         sigs = self._scale_unsigned(sigs)
 
@@ -67,10 +68,10 @@ class AudioMixer(Base):
         return clipped
 
     def mix_freq(self, *in_file):
-        wavfile = self._module('scipy.io.wavfile')
+        wavfile = self._module("scipy.io.wavfile")
         pass
 
     def mix_time(self, *in_file):
-        wavfile = self._module('scipy.io.wavfile')
+        wavfile = self._module("scipy.io.wavfile")
 
         pass

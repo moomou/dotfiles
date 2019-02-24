@@ -5,6 +5,7 @@ import itertools
 class Color(object):
     """ Represents a color in the ASS format.
     """
+
     def __init__(self, r, g, b, a=0):
         """ Made up of red, green, blue and alpha components (in that order!).
         """
@@ -46,12 +47,9 @@ class Color(object):
 
     def __repr__(self):
         return "{name}(r=0x{r:02x}, g=0x{g:02x}, b=0x{b:02x}, a=0x{a:02x})".format(
-            name=self.__class__.__name__,
-            r=self.r,
-            g=self.g,
-            b=self.b,
-            a=self.a
+            name=self.__class__.__name__, r=self.r, g=self.g, b=self.b, a=self.a
         )
+
 
 Color.WHITE = Color(255, 255, 255)
 Color.RED = Color(255, 0, 0)
@@ -119,10 +117,7 @@ class _Field(object):
         hours, mins = divmod(r, 60)
 
         return "{hours:.0f}:{mins:02.0f}:{secs:02.0f}.{csecs:02}".format(
-            hours=hours,
-            mins=mins,
-            secs=secs,
-            csecs=td.microseconds // 10000
+            hours=hours, mins=mins, secs=secs, csecs=td.microseconds // 10000
         )
 
     @staticmethod
@@ -130,8 +125,7 @@ class _Field(object):
         hours, mins, secs = v.split(":", 2)
         secs, csecs = secs.split(".", 2)
 
-        r = int(hours) * 60 * 60 + int(mins) * 60 + int(secs) + \
-            int(csecs) * 1e-2
+        r = int(hours) * 60 * 60 + int(mins) * 60 + int(secs) + int(csecs) * 1e-2
 
         return timedelta(seconds=r)
 
@@ -144,10 +138,14 @@ class _WithFieldMeta(type):
         for base in bases:
             if hasattr(base, "_field_defs"):
                 field_defs.extend(base._field_defs)
-        field_defs.extend(tuple(sorted((f
-                                        for f in dct.values()
-                                        if isinstance(f, _Field)),
-                                key=lambda f: f._creation_order)))
+        field_defs.extend(
+            tuple(
+                sorted(
+                    (f for f in dct.values() if isinstance(f, _Field)),
+                    key=lambda f: f._creation_order,
+                )
+            )
+        )
         newcls._field_defs = tuple(field_defs)
 
         field_mappings = {}
@@ -193,13 +191,15 @@ def add_metaclass(metaclass):
     Taken from six.py.
     https://bitbucket.org/gutworth/six/src/default/six.py
     """
+
     def wrapper(cls):
         orig_vars = cls.__dict__.copy()
-        orig_vars.pop('__dict__', None)
-        orig_vars.pop('__weakref__', None)
-        for slots_var in orig_vars.get('__slots__', ()):
+        orig_vars.pop("__dict__", None)
+        orig_vars.pop("__weakref__", None)
+        for slots_var in orig_vars.get("__slots__", ()):
             orig_vars.pop(slots_var)
         return metaclass(cls.__name__, cls.__bases__, orig_vars)
+
     return wrapper
 
 
@@ -216,12 +216,9 @@ class Tag(object):
         elif len(self.params) == 1:
             params = params[0]
         else:
-            params = "(" + \
-                     ",".join(_Field.dump(param) for param in self.params) + \
-                     ")"
+            params = "(" + ",".join(_Field.dump(param) for param in self.params) + ")"
 
         return "\\{name}{params}".format(name=self.name, params=params)
-
 
     @staticmethod
     def strip_tags(parts, keep_drawing_commands=False):
@@ -233,12 +230,18 @@ class Tag(object):
             if isinstance(part, Tag):
                 # if we encounter a \p1 tag, skip everything until we get to
                 # \p0
-                if not keep_drawing_commands and part.name == "p" and \
-                   part.params == [1]:
+                if (
+                    not keep_drawing_commands
+                    and part.name == "p"
+                    and part.params == [1]
+                ):
                     for part2 in it:
-                        if isinstance(part2, Tag) and part2.name == "p" and \
-                           part2.params == [0]:
-                           break
+                        if (
+                            isinstance(part2, Tag)
+                            and part2.name == "p"
+                            and part2.params == [0]
+                        ):
+                            break
             else:
                 text_parts.append(part)
 
@@ -252,6 +255,7 @@ class Tag(object):
 @add_metaclass(_WithFieldMeta)
 class Document(object):
     """ An ASS document. """
+
     SCRIPT_INFO_HEADER = "[Script Info]"
     STYLE_SSA_HEADER = "[V4 Styles]"
     STYLE_ASS_HEADER = "[V4+ Styles]"
@@ -266,8 +270,7 @@ class Document(object):
     play_res_x = _Field("PlayResX", int, default=640)
     play_res_y = _Field("PlayResY", int, default=480)
     wrap_style = _Field("WrapStyle", int, default=0)
-    scaled_border_and_shadow = _Field("ScaledBorderAndShadow", str,
-                                      default="yes")
+    scaled_border_and_shadow = _Field("ScaledBorderAndShadow", str, default="yes")
 
     def __init__(self):
         """ Create an empty ASS document.
@@ -296,23 +299,23 @@ class Document(object):
             if i == 0 and line[0] == u"\ufeff":
                 line = line.strip(u"\ufeff")
 
-            if line.startswith(';'):
+            if line.startswith(";"):
                 continue
 
             if not line:
                 continue
 
-            if line.startswith('[') and line.endswith(']'):
+            if line.startswith("[") and line.endswith("]"):
                 section = line
                 field_order = None
                 continue
 
             if section is None:
-                raise ValueError('Content outside of any section.')
+                raise ValueError("Content outside of any section.")
 
             if section.lower() == doc.SCRIPT_INFO_HEADER.lower():
                 # [Script Info]
-                if ':' not in line:
+                if ":" not in line:
                     # illformed, ignore
                     continue
 
@@ -323,10 +326,12 @@ class Document(object):
                     field = Document._field_mappings[field_name].parse(field)
 
                 doc.fields[field_name] = field
-            elif section.lower() in (doc.STYLE_SSA_HEADER.lower(),
-                                     doc.STYLE_ASS_HEADER.lower()):
+            elif section.lower() in (
+                doc.STYLE_SSA_HEADER.lower(),
+                doc.STYLE_ASS_HEADER.lower(),
+            ):
                 # [V4 Styles] / [V4+ Styles]
-                if ':' not in line:
+                if ":" not in line:
                     continue
 
                 type_name, line = line.split(":", 1)
@@ -347,7 +352,7 @@ class Document(object):
                     doc.styles.append(Style.parse(line, field_order))
             elif section.lower() == doc.EVENTS_HEADER.lower():
                 # [Events]
-                if ':' not in line:
+                if ":" not in line:
                     continue
 
                 type_name, line = line.split(":", 1)
@@ -364,14 +369,18 @@ class Document(object):
                     # Dialogue: ...
                     # Comment: ...
                     # etc.
-                    doc.events.append(({
-                        "Dialogue": Dialogue,
-                        "Comment":  Comment,
-                        "Picture":  Picture,
-                        "Sound":    Sound,
-                        "Movie":    Movie,
-                        "Command":  Command
-                    })[type_name].parse(line, field_order))
+                    doc.events.append(
+                        (
+                            {
+                                "Dialogue": Dialogue,
+                                "Comment": Comment,
+                                "Picture": Picture,
+                                "Sound": Sound,
+                                "Movie": Movie,
+                                "Command": Command,
+                            }
+                        )[type_name].parse(line, field_order)
+                    )
             else:
                 # unknown sections
                 continue
@@ -382,23 +391,21 @@ class Document(object):
         """ Dump this ASS document to a file object.
         """
         f.write(Document.SCRIPT_INFO_HEADER + "\n")
-        for k in itertools.chain((field for field in self.DEFAULT_FIELD_ORDER
-                                  if field in self.fields),
-                                 (field for field in self.fields
-                                  if field not in self._field_mappings)):
+        for k in itertools.chain(
+            (field for field in self.DEFAULT_FIELD_ORDER if field in self.fields),
+            (field for field in self.fields if field not in self._field_mappings),
+        ):
             f.write(k + ": " + _Field.dump(self.fields[k]) + "\n")
         f.write("\n")
 
         f.write(Document.STYLE_ASS_HEADER + "\n")
-        f.write(Document.FORMAT_TYPE +  ": " +
-                ", ".join(self.styles_field_order) + "\n")
+        f.write(Document.FORMAT_TYPE + ": " + ", ".join(self.styles_field_order) + "\n")
         for style in self.styles:
             f.write(style.dump_with_type(self.styles_field_order) + "\n")
         f.write("\n")
 
         f.write(Document.EVENTS_HEADER + "\n")
-        f.write(Document.FORMAT_TYPE +  ": " +
-                ", ".join(self.events_field_order) + "\n")
+        f.write(Document.FORMAT_TYPE + ": " + ", ".join(self.events_field_order) + "\n")
         for event in self.events:
             f.write(event.dump_with_type(self.events_field_order) + "\n")
         f.write("\n")
@@ -425,8 +432,7 @@ class _Line(object):
         if field_order is None:
             field_order = self.DEFAULT_FIELD_ORDER
 
-        return ",".join(_Field.dump(self.fields[field])
-                        for field in field_order)
+        return ",".join(_Field.dump(self.fields[field]) for field in field_order)
 
     def dump_with_type(self, field_order=None):
         """ Dump an ASS line into text format, with its type prepended. """
@@ -458,6 +464,7 @@ class _Line(object):
 class Style(_Line):
     """ A style line in ASS.
     """
+
     TYPE = "Style"
 
     name = _Field("Name", str, default="Default")
@@ -501,6 +508,7 @@ class _Event(_Line):
 class Dialogue(_Event):
     """ A dialog event.
     """
+
     TYPE = "Dialogue"
 
     def parse_parts(self):
@@ -550,36 +558,39 @@ class Dialogue(_Event):
         return Tag.strip_tags(self.parse())
 
     def unparse_parts(self, parts):
-        self.text = "".join(n.dump() if isinstance(n, Tag)
-                            else n
-                            for n in parts)
+        self.text = "".join(n.dump() if isinstance(n, Tag) else n for n in parts)
 
 
 class Comment(_Event):
     """ A comment event.
     """
+
     TYPE = "Comment"
 
 
 class Picture(_Event):
     """ A picture event. Not widely supported.
     """
+
     TYPE = "Picture"
 
 
 class Sound(_Event):
     """ A sound event. Not widely supported.
     """
+
     TYPE = "Sound"
 
 
 class Movie(_Event):
     """ A movie event. Not widely supported.
     """
+
     TYPE = "Movie"
 
 
 class Command(_Event):
     """ A command event. Not widely supported.
     """
+
     TYPE = "Command"

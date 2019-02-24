@@ -7,15 +7,17 @@ import sys
 import scipy as sp
 import scipy.io.wavfile as wavfile
 
-from pyssp_ltsd import (LTSD, AdaptiveLTSD, get_frame, read_signal)
+from pyssp_ltsd import LTSD, AdaptiveLTSD, get_frame, read_signal
 
-WINSIZE=8192
+WINSIZE = 8192
 MAGIC_NUMBER = 0.04644
+
 
 def mononize_signal(signal):
     if signal.ndim > 1:
-        signal = signal[:,0]
+        signal = signal[:, 0]
     return signal
+
 
 class LTSD_VAD:
     ltsd = None
@@ -51,9 +53,9 @@ class LTSD_VAD:
         self.lambda0 = max_ltsd * 1.1
         self.lambda1 = self.lambda0 * 2.0
 
-        print('max_ltsd =', max_ltsd)
-        print('lambda0 =', self.lambda0)
-        print('lambda1 =', self.lambda1)
+        print("max_ltsd =", max_ltsd)
+        print("lambda0 =", self.lambda0)
+        print("lambda1 =", self.lambda1)
 
     def _init_window(self, sampling_freq):
         self.fs = sampling_freq
@@ -65,11 +67,21 @@ class LTSD_VAD:
             self._init_window(fs)
 
         if self.adaptive:
-            return AdaptiveLTSD(self.window_size, self.window, self.order,
-                lambda0=self.lambda0, lambda1=self.lambda1)
+            return AdaptiveLTSD(
+                self.window_size,
+                self.window,
+                self.order,
+                lambda0=self.lambda0,
+                lambda1=self.lambda1,
+            )
 
-        return LTSD(self.window_size, self.window, self.order,
-                lambda0=self.lambda0, lambda1=self.lambda1)
+        return LTSD(
+            self.window_size,
+            self.window,
+            self.order,
+            lambda0=self.lambda0,
+            lambda1=self.lambda1,
+        )
 
     def filter(self, signal, bg_signal=None):
         signal = mononize_signal(signal)
@@ -77,13 +89,18 @@ class LTSD_VAD:
         if bg_signal:
             res, ltsds = self._get_ltsd().compute_with_noise(signal, bg_signal)
         else:
-            print(self.fs/float(WINSIZE)/3.0)
-            noise_frame_size = WINSIZE*int(self.fs/float(WINSIZE)/3.0)
-            print('Noise Frame Size::', noise_frame_size)
-            res, ltsds = self._get_ltsd().compute_without_noise(signal, noise_frame_size)
+            print(self.fs / float(WINSIZE) / 3.0)
+            noise_frame_size = WINSIZE * int(self.fs / float(WINSIZE) / 3.0)
+            print("Noise Frame Size::", noise_frame_size)
+            res, ltsds = self._get_ltsd().compute_without_noise(
+                signal, noise_frame_size
+            )
 
         voice_signals = []
-        res = [(start * self.window_size / 2, (finish + 1) * self.window_size / 2) for start, finish in res]
+        res = [
+            (start * self.window_size / 2, (finish + 1) * self.window_size / 2)
+            for start, finish in res
+        ]
 
         print(res, len(ltsds) * self.window_size / 2)
         for start, finish in res:
@@ -93,7 +110,8 @@ class LTSD_VAD:
         except:
             return np.array([]), []
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     fpath = sys.argv[1]
 
     if len(sys.argv) >= 3:
@@ -109,10 +127,10 @@ if __name__ == '__main__':
     freq, signal = wavfile.read(fpath)
 
     if bg_fpath:
-        assert bg_freq == freq, 'bg fs != fs'
+        assert bg_freq == freq, "bg fs != fs"
 
     lstd_vad = LTSD_VAD(freq, signal, bg_signal, adaptive=True)
     vaded_signal, params = lstd_vad.filter(signal)
     print(vaded_signal)
 
-    wavfile.write('vaded.wav', freq, vaded_signal)
+    wavfile.write("vaded.wav", freq, vaded_signal)

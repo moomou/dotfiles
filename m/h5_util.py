@@ -2,8 +2,8 @@ from collections import OrderedDict
 import h5py
 
 
-def open_multi(names, mode='a', driver=None, comm=None):
-    print('Opening::', driver, comm)
+def open_multi(names, mode="a", driver=None, comm=None):
+    print("Opening::", driver, comm)
 
     output = OrderedDict()
     for filename in names:
@@ -20,5 +20,5 @@ def close_multi(handles):
             print(e, flush=True)
 
 
-def open_one(name, mode='a', driver=None, comm=None):
+def open_one(name, mode="a", driver=None, comm=None):
     return h5py.File(name, mode=mode, driver=driver, comm=comm)

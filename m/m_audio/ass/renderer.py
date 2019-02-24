@@ -6,6 +6,7 @@ from datetime import timedelta
 _libass = ctypes.cdll.LoadLibrary(ctypes.util.find_library("ass"))
 _libc = ctypes.cdll.LoadLibrary(ctypes.util.find_library("c"))
 
+
 class ImageSequence(object):
     def __init__(self, renderer, head_ptr):
         self.renderer = renderer
@@ -27,16 +28,16 @@ class Image(ctypes.Structure):
     def rgba(self):
         color = self.color
 
-        a = color & 0xff
+        a = color & 0xFF
         color >>= 8
 
-        b = color & 0xff
+        b = color & 0xFF
         color >>= 8
 
-        g = color & 0xff
+        g = color & 0xFF
         color >>= 8
 
-        r = color & 0xff
+        r = color & 0xFF
 
         return (r, g, b, a)
 
@@ -54,7 +55,7 @@ Image._fields_ = [
     ("dst_x", ctypes.c_int),
     ("dst_y", ctypes.c_int),
     ("next_ptr", ctypes.POINTER(Image)),
-    ("type", ctypes.c_int)
+    ("type", ctypes.c_int),
 ]
 
 
@@ -97,12 +98,8 @@ class Context(ctypes.Structure):
     def __del__(self):
         _libass.ass_library_done(ctypes.byref(self))
 
-    fonts_dir = _make_libass_property("ass_set_fonts_dir", [
-        ctypes.c_char_p
-    ])
-    extract_fonts = _make_libass_property("ass_set_extract_fonts", [
-        ctypes.c_int
-    ])
+    fonts_dir = _make_libass_property("ass_set_fonts_dir", [ctypes.c_char_p])
+    extract_fonts = _make_libass_property("ass_set_extract_fonts", [ctypes.c_int])
 
     @property
     def style_overrides(self):
@@ -110,20 +107,16 @@ class Context(ctypes.Structure):
 
     @style_overrides.setter
     def style_overrides(self, xs):
-        self._style_overrides_buffers = [ctypes.create_string_buffer(x)
-                                         for x in xs]
+        self._style_overrides_buffers = [ctypes.create_string_buffer(x) for x in xs]
 
         if self._style_overrides_buffers:
-            ptr = (ctypes.c_char_p * len(self._style_overrides_buffers))(*[
-                ctypes.addressof(buf)
-                for buf in self._style_overrides_buffers
-            ])
+            ptr = (ctypes.c_char_p * len(self._style_overrides_buffers))(
+                *[ctypes.addressof(buf) for buf in self._style_overrides_buffers]
+            )
         else:
             ptr = ctypes.POINTER(ctypes.c_char_p)()
 
-        _libass.ass_set_style_overrides(
-            ctypes.byref(self),
-            ptr)
+        _libass.ass_set_style_overrides(ctypes.byref(self), ptr)
 
     def make_renderer(self):
         """ Make a renderer instance for rendering tracks. """
@@ -133,8 +126,9 @@ class Context(ctypes.Structure):
 
     def parse_to_track(self, data, codepage="UTF-8"):
         """ Parse ASS data to a track. """
-        return _libass.ass_read_memory(ctypes.byref(self), data, len(data),
-                                       codepage.encode("utf-8")).contents
+        return _libass.ass_read_memory(
+            ctypes.byref(self), data, len(data), codepage.encode("utf-8")
+        ).contents
 
     def make_track(self):
         track = _libass.ass_new_track(ctypes.byref(self)).contents
@@ -167,48 +161,33 @@ class Renderer(ctypes.Structure):
     def __del__(self):
         _libass.ass_renderer_done(ctypes.byref(self))
 
-    frame_size = _make_libass_property("ass_set_frame_size", [
-        ctypes.c_int,
-        ctypes.c_int
-    ])
-    storage_size = _make_libass_property("ass_set_storage_size", [
-        ctypes.c_int,
-        ctypes.c_int
-    ])
-    shaper = _make_libass_property("ass_set_shaper", [
-        ctypes.c_int
-    ])
-    margins = _make_libass_property("ass_set_margins", [
-        ctypes.c_int,
-        ctypes.c_int,
-        ctypes.c_int,
-        ctypes.c_int
-    ])
-    use_margins = _make_libass_property("ass_set_use_margins", [
-        ctypes.c_int
-    ])
-    pixel_aspect = _make_libass_property("ass_set_pixel_aspect", [
-        ctypes.c_double
-    ])
-    aspect_ratio = _make_libass_property("ass_set_aspect_ratio", [
-        ctypes.c_double,
-        ctypes.c_double
-    ])
-    font_scale = _make_libass_property("ass_set_font_scale", [
-        ctypes.c_double
-    ])
-    hinting = _make_libass_property("ass_set_hinting", [
-        ctypes.c_int
-    ])
-    line_spacing = _make_libass_property("ass_set_line_spacing", [
-        ctypes.c_double
-    ])
-    line_position = _make_libass_property("ass_set_line_position", [
-        ctypes.c_double
-    ])
+    frame_size = _make_libass_property(
+        "ass_set_frame_size", [ctypes.c_int, ctypes.c_int]
+    )
+    storage_size = _make_libass_property(
+        "ass_set_storage_size", [ctypes.c_int, ctypes.c_int]
+    )
+    shaper = _make_libass_property("ass_set_shaper", [ctypes.c_int])
+    margins = _make_libass_property(
+        "ass_set_margins", [ctypes.c_int, ctypes.c_int, ctypes.c_int, ctypes.c_int]
+    )
+    use_margins = _make_libass_property("ass_set_use_margins", [ctypes.c_int])
+    pixel_aspect = _make_libass_property("ass_set_pixel_aspect", [ctypes.c_double])
+    aspect_ratio = _make_libass_property(
+        "ass_set_aspect_ratio", [ctypes.c_double, ctypes.c_double]
+    )
+    font_scale = _make_libass_property("ass_set_font_scale", [ctypes.c_double])
+    hinting = _make_libass_property("ass_set_hinting", [ctypes.c_int])
+    line_spacing = _make_libass_property("ass_set_line_spacing", [ctypes.c_double])
+    line_position = _make_libass_property("ass_set_line_position", [ctypes.c_double])
 
-    def set_fonts(self, default_font=None, default_family=None,
-                  fontconfig_config=None, update_fontconfig=None):
+    def set_fonts(
+        self,
+        default_font=None,
+        default_family=None,
+        fontconfig_config=None,
+        update_fontconfig=None,
+    ):
         fc = fontconfig_config is not None
 
         if update_fontconfig is None:
@@ -220,9 +199,14 @@ class Renderer(ctypes.Structure):
         if default_family is not None:
             default_family = default_family.encode("utf-8")
 
-        _libass.ass_set_fonts(ctypes.byref(self), default_font, default_family,
-                              fc, fontconfig_config.encode("utf-8") or "",
-                              update_fontconfig)
+        _libass.ass_set_fonts(
+            ctypes.byref(self),
+            default_font,
+            default_family,
+            fc,
+            fontconfig_config.encode("utf-8") or "",
+            update_fontconfig,
+        )
         self._fonts_set = True
 
     def update_fonts(self):
@@ -230,11 +214,9 @@ class Renderer(ctypes.Structure):
             raise RuntimeError("set_fonts before updating them")
         _libass.ass_fonts_update(ctypes.byref(self))
 
-    set_cache_limits = _make_libass_setter("ass_set_cache_limits", [
-        ctypes.c_int,
-        ctypes.c_int
-    ])
-
+    set_cache_limits = _make_libass_setter(
+        "ass_set_cache_limits", [ctypes.c_int, ctypes.c_int]
+    )
 
     @staticmethod
     def timedelta_to_ms(td):
@@ -243,10 +225,12 @@ class Renderer(ctypes.Structure):
     def render_frame(self, track, now):
         if not self._fonts_set:
             raise RuntimeError("set_fonts before rendering")
-        head = _libass.ass_render_frame(ctypes.byref(self),
-                                        ctypes.byref(track),
-                                        Renderer.timedelta_to_ms(now),
-                                        ctypes.POINTER(ctypes.c_int)())
+        head = _libass.ass_render_frame(
+            ctypes.byref(self),
+            ctypes.byref(track),
+            Renderer.timedelta_to_ms(now),
+            ctypes.POINTER(ctypes.c_int)(),
+        )
         return ImageSequence(self, head)
 
     def set_all_sizes(self, size):
@@ -281,7 +265,7 @@ class Style(ctypes.Structure):
         ("margin_v", ctypes.c_int),
         ("encoding", ctypes.c_int),
         ("treat_fontname_as_pattern", ctypes.c_int),
-        ("blur", ctypes.c_double)
+        ("blur", ctypes.c_double),
     ]
 
     @staticmethod
@@ -335,7 +319,7 @@ class Event(ctypes.Structure):
         ("margin_v", ctypes.c_int),
         ("effect", ctypes.c_char_p),
         ("text", ctypes.c_char_p),
-        ("render_priv", ctypes.c_void_p)
+        ("render_priv", ctypes.c_void_p),
     ]
 
     def _after_init(self, track):
@@ -410,7 +394,7 @@ class Track(ctypes.Structure):
         ("default_style", ctypes.c_int),
         ("name", ctypes.c_char_p),
         ("library", ctypes.POINTER(Context)),
-        ("parser_priv", ctypes.c_void_p)
+        ("parser_priv", ctypes.c_void_p),
     ]
 
     def _after_init(self, ctx):
@@ -420,15 +404,17 @@ class Track(ctypes.Structure):
     def styles(self):
         if self.n_styles == 0:
             return []
-        return ctypes.cast(self.styles_arr,
-                           ctypes.POINTER(Style * self.n_styles)).contents
+        return ctypes.cast(
+            self.styles_arr, ctypes.POINTER(Style * self.n_styles)
+        ).contents
 
     @property
     def events(self):
         if self.n_events == 0:
             return []
-        return ctypes.cast(self.events_arr,
-                           ctypes.POINTER(Event * self.n_events)).contents
+        return ctypes.cast(
+            self.events_arr, ctypes.POINTER(Event * self.n_events)
+        ).contents
 
     def make_style(self):
         style = self.styles_arr[_libass.ass_alloc_style(ctypes.byref(self))]
@@ -454,8 +440,7 @@ class Track(ctypes.Structure):
         self.play_res_x = doc.play_res_x
         self.play_res_y = doc.play_res_y
         self.wrap_style = doc.wrap_style
-        self.scaled_border_and_shadow = doc.scaled_border_and_shadow.lower() == \
-                                        "yes"
+        self.scaled_border_and_shadow = doc.scaled_border_and_shadow.lower() == "yes"
 
         self.style_format = ", ".join(doc.styles_field_order).encode("utf-8")
         self.event_format = ", ".join(doc.events_field_order).encode("utf-8")
@@ -487,7 +472,7 @@ _libass.ass_new_track.restype = ctypes.POINTER(Track)
 
 _libass.ass_set_style_overrides.argtypes = [
     ctypes.POINTER(Context),
-    ctypes.POINTER(ctypes.c_char_p)
+    ctypes.POINTER(ctypes.c_char_p),
 ]
 _libass.ass_set_fonts.argtypes = [
     ctypes.POINTER(Renderer),
@@ -495,7 +480,7 @@ _libass.ass_set_fonts.argtypes = [
     ctypes.c_char_p,
     ctypes.c_int,
     ctypes.c_char_p,
-    ctypes.c_int
+    ctypes.c_int,
 ]
 _libass.ass_fonts_update.argtypes = [ctypes.POINTER(Renderer)]
 
@@ -503,7 +488,7 @@ _libass.ass_render_frame.argtypes = [
     ctypes.POINTER(Renderer),
     ctypes.POINTER(Track),
     ctypes.c_longlong,
-    ctypes.POINTER(ctypes.c_int)
+    ctypes.POINTER(ctypes.c_int),
 ]
 _libass.ass_render_frame.restype = ctypes.POINTER(Image)
 
@@ -511,7 +496,7 @@ _libass.ass_read_memory.argtypes = [
     ctypes.POINTER(Context),
     ctypes.c_char_p,
     ctypes.c_size_t,
-    ctypes.c_char_p
+    ctypes.c_char_p,
 ]
 _libass.ass_read_memory.restype = ctypes.POINTER(Track)
 

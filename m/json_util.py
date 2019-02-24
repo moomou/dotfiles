@@ -7,7 +7,7 @@ def load(filename):
 
 
 def write(filename, content):
-    if not filename.endswith('.json'):
-        filename = '%s.json' % filename
-    with open(filename, 'w') as f:
+    if not filename.endswith(".json"):
+        filename = "%s.json" % filename
+    with open(filename, "w") as f:
         f.write(json.dumps(content))

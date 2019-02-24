@@ -19,9 +19,9 @@ class Encoder(object):
 
     def __init__(self, weights_hdf5_filepath):
         if not weights_hdf5_filepath:
-            raise Exception('weights_hdf5_filepath must be defined.')
+            raise Exception("weights_hdf5_filepath must be defined.")
         self.weights_hdf5_filepath = weights_hdf5_filepath
-        self.weights = b''
+        self.weights = b""
         self.metadata = []
 
     def serialize(self):
@@ -30,29 +30,29 @@ class Encoder(object):
         load_weights_from_hdf5_group method of the Container class:
         see https://github.com/fchollet/keras/blob/master/keras/engine/topology.py#L2505-L2585
         """
-        hdf5_file = h5py.File(self.weights_hdf5_filepath, mode='r')
-        if 'layer_names' not in hdf5_file.attrs and 'model_weights' in hdf5_file:
-            f = hdf5_file['model_weights']
+        hdf5_file = h5py.File(self.weights_hdf5_filepath, mode="r")
+        if "layer_names" not in hdf5_file.attrs and "model_weights" in hdf5_file:
+            f = hdf5_file["model_weights"]
         else:
             f = hdf5_file
 
-        layer_names = [n.decode('utf8') for n in f.attrs['layer_names']]
+        layer_names = [n.decode("utf8") for n in f.attrs["layer_names"]]
         offset = 0
         for layer_name in layer_names:
             g = f[layer_name]
-            weight_names = [n.decode('utf8') for n in g.attrs['weight_names']]
+            weight_names = [n.decode("utf8") for n in g.attrs["weight_names"]]
             if len(weight_names):
                 for weight_name in weight_names:
                     meta = {}
-                    meta['layer_name'] = layer_name
-                    meta['weight_name'] = weight_name
+                    meta["layer_name"] = layer_name
+                    meta["weight_name"] = weight_name
                     weight_value = g[weight_name].value
                     bytearr = weight_value.astype(np.float32).tobytes()
                     self.weights += bytearr
-                    meta['offset'] = offset
-                    meta['length'] = len(bytearr) // 4
-                    meta['shape'] = list(weight_value.shape)
-                    meta['type'] = 'float32'
+                    meta["offset"] = offset
+                    meta["length"] = len(bytearr) // 4
+                    meta["shape"] = list(weight_value.shape)
+                    meta["type"] = "float32"
                     self.metadata.append(meta)
                     offset += len(bytearr)
 
@@ -61,17 +61,19 @@ class Encoder(object):
     def save(self):
         """Saves weights data (binary) and weights metadata (json)
         """
-        weights_filepath = '{}_weights.buf'.format(
-            os.path.splitext(self.weights_hdf5_filepath)[0])
-        with open(weights_filepath, mode='wb') as f:
+        weights_filepath = "{}_weights.buf".format(
+            os.path.splitext(self.weights_hdf5_filepath)[0]
+        )
+        with open(weights_filepath, mode="wb") as f:
             f.write(self.weights)
-        metadata_filepath = '{}_metadata.json'.format(
-            os.path.splitext(self.weights_hdf5_filepath)[0])
-        with open(metadata_filepath, mode='w') as f:
+        metadata_filepath = "{}_metadata.json".format(
+            os.path.splitext(self.weights_hdf5_filepath)[0]
+        )
+        with open(metadata_filepath, mode="w") as f:
             json.dump(self.metadata, f)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     """
     Usage:
         python encoder.py example.hdf5

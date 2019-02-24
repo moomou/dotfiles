@@ -8,7 +8,7 @@ import coloredlogs
 
 import shell_util
 
-FMT = '[%(asctime)s %(filename)s:%(lineno)d %(levelname)s] %(message)s'
+FMT = "[%(asctime)s %(filename)s:%(lineno)d %(levelname)s] %(message)s"
 
 
 class Base(object):
@@ -18,20 +18,20 @@ class Base(object):
         self._renames = renames or {}
 
         self._logger = logging.getLogger(type(self).__name__)
-        coloredlogs.install(level='INFO', fmt=FMT)
+        coloredlogs.install(level="INFO", fmt=FMT)
 
         self._debugging = False
-        if os.environ.get('DEBUG', None):
+        if os.environ.get("DEBUG", None):
             self._debugging = True
-            coloredlogs.install(level='DEBUG', fmt=FMT)
+            coloredlogs.install(level="DEBUG", fmt=FMT)
             self._logger.setLevel(logging.DEBUG)
 
     def _module(self, m_name):
         if m_name not in self._modules_cache:
             m_name = self._renames.get(m_name, m_name)
-            self._logger.debug('Loading:: %s', m_name)
+            self._logger.debug("Loading:: %s", m_name)
 
-            assert m_name in self._lazy_import, 'Import not declared:: `%s`' % m_name
+            assert m_name in self._lazy_import, "Import not declared:: `%s`" % m_name
 
             m = import_module(m_name)
             self._modules_cache[m_name] = m

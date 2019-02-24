@@ -14,8 +14,8 @@ from shell_util import shell
 @deco.concurrent
 def concurrent_hash(fname):
     md5 = hashlib.md5()
-    with open(fname, 'rb') as f:
-        for chunk in iter(lambda: f.read(128 * md5.block_size), b''):
+    with open(fname, "rb") as f:
+        for chunk in iter(lambda: f.read(128 * md5.block_size), b""):
             md5.update(chunk)
     return md5.hexdigest()
 
@@ -33,42 +33,46 @@ def file_hashes(files):
 
 class Shell(Base):
     def encrypt_ssh_pub(self, pub_key_file, input_file, out_file=None, keep=False):
-        if pub_key_url.startswith('http'):
+        if pub_key_url.startswith("http"):
             raise NotImplementedError
         if out_file is None:
-            out_file = os.path.basename(input_file) + '.enc'
+            out_file = os.path.basename(input_file) + ".enc"
 
         self.shell(
-            'openssl rsautl -encrypt -pubin -inkey %s -ssl -in %s -out %s' % (
-                pub_key_file, input_file, out_file))
+            "openssl rsautl -encrypt -pubin -inkey %s -ssl -in %s -out %s"
+            % (pub_key_file, input_file, out_file)
+        )
 
         if not keep:
-            self.shell('shred %s' % input_file)
+            self.shell("shred %s" % input_file)
 
     def encrypt(self, input_file, out_file=None, keep=False):
         if out_file is None:
-            out_file = os.path.basename(input_file) + '.enc'
+            out_file = os.path.basename(input_file) + ".enc"
 
         if not keep:
-            print('We will shred your file after')
+            print("We will shred your file after")
 
-        pwd = getpass.getpass('Passphrase: ')
+        pwd = getpass.getpass("Passphrase: ")
         self.shell(
-            'gpg --yes --batch --passphrase %s --output %s --symmetric --cipher-algo AES256 %s'
-            % (pwd, out_file, input_file))
+            "gpg --yes --batch --passphrase %s --output %s --symmetric --cipher-algo AES256 %s"
+            % (pwd, out_file, input_file)
+        )
 
         if not keep:
-            self.shell('shred %s' % input_file)
+            self.shell("shred %s" % input_file)
 
     def decrypt(self, input_file, out_file=None):
         if out_file is None:
             out_file = os.path.basename(input_file)
-            if out_file.endswith('.enc'):
+            if out_file.endswith(".enc"):
                 out_file = out_file[:-4]
 
-        pwd = getpass.getpass('Passphrase: ')
-        self.shell('gpg --yes --batch --passphrase=%s --output %s --decrypt %s'
-                   % (pwd, out_file, input_file))
+        pwd = getpass.getpass("Passphrase: ")
+        self.shell(
+            "gpg --yes --batch --passphrase=%s --output %s --decrypt %s"
+            % (pwd, out_file, input_file)
+        )
 
     def rename_md5(self, glob_pattern, suffix=None):
         files = glob.glob(glob_pattern)
@@ -80,10 +84,10 @@ class Shell(Base):
             if md5 in renamed:
                 dup[md5] += 1
             else:
-                target = pathlib.Path(md5 + ('' if suffix is None else '.%s' % suffix))
-                self._logger.info('{0} -> {1}'.format(src, target))
+                target = pathlib.Path(md5 + ("" if suffix is None else ".%s" % suffix))
+                self._logger.info("{0} -> {1}".format(src, target))
                 src.rename(target)
                 renamed.add(md5)
 
         if len(dup):
-            self._logger.warning('Dup files: %s', dup)
+            self._logger.warning("Dup files: %s", dup)
