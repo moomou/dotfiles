@@ -23,7 +23,7 @@
     email = paul@cueb.io
 [core]
     editor = $EDITOR
-	excludesfile = /Users/moomou/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	fscache = true
 	preloadindex = true
 	;pager = diff-so-fancy | less --tabs=4 -RFX

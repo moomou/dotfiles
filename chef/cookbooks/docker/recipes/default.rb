@@ -9,7 +9,7 @@ bash 'install docker' do
         # TODO(moomou): make this more dynamic
         FILE=docker-ce_18.06.3~ce~3-0~ubuntu_amd64.deb
         wget https://download.docker.com/linux/ubuntu/dists/bionic/pool/stable/amd64/$FILE
-        dpkg -i $VERSION
+        dpkg -i $FILE
         docker run hell-world
 
         popd
@@ -17,5 +17,5 @@ bash 'install docker' do
         # add default ubuntu user
         sudo usermod -aG docker #{node['server']['username']} || true
     EOH
-  not_if '[[ $(docker version --format "{{.Server.Version}}") == "18.06.3" ]]'
+  not_if '[[ $(docker version --format "{{.Server.Version}}") == "18.06.3-ce" ]]'
 end
