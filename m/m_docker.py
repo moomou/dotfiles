@@ -7,8 +7,17 @@ from util import get_config_yml, m_path
 
 from m_base import Base
 
+GCR_TAG = "gcr.io/euraio/{img}:{tag}"
+
 
 class Docker(Base):
+    def build(self, app):
+        self.shell(
+            "groot && docker build -t {TAG} -f app/{app}/Dockerfile .".format(
+                GCR_TAG.format(img=app, tag="latest"), app
+            )
+        )
+
     def load(self, app):
         """Load a docker gz file into docker images"""
         self.shell("docker load < %s.gz" % app)
