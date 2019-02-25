@@ -11,10 +11,15 @@ GCR_TAG = "gcr.io/euraio/{img}:{tag}"
 
 
 class Docker(Base):
-    def build(self, app):
+    def build(self, app, build_args=""):
+        extra_args = []
+        if build_args:
+            extra_args.extend(["--build-arg %s" % kv for kv in build_args.split(",")])
         self.shell(
-            "groot && docker build -t {TAG} -f app/{app}/Dockerfile .".format(
-                GCR_TAG.format(img=app, tag="latest"), app
+            "docker build -t {tag} -f app/{app}/Dockerfile {extra} .".format(
+                tag=GCR_TAG.format(img=app, tag="latest"),
+                app=app,
+                extra=' '.join(extra_args),
             )
         )
 
@@ -48,7 +53,7 @@ class Docker(Base):
         )
         self.shell(cmd)
 
-    def build(self, app, include_cert=False):
+    def xbuild(self, app, include_cert=False):
         """Build a docker image of the app and push to remote repo"""
         config_yml = get_config_yml()
         remove_after = ["./.dockerignore", "./gitlab_rsa"]
