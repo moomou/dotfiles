@@ -1,8 +1,15 @@
+random-255() {
+    echo $((RANDOM % 255))
+}
+
 # https://gist.github.com/wadey/1140259
 tab-color() {
-    echo -ne "\033]6;1;bg;red;brightness;$1\a"
-    echo -ne "\033]6;1;bg;green;brightness;$2\a"
-    echo -ne "\033]6;1;bg;blue;brightness;$3\a"
+    R=${1:-$(random-255)}
+    G=${2:-$(random-255)}
+    B=${3:-$(random-255)}
+    echo -ne "\033]6;1;bg;red;brightness;$R\a"
+    echo -ne "\033]6;1;bg;green;brightness;$G\a"
+    echo -ne "\033]6;1;bg;blue;brightness;$B\a"
 }
 tab-reset() {
     echo -ne "\033]6;1;bg;*;default\a"
