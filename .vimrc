@@ -138,7 +138,6 @@ Plug 'mattn/emmet-vim'
 Plug 'godlygeek/tabular'
 Plug 'tpope/vim-surround'
 Plug 'Chiel92/vim-autoformat'
-"let g:formatter_yapf_style = 'pep8'
 
 Plug 'sbdchd/neoformat'
 autocmd FileType javascript setlocal formatprg=prettier\ --stdin\ --parser\ flow\ --single-quote\ --trailing-comma\ es5
@@ -178,8 +177,8 @@ Plug 'fatih/vim-go', { 'for': ['go', 'golang'] }
 Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
 Plug 'mxw/vim-jsx', { 'for': ['javascript'] }
 
-Plug 'valloric/MatchTagAlways', { 'for': ['javascript', 'html', 'xml'] }
-let g:mta_use_matchparen_group = 1
+"Plug 'valloric/MatchTagAlways', { 'for': ['javascript', 'html', 'xml'] }
+"let g:mta_use_matchparen_group = 1
 
 Plug 'elzr/vim-json', { 'for': ['json'] }
 
