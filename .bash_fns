@@ -72,3 +72,10 @@ function color-ranger() {
     ranger $*
 }
 alias ranger=color-ranger
+
+
+# git rebase
+function rebase() {
+    branch=${1:-master}
+    git pull --rebase origin $branch && git sub update --init --jobs 4
+}
