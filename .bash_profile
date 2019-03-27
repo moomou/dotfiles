@@ -70,3 +70,5 @@ if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/mo
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/completion.bash.inc'; fi
+
+tab-color

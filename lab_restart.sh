@@ -8,6 +8,7 @@ while :; do
         sleep 30
     else
         echo restarting...
+        systemctl restart ssh
         supervisorctl restart spa_tunnel
         sleep 30
     fi
