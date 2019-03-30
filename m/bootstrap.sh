@@ -7,7 +7,7 @@ FNAME=m_venv3
 M_VENV=/usr/local/bin/$FNAME
 
 if [ ! -d "$M_VENV" ]; then
-    (cd /usr/local/bin && python3 -m venv $FNAME)
+    (cd /usr/local/bin && python3.6 -m venv $FNAME)
 fi
 
 # idk why this complains about numpy
