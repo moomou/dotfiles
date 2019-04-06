@@ -1,3 +1,9 @@
+# PROFILING START
+#PS4='+ $(gdate "+%s.%N")\011 '
+#exec 3>&2 2>/tmp/bashstart.$$.log
+#set -x
+# PROFILING START
+
 set -o history -o histexpand
 complete -d cd
 
@@ -45,7 +51,7 @@ export PATH="~/.fz/bin:$PATH"
 source ~/.bashrc 2>/dev/null
 
 # source files if exists
-[[ -s "~/.cuebenv/activate.sh" ]] && source ". ~/.cuebenv/activate.sh"
+# [[ -s "~/.cuebenv/activate.sh" ]] && source ". ~/.cuebenv/activate.sh"
 
 source ~/.git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=1
@@ -72,3 +78,8 @@ if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/mo
 if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/completion.bash.inc'; fi
 
 tab-color
+
+# PROFILING STOP
+#set +x
+#exec 2>&3 3>&-
+# PROFILING STOP
