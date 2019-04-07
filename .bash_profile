@@ -1,10 +1,11 @@
+set +o history
+
 # PROFILING START
 #PS4='+ $(gdate "+%s.%N")\011 '
 #exec 3>&2 2>/tmp/bashstart.$$.log
 #set -x
 # PROFILING START
 
-set -o history -o histexpand
 complete -d cd
 
 ## shortcut for commands
@@ -83,3 +84,5 @@ tab-color
 #set +x
 #exec 2>&3 3>&-
 # PROFILING STOP
+
+set -o history -o histexpand
