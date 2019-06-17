@@ -1,5 +1,5 @@
 # connect to your server
-alias bx='ssh -t spa /usr/bin/ssh -i /root/.ssh/keys/moomoutu_rsa moomou@localhost -p 2222'
+alias bx='gcloud compute --project ppymou ssh mini -- "/usr/bin/ssh -i ~/moomoutu_rsa moomou@localhost -p 2222"'
 alias ctags='/usr/local/bin/ctags'
 
 # git alias

@@ -7,6 +7,7 @@
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
+HISTIGNORE='ls:bg:fg:history'
 
 export CLICOLOR=1
 
@@ -14,8 +15,8 @@ export CLICOLOR=1
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=2000
-HISTFILESIZE=5000
+HISTSIZE=20000
+HISTFILESIZE=50000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.

@@ -14,5 +14,5 @@ echo
 
 tar cj . | ssh -o 'StrictHostKeyChecking no' "$host" '
 cd $(mktemp -d) &&
-tar xj &&
-sudo bash run_chef_role.sh' "$role"
+    tar xj &&
+    sudo bash run_chef_role.sh ' "$role"

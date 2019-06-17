@@ -1,4 +1,4 @@
 name 'box'
 
-depends 'docker'
-depends 'supervisord'
+# depends 'docker'
+# depends 'supervisord'

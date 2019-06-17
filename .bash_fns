@@ -66,6 +66,7 @@ function BashPrompt() {
 
 # pyenv dark magic
 function initpyenv() {
+    command -v pyenv || return
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 }

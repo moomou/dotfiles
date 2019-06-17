@@ -1,5 +1,5 @@
-include_recipe 'docker::default'
-include_recipe 'supervisord::default'
+# include_recipe 'docker::default'
+# include_recipe 'supervisord::default'
 
 # common tool
 package 'python3-venv'
@@ -7,6 +7,7 @@ package 'ffmpeg'
 package 'hdf5-tools'
 package 'software-properties-common'
 package 'silversearcher-ag'
+package 'jq'
 package 'git'
 package 'gnupg'
 package 'redis-tools'
@@ -31,7 +32,6 @@ package 'bison'
 package 'build-essential'
 package 'bzip2'
 package 'gcc'
-package 'libav-tools'
 package 'libbz2-dev'
 package 'liblapack-dev'
 package 'libncurses5-dev'
@@ -40,7 +40,6 @@ package 'libopenblas-dev'
 package 'libopencv-dev'
 package 'libopenmpi-dev'
 package 'libreadline-dev'
-package 'libreadline6'
 package 'libreadline6-dev'
 package 'libsndfile1'
 package 'libsndfile1-dev'
@@ -97,6 +96,11 @@ bash 'install misc' do
   user 'root'
   code <<-EOH
     sudo pip install --upgrade youtube_dl
+    (   # install ripgrep
+        cd $(mktemp -d) &&
+        curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep_11.0.1_amd64.deb &&
+        sudo dpkg -i ripgrep_11.0.1_amd64.deb
+    )
     EOH
 end
 

@@ -24,8 +24,8 @@ if ! command -v $CHEF_BINARY >/dev/null 2>&1; then
         sudo gem2.4 install --no-rdoc --no-ri chef berkshelf
 fi
 
-# install dep cookbooks
+echo Installing deps...
 sudo berks vendor ./vendor
 
-# run chef
-sudo "$CHEF_BINARY" -c solo.rb -j "./roles/${role}.json"
+echo Starting chef run...
+sudo "$CHEF_BINARY" -c "$(pwd)/solo.rb" -j "$(pwd)/roles/${role}.json"
