@@ -2,6 +2,7 @@
 # include_recipe 'supervisord::default'
 
 # common tool
+package 'ncdu'
 package 'python3-venv'
 package 'ffmpeg'
 package 'hdf5-tools'
@@ -95,11 +96,18 @@ end
 bash 'install misc' do
   user 'root'
   code <<-EOH
+    export DEBIAN_FRONTEND=noninteractive
     sudo pip install --upgrade youtube_dl
     (   # install ripgrep
         cd $(mktemp -d) &&
         curl -LO https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep_11.0.1_amd64.deb &&
         sudo dpkg -i ripgrep_11.0.1_amd64.deb
+    )
+    (
+        # install bat
+        cd $(mktemp -d) &&
+        curl -LO https://github.com/sharkdp/bat/releases/download/v0.11.0/bat_0.11.0_amd64.deb &&
+        sudo dpkg -i bat_0.11.0_amd64.deb
     )
     EOH
 end
