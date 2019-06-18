@@ -15,6 +15,7 @@ package 'redis-tools'
 package 'autossh'
 package 'tk-dev'
 package 'htop'
+package 'unzip'
 
 # py header
 package 'libpython-dev'
