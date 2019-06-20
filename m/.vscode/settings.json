@@ -1,4 +1,10 @@
 {
     "python.pythonPath": "/usr/local/bin/m_venv3/bin/python",
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "black",
+    "workbench.colorCustomizations": {
+        "titleBar.activeBackground": "#f46779",
+        "titleBar.inactiveBackground": "#f4677999",
+        "titleBar.activeForeground": "#15202b",
+        "titleBar.inactiveForeground": "#15202b99"
+    }
 }

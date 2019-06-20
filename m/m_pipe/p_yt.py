@@ -3,13 +3,15 @@ import subprocess
 import tqdm
 import deco
 
+from m_pipe.pipe_worker import PipeWorker
+
 
 def shell(cmd):
     p = subprocess.Popen(cmd, shell=True)
 
     try:
         outs, errs = p.communicate()
-    except Exception as e:
+    except Exception:
         p.kill()
         outs, errs = p.communicate()
 
@@ -28,10 +30,9 @@ def parallel(tasks):
         process(cmds)
 
 
-class Worker:
-    def __init__(self, pipe):
+class Worker(PipeWorker):
+    def __init__(self):
         self.name = "yt_pipe"
-        self.pipe = pipe
 
     def pp(self, filename):
         """Loads json file in format [
@@ -41,9 +42,9 @@ class Worker:
             ...
         ] and downloads the youtube segment
         """
-        json_util = self.pipe._module("json_util")
-        fs_util = self.pipe._module("fs_util")
-        au = self.pipe._module("audio_util")
+        json_util = self._module("json_util")
+        fs_util = self._module("fs_util")
+        au = self._module("audio_util")
 
         data_dir = fs_util.mkdir_data(self.name)
         ytids = json_util.load(filename)

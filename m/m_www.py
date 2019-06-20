@@ -20,9 +20,9 @@ def compile_context(mk2, context):
     return context
 
 
-class WWW(Base):
+class Www(Base):
     def __init__(self):
-        super(WWW, self).__init__(["jinja2", "requests", "markdown2"])
+        super(Www, self).__init__(["jinja2", "requests", "markdown2"])
 
     def serve(self):
         self.shell("go run %s/server.go" % M_ROOT)

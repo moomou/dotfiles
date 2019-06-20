@@ -12,33 +12,45 @@ from m_docker import Docker
 from m_keras import Keras
 from m_pipe import Pipe
 from m_watcher import Watcher
-from m_www import WWW
+from m_www import Www
 from m_shell import Shell
 from m_voixdb import Voixdb
 
+import fs_util
+import git_util
 from constant import M_ROOT
 
-with open(os.path.join(M_ROOT, './log.conf')) as conf:
+with open(os.path.join(M_ROOT, "./log.conf")) as conf:
     logging.config.dictConfig(json.load(conf))
     logger = logging.getLogger()
 
 
 class M2:
     def __init__(self):
-        self.docker = Docker
+        self.audio = Audio
         self.chef = Chef
         self.deploy = Deploy
-        self.www = WWW
+        self.docker = Docker
         self.keras = Keras
-        self.audio = Audio
         self.pipe = Pipe
-        self.watcher = Watcher
         self.shell = Shell
         self.voixdb = Voixdb
+        self.watcher = Watcher
+        self.www = Www
+
+    def update(self):
+        """
+        Updates the m tool
+        """
+        glog.info("updating m tool by rebasing...")
+        with fs_util.Cwd(M_ROOT):
+            git_util.stash()
+            git_util.rebase()
+            git_util.stash_pop()
 
     def debug(self):
-        logger.info('TBD')
+        logger.info("TBD")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     fire.Fire(M2())
