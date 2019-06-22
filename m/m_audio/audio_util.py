@@ -27,7 +27,6 @@ def write_wav(sig, freq, path, norm=True):
         "wav sig:: %s, %s, %s, %s, %s", sig, freq, sig.shape, sig.min(), sig.max()
     )
     logger.debug("Writing wav to:: %s", path)
-
     librosa.output.write_wav(path, sig, freq, norm=norm)
 
 

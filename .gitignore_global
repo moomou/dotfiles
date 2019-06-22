@@ -15,3 +15,4 @@ node_modules
 x_*
 vendor/
 go/pkg/
+.m_pipe_log/
