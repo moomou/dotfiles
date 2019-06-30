@@ -29,12 +29,11 @@ class Committer(threading.Thread):
     def _parse_log(self):
         completed = set()
         failed = set()
-
         if os.path.exists(self.log_path):
             with open(self.log_path) as f:
                 for line in f:
                     task_id, status = line.split("~~")
-                    if status != "0":
+                    if status.strip() != "0":
                         failed.add(task_id)
                     else:
                         completed.add(task_id)
