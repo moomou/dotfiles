@@ -14,5 +14,5 @@ def stash_pop():
     shell("git stash pop")
 
 
-def rebase():
-    shell("rebase")
+def rebase(branch="master"):
+    shell("git pull --rebase origin %s" % branch)
