@@ -1,6 +1,10 @@
 #!/bin/bash
 
-RUBY_VERSION=ruby2.4
+RUBY_VERSION=2.5
+CHEF_VERSION=14.13.11
+BERKSHELF_VERISON=7.0.7
+
+RUBY=ruby$RUBY_VERSION
 CHEF_BINARY=chef-solo
 
 role=$1
@@ -10,18 +14,18 @@ if ! command -v $CHEF_BINARY >/dev/null 2>&1; then
     export DEBIAN_FRONTEND=noninteractive
 
     # Install Ruby, Chef, and its dep
-    if ! $(apt-cache search $RUBY_VERSION | grep -q $RUBY_VERSION); then
+    if ! $(apt-cache search $RUBY | grep -q $RUBY); then
         apt-add-repository ppa:brightbox/ruby-ng -y
     fi
 
     apt-get update &&
         apt-get install -y \
-            $RUBY_VERSION \
-            $RUBY_VERSION-dev \
+            $RUBY \
+            $RUBY-dev \
             make \
             libgmp-dev \
             gcc &&
-        sudo gem2.4 install --no-rdoc --no-ri chef berkshelf
+        sudo gem$RUBY_VERSION install --no-rdoc --no-ri chef:$CHEF_VERSION berkshelf:$BERKSHELF_VERISON
 fi
 
 echo Installing deps...

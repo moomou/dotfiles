@@ -1,16 +1,6 @@
 {
   "run_list": [
-    "recipe[box::default]"
-  ],
-  "bootstrapUser": [
-    "ppycom_hack_gmail_com"
-  ],
-  "server": {
-    "username": "ppycom_hack_gmail_com",
-    "users": [
-      {
-        "username": "ppycom_hack_gmail_com"
-      }
-    ]
-  }
+    "recipe[box::default]",
+    "recipe[dotfiles::default]"
+  ]
 }
