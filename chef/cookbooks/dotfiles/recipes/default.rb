@@ -8,4 +8,5 @@ bash 'download dotfiles' do
     sudo ./bootstrap.sh
     sudo ./bootstrap_dot.sh
     EOH
+  not_if { ::File.directory?("~/dev/dotfiles") }
 end

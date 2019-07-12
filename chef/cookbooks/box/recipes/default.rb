@@ -92,6 +92,7 @@ bash 'install gsutil' do
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
     sudo apt-get update && sudo apt-get install -y google-cloud-sdk
     EOH
+  not_if 'which gsutil'
 end
 
 bash 'install misc' do
@@ -111,6 +112,7 @@ bash 'install misc' do
         sudo dpkg -i bat_0.11.0_amd64.deb
     )
     EOH
+  not_if 'which rg'
 end
 
 # TODO: uncomment for debugging
