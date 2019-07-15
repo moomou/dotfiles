@@ -16,6 +16,7 @@ package 'autossh'
 package 'tk-dev'
 package 'htop'
 package 'unzip'
+package 'automake'
 
 # py header
 package 'libpython-dev'

@@ -7,6 +7,9 @@ bash "download and install tmux #{version}" do
     git clone https://github.com/tmux/tmux.git $TMUX_DIR
     pushd $TMUX_DIR
     git checkout #{version}
+
+    apt-get install libevent-dev
+
     sh autogen.sh
     ./configure && make
     make install
