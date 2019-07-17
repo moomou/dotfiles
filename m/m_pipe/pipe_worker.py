@@ -105,6 +105,11 @@ class PipeWorker(Base):
         pool = multiprocessing.Pool(os.cpu_count())
 
         self._c.start()
+
         fn(pool, batch_size=os.cpu_count())
+
+        pool.close()
+        pool.join()
+
         self._q.put(FINAL)
         self._c.join()
