@@ -2,6 +2,10 @@ class PipeException(Exception):
     pass
 
 
+class PanicException(PipeException):
+    pass
+
+
 class Error(PipeException):
     pass
 
@@ -17,6 +21,8 @@ class PipeTask:
 
     def __exit__(self, exception_type, exception_value, traceback):
         if exception_value is not None:
+            if exception_type is PanicException:
+                return False
             self.failed = True
             self._queue.put((self.task_id, 1))
         else:

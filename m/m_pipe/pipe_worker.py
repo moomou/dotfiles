@@ -102,7 +102,9 @@ class PipeWorker(Base):
         """
         entry point for invoking the downstream task
         """
+        pool = multiprocessing.Pool(os.cpu_count())
+
         self._c.start()
-        fn()
+        fn(pool, batch_size=os.cpu_count())
         self._q.put(FINAL)
         self._c.join()

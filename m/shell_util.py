@@ -1,10 +1,13 @@
+import logging
 import subprocess
+from subprocess import PIPE, STDOUT
 
 
-def shell(cmd, timeout=None, throw=False, quiet=True):
-    stdout = None if not quiet else subprocess.DEVNULL
-    p = subprocess.Popen(cmd, shell=True, stdout=stdout)
+def shell(cmd, timeout=None, throw=False, **kwargs):
+    if "quiet" in kwargs:
+        logging.warning("quiet flag is deprecated")
 
+    p = subprocess.Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
     try:
         outs, errs = p.communicate()
     except Exception as e:

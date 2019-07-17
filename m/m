@@ -25,16 +25,16 @@ with open(os.path.join(M_ROOT, "./log.conf")) as conf:
 
 class M2:
     def __init__(self):
-        self.audio = Audio
-        self.chef = Chef
-        self.deploy = Deploy
-        self.docker = Docker
-        self.keras = Keras
-        self.pipe = Pipe
-        self.shell = Shell
-        self.voixdb = Voixdb
-        self.watcher = Watcher
-        self.www = Www
+        self.audio = Audio()
+        self.chef = Chef()
+        self.deploy = Deploy()
+        self.docker = Docker()
+        self.keras = Keras()
+        self.pipe = Pipe()
+        self.shell = Shell()
+        self.voixdb = Voixdb()
+        self.watcher = Watcher()
+        self.www = Www()
 
     def update(self):
         """
