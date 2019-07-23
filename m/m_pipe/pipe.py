@@ -1,5 +1,4 @@
 import importlib.util
-import queue
 
 from m_base import Base
 
@@ -19,6 +18,21 @@ class Pipe(Base):
 
         worker = mod.Worker()
         return worker
+
+    def master(
+        self,
+        event_script,
+        redis_addr="redis://localhost:6379",
+        master_chan="pipe_master",
+    ):
+        """
+        Start a pipe master where worker can report errors and master run scripts
+        to try to unblock worker
+        """
+        from m_pipe.pipe_master import PipeMaster
+
+        master = PipeMaster(redis_addr)
+        master.start(event_script)
 
     def ytpipe(self):
         from m_pipe.p_yt import Worker

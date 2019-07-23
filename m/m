@@ -40,6 +40,9 @@ class M2:
         """
         Updates the m tool
         """
+        import sys
+        import subprocess
+
         import fs_util
         import git_util
 
@@ -48,6 +51,18 @@ class M2:
             git_util.stash()
             git_util.rebase()
             git_util.stash_pop()
+
+        # also install dependency
+        subprocess.check_call(
+            [
+                sys.executable,
+                "-m",
+                "pip",
+                "install",
+                "-r",
+                os.path.join(M_ROOT, "pip-requirements.txt"),
+            ]
+        )
 
 
 if __name__ == "__main__":
