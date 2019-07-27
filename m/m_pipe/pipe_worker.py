@@ -110,7 +110,7 @@ class PipeWorker(Base):
         self._c.join()
 
 
-def get_ip(self):
+def get_ip():
     import socket
 
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
