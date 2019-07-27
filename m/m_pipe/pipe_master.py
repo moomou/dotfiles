@@ -53,7 +53,7 @@ class PipeMaster(Base):
                 continue
 
             if event in event_script:
-                script = event_script[event.decode("utf-8")]
+                script = event_script[event]
                 retcode, stdout, err = self.shell(script)
 
                 if err:
