@@ -98,12 +98,16 @@ def file_split_ffmpeg_exp(input_f, seg_len, output_exp):
     )
 
 
-def ytid_dl_cmd(ytid):
+def youtube_dl_cmd(url, fname, proxy=None):
+    cmd = YOUTUBE_DL_CMD
+    if proxy:
+        cmd += " --proxy %s " % proxy
+        cmd += " --socket-timeout 5 "
+    return (cmd + url, fname)
+
+
+def ytid_dl_cmd(ytid, proxy=None):
     url = YOUTUBE_PREFIX % ytid
     fname = "%s.mp3" % ytid
 
-    if not os.path.isfile(fname) or os.stat(fname).st_size == 0:
-        # download file if not already there
-        return (YOUTUBE_DL_CMD + url, fname)
-
-    return ("echo %s exists" % fname, fname)
+    return youtube_dl_cmd(url, fname, proxy=proxy)

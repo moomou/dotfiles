@@ -32,6 +32,16 @@ def file_hashes(files):
 
 
 class Shell(Base):
+    def generate_proxy_files(self, output_dir):
+        base_url = "https://www.proxy-list.download/api/v0/get?l=en&t={type}"
+        os.makedirs(output_dir, exist_ok=True)
+        for ptype in ("socks5", "http", "https"):
+            res = requests.get(base_url.format(type=ptype)).json()
+            with open(os.path.join(output_dir, ptype), "w") as f:
+                proxies = res["0"]["LISTA"]
+                for p in proxies:
+                    f.write("%s:%s" % (p["IP"], p["PORT"]))
+
     def encrypt_ssh_pub(self, pub_key_file, input_file, out_file=None, keep=False):
         if pub_key_url.startswith("http"):
             raise NotImplementedError
