@@ -9,6 +9,22 @@ class PipeMaster(Base):
         super().__init__(["redis"])
         self.redis_addr = redis_addr
 
+    def parse_msg_data(self, data):
+        """
+        FIXME: kv not used yet
+        """
+        if type(data) is not bytes:
+            self._logger.info("discarded msg:: %s", data)
+            return None, None
+        data = data.decode("utf-8")
+        event, kv = data.split("~", maxsplit=1)
+        event = event.strip()
+
+        if not kv.strip():
+            return event, None
+
+        return event, {k: v for k, v in [item.split(":") for item in kv.split(",")]}
+
     def start(self, event_script):
         """
         event_script: relies on python-fire to parse the incoming json to dictionary
@@ -30,8 +46,13 @@ class PipeMaster(Base):
                 time.sleep(0.5)
                 continue
 
-            event = msg["data"]
-            if type(event) is bytes and event.decode("utf-8") in event_script:
+            data = msg["data"]
+            event, _ = self.parse_msg_data(data)
+
+            if event is None:
+                continue
+
+            if event in event_script:
                 script = event_script[event.decode("utf-8")]
                 retcode, stdout, err = self.shell(script)
 
