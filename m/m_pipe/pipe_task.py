@@ -21,9 +21,10 @@ class PipeTask:
 
     def __exit__(self, exception_type, exception_value, traceback):
         if exception_value is not None:
+            self.failed = True
             if exception_type is PanicException:
                 return False
-            self.failed = True
+            # we only record failure if it was NOT a panic
             self._queue.put((self.task_id, 1))
         else:
             self._queue.put((self.task_id, 0))
