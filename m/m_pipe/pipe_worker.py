@@ -124,3 +124,12 @@ def get_ip():
     finally:
         s.close()
     return ip
+
+
+def gcloud_external_ip():
+    import requests
+
+    return requests.get(
+        "http://169.254.169.254/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip",
+        headers={"Metadata-Flavor": "Google"},
+    ).content
