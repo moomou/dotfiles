@@ -1,4 +1,6 @@
-#!/bin/bash -xe
+#!/bin/bash
+
+set -eo pipefail
 
 # This script removes the default external NAT of a Gcloud VM using `gcloud`
 # and assigns it a new one
