@@ -5,6 +5,7 @@ import pathlib
 import threading
 
 from m_base import Base
+from fs_util import safe_move
 
 FINAL = "__FINAL__"
 
@@ -15,9 +16,11 @@ class Committer(threading.Thread):
 
         self.queue = queue
         self.commit_dir = commit_dir
-        self.log_path = os.path.join(commit_dir, "log")
 
-        self._completed, self._failed = self._parse_log()
+        self.log_path = os.path.join(commit_dir, "log")
+        self.compact_log_path = os.path.join(commit_dir, "compact_log")
+
+        self._completed, self._failed = self._parse_log(compact=True)
 
         pathlib.Path(self.log_path).touch()
         self.log = open(self.log_path, mode="ab")
@@ -26,9 +29,10 @@ class Committer(threading.Thread):
     def completed(self):
         return self._completed
 
-    def _parse_log(self):
+    def _parse_log(self, compact=False):
         completed = set()
         failed = set()
+
         if not os.path.exists(self.log_path):
             return completed, failed
 
@@ -40,6 +44,16 @@ class Committer(threading.Thread):
                 else:
                     completed.add(task_id)
 
+        if not compact:
+            return completed, failed
+
+        with open(self.compact_log_path, "w") as f:
+            for task_id in completed:
+                f.write("%s~~0\n" % task_id)
+            for task_id in failed:
+                f.write("%s~~1\n" % task_id)
+
+        safe_move(self.compact_log_path, self.log_path)
         return completed, failed
 
     def _encode(self, task_id, status):

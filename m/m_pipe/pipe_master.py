@@ -16,6 +16,7 @@ class PipeMaster(Base):
         if type(data) is not bytes:
             self._logger.info("discarded msg:: %s", data)
             return None, None
+
         data = data.decode("utf-8")
         event, kv = data.split("~", maxsplit=1)
         event = event.strip()
