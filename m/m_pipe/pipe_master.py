@@ -18,10 +18,16 @@ class PipeMaster(Base):
             return None, None
 
         data = data.decode("utf-8")
-        event, kv = data.split("~", maxsplit=1)
-        event = event.strip()
+        splits = data.split("~", maxsplit=1)
 
-        if not kv.strip():
+        if len(splits) == 1:
+            event = splits[0]
+            kv = None
+        else:
+            event, kv = splits
+
+        event = event.strip()
+        if kv is None or not kv.strip():
             return event, None
 
         return event, {k: v for k, v in [item.split(":") for item in kv.split(",")]}
