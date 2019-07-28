@@ -47,10 +47,13 @@ class M2:
         import git_util
 
         logger.info("updating m tool by rebasing...")
+
         with fs_util.Cwd(M_ROOT):
             git_util.stash()
             git_util.rebase()
             git_util.stash_pop()
+            _, stdout, _ = git_util.log("--pretty=oneline --abbrev-commit -1")
+            logger.info("m updated:: %s", stdout.decode("utf-8").strip())
 
         # also install dependency
         subprocess.check_call(
