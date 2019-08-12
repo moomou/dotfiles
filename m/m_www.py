@@ -25,7 +25,8 @@ class Www(Base):
         super(Www, self).__init__(["jinja2", "requests", "markdown2"])
 
     def serve(self):
-        self.shell("go run %s/server.go" % M_ROOT)
+        import sys
+        self.shell("go run %s/server.go" % M_ROOT, stdout=sys.stdout)
 
     def compile_template(self):
         """Find jinja2 template and build by using var in config.yaml"""

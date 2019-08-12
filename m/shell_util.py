@@ -7,7 +7,7 @@ def shell(cmd, timeout=None, throw=False, **kwargs):
     if "quiet" in kwargs:
         logging.warning("quiet flag is deprecated")
 
-    p = subprocess.Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
+    p = subprocess.Popen(cmd, shell=True, stdout=kwargs.get('stdout', PIPE), stderr=PIPE)
     try:
         outs, errs = p.communicate()
     except Exception as e:

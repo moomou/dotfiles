@@ -47,6 +47,6 @@ class Base(object):
     def _debug_mode(self):
         return self._debugging
 
-    def shell(self, cmd, timeout=None):
+    def shell(self, cmd, timeout=None, **kwargs):
         self._logger.debug(cmd)
-        return shell_util.shell(cmd, timeout)
+        return shell_util.shell(cmd, timeout=timeout, **kwargs)
