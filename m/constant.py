@@ -1,6 +1,7 @@
 import os
+from pathlib import Path
 
-M_ROOT = os.path.dirname(os.path.realpath(__file__))
+M_ROOT = Path(os.path.dirname(os.path.realpath(__file__)))
 
 DOTFILES = os.path.expanduser("~/dev/dotfiles")
 HOME = os.path.expanduser("~")

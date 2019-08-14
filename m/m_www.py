@@ -1,5 +1,6 @@
 import os
 import json
+from pathlib import Path
 
 from constant import M_ROOT
 from m_base import Base
@@ -26,7 +27,11 @@ class Www(Base):
 
     def serve(self):
         import sys
-        self.shell("go run %s/server.go" % M_ROOT, stdout=sys.stdout)
+
+        if not Path(M_ROOT / ".." / "www").exists():
+            self.shell("(cd %s/.. && go build" % M_ROOT, stdout=sys.stdout)
+
+        self.shell("%s/../www" % M_ROOT, stdout=sys.stdout)
 
     def compile_template(self):
         """Find jinja2 template and build by using var in config.yaml"""
