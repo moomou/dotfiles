@@ -190,7 +190,7 @@ set background=dark
 
 " Load AutoComplete only for certain files
 au BufNewFile,BufRead *.partial,*.handlebars set filetype=html
-au BufNewFile,BufRead *.jsx set filetype=javascript
+au BufNewFile,BufRead *.jsx,*.tsx,*.ts set filetype=javascript
 au BufWrite * :DeleteTrailingWhitespace
 autocmd FileType html,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType htmldjango,java,coffee,javascript,scala,html,css,scss setlocal shiftwidth=2 tabstop=2 sts=2 " Two spaces for
