@@ -108,3 +108,8 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+# PROFILING STOP
+#set +x
+#exec 2>&3 3>&-
+# PROFILING STOP
