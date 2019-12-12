@@ -4,6 +4,12 @@
 
 # If not running interactively, don't do anything
 
+# PROFILING START
+#PS4='+ $(gdate "+%s.%N")\011 '
+#exec 3>&2 2>/tmp/bashrc.$$.log
+#set -x
+# PROFILING START
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
