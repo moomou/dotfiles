@@ -1,20 +1,9 @@
 #!/usr/local/bin/m_venv3/bin/python
 import json
-import logging
+import logging.config
 import os
 
 import fire
-
-from m_audio import Audio
-from m_chef import Chef
-from m_deploy import Deploy
-from m_docker import Docker
-from m_keras import Keras
-from m_pipe import Pipe
-from m_watcher import Watcher
-from m_www import Www
-from m_shell import Shell
-from m_voixdb import Voixdb
 
 from constant import M_ROOT
 
@@ -25,6 +14,17 @@ with open(os.path.join(M_ROOT, "./log.conf")) as conf:
 
 class M2:
     def __init__(self):
+        from m_audio import Audio
+        from m_chef import Chef
+        from m_deploy import Deploy
+        from m_docker import Docker
+        from m_keras import Keras
+        from m_pipe import Pipe
+        from m_watcher import Watcher
+        from m_www import Www
+        from m_shell import Shell
+        from m_voixdb import Voixdb
+
         self.audio = Audio()
         self.chef = Chef()
         self.deploy = Deploy()
@@ -35,6 +35,12 @@ class M2:
         self.voixdb = Voixdb()
         self.watcher = Watcher()
         self.www = Www()
+
+    def noop(self):
+        """
+        Noop method for speed tests
+        """
+        return
 
     def update(self):
         """

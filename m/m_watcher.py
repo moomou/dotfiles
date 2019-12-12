@@ -6,4 +6,4 @@ from util import m_path
 
 class Watcher(Base):
     def run(self, directory, script, exclude=None, include="*"):
-        pass
+        raise NotImplementedError

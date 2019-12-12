@@ -2,7 +2,7 @@
 # ipython -> makes fire slow...
 tqdm
 ruamel.yaml==0.13.11
-git+https://github.com/google/python-fire.git#egg=fire
+fire==0.1.3
 pip>=0.9
 requests
 coloredlogs

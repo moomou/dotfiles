@@ -62,8 +62,9 @@ export GIT_PS1_SHOWCOLORHINTS=1
 export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
 export PROMPT_COMMAND='last_command_exit_code="${_}#${?}" && BashPrompt'
 
-# fuck homebrew
+# fuck homebrew & mac
 export HOMEBREW_NO_AUTO_UPDATE=1
+export BASH_SILENCE_DEPRECATION_WARNING=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 # make ls on linux simliar to osx
