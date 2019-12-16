@@ -41,8 +41,8 @@ fi
 export GOPATH=$HOME/go
 export PYENV_PATH=$HOME/.pyenv/
 export PROTOC_BIN=/usr/local/protoc/bin
-export CUDA_PATH=/usr/local/cuda-8.0
-export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+export CUDA_PATH=/usr/local/cuda-10.0
+export LD_LIBRARY_PATH=/usr/local/cuda-10.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 export H5_BIN=~/dev/_opensrc/hdf5-1.10.0-patch1/hdf5/bin
 export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$MATLAB_HOME/bin:~/bin:$PROTOC_BIN:$PATH"
 export PATH=~/.local/bin:$PATH
