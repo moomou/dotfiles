@@ -6,6 +6,7 @@ pub trait ShortDb {
     fn read_version(&self, k: &str, version: i32) -> Option<&str>;
 }
 
+#[derive(Clone)]
 struct MemShortDb {
     // using String to own all the data being referenced
     db: HashMap<String, LinkedList<String>>,
@@ -44,6 +45,11 @@ impl ShortDb for MemShortDb {
     }
 }
 
+// TODO: make this persisted
+pub fn new() -> impl ShortDb + Clone {
+    MemShortDb { db: HashMap::new() }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -57,6 +63,7 @@ mod tests {
 
         db.write("hi", "goo2").unwrap();
         assert_eq!(db.read_latest("hi"), Some("goo2"));
+        assert_eq!(db.read_version("hi", 0), Some("goo2"));
         assert_eq!(db.read_version("hi", 1), Some("goo"));
         assert_eq!(db.read_version("hi", 2), None);
     }

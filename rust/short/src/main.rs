@@ -1,68 +1,95 @@
-use {
-    futures::{
-        // Extension trait for futures 0.1 futures, adding the `.compat()` method
-        // which allows us to use `.await` on 0.1 futures.
-        compat::Future01CompatExt,
-        // Extension traits providing additional methods on futures.
-        // `FutureExt` adds methods that work for all futures, whereas
-        // `TryFutureExt` adds methods to futures that return `Result` types.
-        future::{FutureExt, TryFutureExt},
-    },
-    hyper::{
-        // A function which runs a future to completion using the Hyper runtime.
-        rt::run,
-        // This function turns a closure which returns a future into an
-        // implementation of the the Hyper `Service` trait, which is an
-        // asynchronous function from a generic `Request` to a `Response`.
-        service::service_fn,
+use std::env;
 
-        // Miscellaneous types from Hyper for working with HTTP.
-        Body,
-        Client,
-        Request,
-        Response,
-        Server,
-        Uri,
-    },
-};
+use hyper::service::{make_service_fn, service_fn};
+use hyper::{Body, Method, Request, Response, Server};
 
 mod db;
+mod link;
 
-fn main() {
-    println!("Hello, world!");
-    let addr = std::net::SocketAddr::from(([127, 0, 0, 1], 80));
-    // Call our `run_server` function, which returns a future.
-    // As with every `async fn`, for `run_server` to do anything,
-    // the returned future needs to be run. Additionally,
-    // we need to convert the returned future from a futures 0.3 future into a
-    // futures 0.1 future.
-    let futures_03_future = run_server(addr);
-    let futures_01_future = futures_03_future.unit_error().boxed().compat();
+type GenericError = Box<dyn std::error::Error + Send + Sync>;
+type Result<T> = std::result::Result<T, GenericError>;
 
-    // Finally, we can run the future to completion using the `run` function
-    // provided by Hyper.
-    run(futures_01_future);
+async fn router(req: Request<Body>, mut store: impl db::ShortDb) -> Result<Response<Body>> {
+    let path: Vec<&str> = req
+        .uri()
+        .path()
+        .splitn(3, "/")
+        .filter(|s| !s.is_empty())
+        .collect();
+    match req.method() {
+        &Method::GET => {
+            let l = if path.len() == 1 {
+                link::new(path[0])
+            } else if path.len() == 2 {
+                match path[1].parse::<i32>() {
+                    Ok(v) => link::new(path[0]).with_version(v),
+                    Err(_) => link::new_with_ns(path[0], path[1]),
+                }
+            } else {
+                link::new_with_ns(path[0], path[1]).with_version(path[2].parse()?)
+            };
+
+            println!("{:?}", l);
+            Ok(Response::builder()
+                .status(302)
+                .header(
+                    "Location",
+                    store
+                        .read_version(&l.to_string(), l.version)
+                        .unwrap_or("http://www.google.com"),
+                )
+                .body(Body::empty())?)
+        }
+        &Method::POST => {
+            let uri;
+            let l = if path.len() == 3 {
+                uri = path[2];
+                link::new_with_ns(path[0], path[1])
+            } else {
+                uri = path[1];
+                link::new(path[0])
+            };
+
+            println!("{:?}", l);
+            match (store).write(&l.to_string(), uri) {
+                Ok(_) => Ok(Response::builder().status(200).body(Body::empty())?),
+                Err(_) => Ok(Response::builder().status(500).body(Body::empty())?),
+            }
+        }
+        _ => Ok(Response::builder().status(404).body(Body::empty())?),
+    }
 }
 
-async fn serve_req(_req: Request<Body>) -> Result<Response<Body>, hyper::Error> {
-    let r = Response::builder()
-        .status(302)
-        .header(
-            "Location",
-            "https://www.reddit.com/r/rust/comments/8ct275/redirect_301_or_302_in_hyper_server/",
-        )
-        .body(Body::empty())
-        .unwrap();
-    Ok(r)
+async fn shutdown_signal() {
+    // Wait for the CTRL+C signal
+    tokio::signal::ctrl_c()
+        .await
+        .expect("failed to install CTRL+C signal handler");
 }
 
-async fn run_server(addr: std::net::SocketAddr) {
+#[tokio::main]
+pub async fn main() {
+    let args: Vec<String> = env::args().collect();
+    let port = if args.len() == 1 { "9090" } else { &args[1] };
+
+    let addr = ([127, 0, 0, 1], port.parse().unwrap()).into();
+    let store = db::new();
+
+    let service = make_service_fn(move |_| {
+        let store = store.clone();
+        async {
+            Ok::<_, GenericError>(service_fn(move |req| {
+                // Clone again to ensure that client outlives this closure.
+                router(req, store.to_owned())
+            }))
+        }
+    });
+
+    let server = Server::bind(&addr).serve(service);
+    let graceful = server.with_graceful_shutdown(shutdown_signal());
+
     println!("Listening on http://{}", addr);
-
-    let serve_future =
-        Server::bind(&addr).serve(|| service_fn(|req| serve_req(req).boxed().compat()));
-
-    if let Err(e) = serve_future.compat().await {
+    if let Err(e) = graceful.await {
         eprintln!("server error: {}", e);
     }
 }
