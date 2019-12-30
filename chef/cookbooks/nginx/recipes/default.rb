@@ -1,5 +1,5 @@
 package 'nginx'
-package 'letsencrypt'
+package 'software-properties-common'
 
 directory '/etc/nginx/snippets' do
     action :create
@@ -13,6 +13,18 @@ template '/etc/nginx/snippets/ssl-params.conf' do
     source 'ssl-params.conf'
 end
 
+# install certbot
+bash 'install certbot' do
+    user 'root'
+    code <<-EOH
+      add-apt-repository universe -y
+      add-apt-repository ppa:certbot/certbot -y
+    EOH
+end
+package 'certbot'
+package 'python-certbot-nginx'
+
+# generate 2048 bit dhparam.pepm
 bash 'generate dhparam' do
     user 'root'
     not_if { File.exist?('/etc/ssl/certs/dhparam.pem' )}
@@ -22,12 +34,28 @@ bash 'generate dhparam' do
     EOH
 end
 
-user = node['nginx']['user']
-domains = node['nginx']['domains']
-domains.each do |domain|
+node['nginx']['domains'].each do |domain|
     root_url = domain['root_url']
     subdomains = domain['subdomains'].map { |sub| "-d #{sub}.#{root_url} " }.join
-    subdomains = "-d #{root_url} " + subdomains
+
+    if not domain["no_root_cert"]
+      subdomains = "-d #{root_url} " + subdomains
+    end
+
+    bash 'fetch letsencrypt cert' do
+        user 'root'
+        code <<-EOH
+        certbot certonly  \
+          --preferred-challenges http \
+          --email 'ppymou+letsencrypt@gmail.com' \
+          --agree-tos \
+          -n \
+          --nginx \
+          --cert-name #{root_url} \
+          #{subdomains}
+        EOH
+        not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
+    end
 
     # add nginx config
     template "/etc/nginx/snippets/ssl-#{root_url}.conf" do
@@ -68,28 +96,6 @@ domains.each do |domain|
         end
     end
 
-    # request
-    bash 'setup letsencrypt' do
-        user 'root'
-        code <<-EOH
-        letsencrypt certonly -a webroot \
-            --webroot-path=/var/www/html \
-            --text \
-            --agree-tos \
-            --renew-by-default \
-            --email #{user} \
-            #{subdomains}
-        EOH
-        not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
-    end
-end
-
-# Setup renew job
-cron 'renew letsencrypt cert and reload nginx' do
-    command 'letsencrypt renew >> /var/log/le-renew.log && systemctl reload nginx'
-    minute '0'
-    hour '2'
-    weekday '1'
 end
 
 # Reload nginx at the end

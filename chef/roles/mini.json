@@ -1,0 +1,29 @@
+{
+  "nginx": {
+    "domains": [
+      {
+        "no_root_cert": true,
+        "root_url": "mou.dev",
+        "servers": [
+          {
+            "name": "go",
+            "upstream": "go"
+          }
+        ],
+        "subdomains": [
+          "go"
+        ],
+        "upstreams": [
+          {
+            "address": "localhost:9090",
+            "name": "go"
+          }
+        ]
+      }
+    ],
+    "user": "ppymou+letsencrypt@gmail.com"
+  },
+  "run_list": [
+    "recipe[nginx::default]"
+  ]
+}
