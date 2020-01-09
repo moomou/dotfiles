@@ -58,8 +58,6 @@ server {
 server {
     listen 80;
     listen [::]:80;
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
     server_name <%= subdomain %>;
     return 301 https://<%= "#{subdomain}.#{@root_url}" %>$request_uri;
 }
@@ -125,8 +123,6 @@ server {
 server {
     listen 80;
     listen [::]:80;
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
     server_name <%= @root_url %>;
     return 301 https://www.<%= @root_url %>$request_uri;
 }
