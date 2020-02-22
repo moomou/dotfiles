@@ -4,10 +4,18 @@ use serde::Deserialize;
 use serde::Serialize;
 
 pub trait ShortDb {
+    // create new mapping
     fn write(&mut self, k: &str, v: &str) -> Result<(), &str>;
+    // delete a key
+    fn delete(&mut self, k: &str) -> Result<(), &str>;
+    // get latest
     fn read_latest(&self, k: &str) -> Option<&str>;
+    // read a particular version
     fn read_version(&self, k: &str, version: i32) -> Option<&str>;
-    fn ser(&mut self) -> Result<String, serde_json::error::Error>;
+    // list all urls stored
+    fn list_latest(&self) -> Vec<(&str, &str)>;
+
+    fn ser(&self) -> Result<String, serde_json::error::Error>;
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
@@ -17,6 +25,23 @@ struct MemShortDb {
 }
 
 impl ShortDb for MemShortDb {
+    fn list_latest(&self) -> Vec<(&str, &str)> {
+        let mut mapping = Vec::new();
+        for (k, vals) in self.db.iter() {
+            vals.last().map(|val| mapping.push((&k[..], &val[..])));
+        }
+
+        mapping.sort();
+        mapping
+    }
+
+    fn delete(&mut self, key: &str) -> Result<(), &str> {
+        if self.db.contains_key(key) {
+            self.db.remove(key);
+        }
+        Ok(())
+    }
+
     fn write(&mut self, k: &str, v: &str) -> Result<(), &str> {
         if !self.db.contains_key(k) {
             self.db.insert(String::from(k), Vec::new());
@@ -39,7 +64,7 @@ impl ShortDb for MemShortDb {
         let idx = (self.db[k].len() - 1) as i32 - version;
         self.db[k].get(idx as usize).map(|s| &s[..])
     }
-    fn ser(&mut self) -> Result<String, serde_json::error::Error> {
+    fn ser(&self) -> Result<String, serde_json::error::Error> {
         serde_json::to_string(&self)
     }
 }
@@ -56,9 +81,10 @@ pub fn new() -> impl ShortDb + Clone {
 #[cfg(test)]
 mod tests {
     use super::*;
+
     #[test]
     fn it_works() {
-        let mut db = MemShortDb { db: HashMap::new() };
+        let mut db = new();
         db.write("hi", "goo").unwrap();
 
         assert_eq!(db.read_latest("hi"), Some("goo"));
@@ -69,11 +95,13 @@ mod tests {
         assert_eq!(db.read_version("hi", 0), Some("goo2"));
         assert_eq!(db.read_version("hi", 1), Some("goo"));
         assert_eq!(db.read_version("hi", 2), None);
+
+        assert_eq!(db.list_latest(), vec!(("hi", "goo2")));
     }
 
     #[test]
     fn serde_works() {
-        let mut db = MemShortDb { db: HashMap::new() };
+        let mut db = new();
         let ser_str = db.ser().unwrap();
 
         assert_eq!(ser_str, "{\"db\":{}}");

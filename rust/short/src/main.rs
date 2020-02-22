@@ -1,9 +1,12 @@
+use std::convert::TryInto;
 use std::env;
 use std::path;
 use std::sync::{Arc, RwLock};
 
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Method, Request, Response, Server};
+use std::fs::File;
+use std::io::Read;
 
 mod db;
 mod fs;
@@ -15,6 +18,7 @@ type Result<T> = std::result::Result<T, GenericError>;
 async fn router(
     req: Request<Body>,
     store: Arc<RwLock<impl db::ShortDb>>,
+    secret: Arc<u64>,
 ) -> Result<Response<Body>> {
     let path: Vec<&str> = req
         .uri()
@@ -25,32 +29,68 @@ async fn router(
 
     match req.method() {
         &Method::GET => {
-            let l = if path.len() == 1 {
+            let key = if path.len() == 1 {
                 link::new(path[0])
             } else if path.len() == 2 {
                 match path[1].parse::<i32>() {
+                    // if last part is a number, we interprete as version
                     Ok(v) => link::new(path[0]).with_version(v),
+                    // otherwise, we treat it as ns/key
                     Err(_) => link::new_with_ns(path[0], path[1]),
                 }
             } else {
                 link::new_with_ns(path[0], path[1]).with_version(path[2].parse()?)
             };
 
-            Ok(Response::builder()
-                .status(302)
-                .header(
-                    "Location",
-                    store
-                        .read()
-                        .unwrap()
-                        .read_version(&l.to_string(), l.version)
-                        .unwrap_or("http://www.google.com"),
-                )
-                .body(Body::empty())?)
+            let authorized = if key.key.starts_with("_") {
+                req.headers()
+                    .get("authorization")
+                    .map(|auth| {
+                        let mut auth = auth
+                            .to_str()
+                            .expect("invalid auth header")
+                            .split_whitespace();
+
+                        // skip "Basic" prefix
+                        auth.next();
+                        auth.next().unwrap_or_default()
+                    })
+                    .map(|auth| {
+                        let decoded_bytes = data_encoding::BASE64
+                            .decode(auth.as_bytes())
+                            .unwrap_or_default();
+                        let decoded = std::str::from_utf8(&decoded_bytes).unwrap_or_default();
+                        let hex_secret = format!("{:#x?}", secret);
+
+                        // check the password is valid
+                        decoded.ends_with(&hex_secret)
+                    })
+                    .unwrap_or_default()
+            } else {
+                true
+            };
+
+            match authorized {
+                true => Ok(Response::builder()
+                    .status(302)
+                    .header(
+                        "Location",
+                        store
+                            .read()
+                            .unwrap()
+                            .read_version(&key.to_string(), key.version)
+                            .unwrap_or("http://www.google.com"),
+                    )
+                    .body(Body::empty())?),
+                _ => Ok(Response::builder()
+                    .status(401)
+                    .header("WWW-Authenticate", "Basic")
+                    .body(Body::empty())?),
+            }
         }
         &Method::POST => {
             let uri;
-            let l = if path.len() == 3 {
+            let key = if path.len() == 3 {
                 uri = path[2];
                 link::new_with_ns(path[0], path[1])
             } else {
@@ -58,7 +98,7 @@ async fn router(
                 link::new(path[0])
             };
 
-            match store.write().unwrap().write(&l.to_string(), uri) {
+            match store.write().unwrap().write(&key.to_string(), uri) {
                 Ok(_) => Ok(Response::builder().status(200).body(Body::empty())?),
                 Err(_) => Ok(Response::builder().status(500).body(Body::empty())?),
             }
@@ -91,24 +131,32 @@ pub async fn main() {
     let addr = ([127, 0, 0, 1], port.parse().unwrap()).into();
     println!("Starting short persisting to {:?}", path);
 
-    let db_inst = {
-        let s;
-        if path.exists() {
-            s = fs::read_file(path).unwrap();
+    // generate random values to use as secret
+    let mut f = File::open("/dev/urandom").unwrap();
+    let mut secret = [0u8; 8];
+    f.read_exact(&mut secret).unwrap();
+    let secret = u64::from_be_bytes(secret.try_into().expect("invalid slice"));
+    println!("Secret is {:#x?}", secret);
+
+    let arc_secret = Arc::new(secret);
+    let store = Arc::new(RwLock::new({
+        let s = if path.exists() {
+            fs::read_file(path).unwrap()
         } else {
             // TODO: remove hardcoded input
-            s = "{\"db\": {}}".to_string();
-        }
-        db::new_from_ser(&s[..])
-    };
-    let store = Arc::new(RwLock::new(db_inst));
+            "{\"db\": {}}".to_string()
+        };
+        let s = db::new_from_ser(&s[..]);
+        s
+    }));
 
     let service = make_service_fn(|_| {
         let store = Arc::clone(&store);
+        let secret = Arc::clone(&arc_secret);
         async {
             Ok::<_, GenericError>(service_fn(move |req| {
-                // Clone again to ensure that store outlives this closure.
-                router(req, store.to_owned())
+                // Make the handler own the store ref
+                router(req, store.to_owned(), secret.to_owned())
             }))
         }
     });
