@@ -46,22 +46,12 @@ async fn router(
                 req.headers()
                     .get("authorization")
                     .map(|auth| {
-                        let mut auth = auth
-                            .to_str()
-                            .expect("invalid auth header")
-                            .split_whitespace();
-
-                        // skip "Basic" prefix
-                        auth.next();
-                        auth.next().unwrap_or_default()
-                    })
-                    .map(|auth| {
+                        let auth = auth.to_str().expect("invalid auth header");
                         let decoded_bytes = data_encoding::BASE64
                             .decode(auth.as_bytes())
                             .unwrap_or_default();
                         let decoded = std::str::from_utf8(&decoded_bytes).unwrap_or_default();
                         let hex_secret = format!("{:#x?}", secret);
-
                         // check the password is valid
                         decoded.ends_with(&hex_secret)
                     })
