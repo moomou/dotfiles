@@ -2,6 +2,7 @@ from shell_util import shell
 
 
 def groot():
+    # TODO: should be implemented without relying on shell alias
     _, out, _ = shell("groot")
     return out
 

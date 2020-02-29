@@ -1,13 +1,12 @@
+import contextlib
 import logging
 import os
 import shutil
+
 import constant
-import contextlib
-
-from util import get_config_yml, m_path
-
 from git_util import groot
 from m_base import Base
+from util import get_config_yml, m_path
 
 DEFAULT_GCR_TAG = "gcr.io/euraio/{img}:{tag}"
 

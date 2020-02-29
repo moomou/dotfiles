@@ -3,6 +3,7 @@ from pathlib import Path
 
 M_ROOT = Path(os.path.dirname(os.path.realpath(__file__)))
 
+TAB = " " * 4
 DOTFILES = os.path.expanduser("~/dev/dotfiles")
 HOME = os.path.expanduser("~")
 ROOT = os.path.expanduser("~/dev")

@@ -1,3 +1,4 @@
+import inspect
 import logging.config
 import os
 import subprocess
@@ -6,6 +7,7 @@ from importlib import import_module
 import coloredlogs
 
 import shell_util
+import simple_argparse as sa
 
 FMT = "[%(asctime)s %(filename)s:%(lineno)d %(levelname)s] %(message)s"
 
@@ -46,6 +48,20 @@ class Base(object):
     def _debug_mode(self):
         return self._debugging
 
+    def list_cmds(self):
+        return inspect.getmembers(
+            self,
+            predicate=lambda x: inspect.ismethod(x) and not x.__name__.startswith("_"),
+        )
+
+    def print_cmds(self):
+        sa.print_commands(
+            [name for (name, _) in self.list_cmds()], top_lv=self.__class__.__name__
+        )
+
+    def info(self):
+        self._logger.info(self.__class__)
+
     def shell(self, cmd, timeout=None, **kwargs):
-        self._logger.debug(cmd)
+        self._logger.debug(f"running shell `{cmd}`")
         return shell_util.shell(cmd, timeout=timeout, **kwargs)

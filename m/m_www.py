@@ -1,10 +1,10 @@
-import os
 import json
-from pathlib import Path
+import os
+import pathlib as pl
 
+import m_base
 from constant import M_ROOT
-from m_base import Base
-from util import get_config_yml, update_config_yml, get_gh_token
+from util import get_config_yml, get_gh_token, update_config_yml
 
 
 def compile_context(mk2, context):
@@ -21,14 +21,14 @@ def compile_context(mk2, context):
     return context
 
 
-class Www(Base):
+class Www(m_base.Base):
     def __init__(self):
         super(Www, self).__init__(["jinja2", "requests", "markdown2"])
 
     def serve(self):
         import sys
 
-        if not Path(M_ROOT / ".." / "www").exists():
+        if not pl.Path(M_ROOT / ".." / "www").exists():
             self.shell("(cd %s/.. && go build" % M_ROOT, stdout=sys.stdout)
 
         self.shell("%s/../www" % M_ROOT, stdout=sys.stdout)

@@ -1,11 +1,15 @@
 #!/usr/local/bin/m_venv3/bin/python
+import glob
+import importlib
+import inspect
 import json
 import logging.config
 import os
+import pathlib as pl
 
-import fire
-
-from constant import M_ROOT
+import m_base
+import simple_argparse as sa
+from constant import M_ROOT, TAB
 
 with open(os.path.join(M_ROOT, "./log.conf")) as conf:
     logging.config.dictConfig(json.load(conf))
@@ -13,28 +17,54 @@ with open(os.path.join(M_ROOT, "./log.conf")) as conf:
 
 
 class M2:
-    def __init__(self):
-        from m_audio import Audio
-        from m_chef import Chef
-        from m_deploy import Deploy
-        from m_docker import Docker
-        from m_keras import Keras
-        from m_pipe import Pipe
-        from m_watcher import Watcher
-        from m_www import Www
-        from m_shell import Shell
-        from m_voixdb import Voixdb
+    def list_m_modules(self):
+        cmds = [
+            (pl.Path(cmd).name[2:], slice(-3) if cmd.endswith(".py") else slice(999))
+            for cmd in glob.glob(f"{M_ROOT}/m_*")
+        ]
+        cmds = [cmd[s] for (cmd, s) in cmds]
+        return cmds
 
-        self.audio = Audio()
-        self.chef = Chef()
-        self.deploy = Deploy()
-        self.docker = Docker()
-        self.keras = Keras()
-        self.pipe = Pipe()
-        self.shell = Shell()
-        self.voixdb = Voixdb()
-        self.watcher = Watcher()
-        self.www = Www()
+    def exec_m_module_command(self, m_module, sub_cmds, *args, **kwargs):
+        logger.debug(f"exec_m_module_command: {args}, {kwargs}")
+
+        assert (
+            len(sub_cmds) == 1
+        ), f"Only first level cmd supported for now; got {sub_cmds}"
+        cmd = sub_cmds[0]
+        getattr(m_module, cmd)(*args, **kwargs)
+
+    def exec_m_modules(self, cmd, *args, **kwargs):
+        cmd, *subcommands = cmd.split(".")
+        cmds = self.list_m_modules()
+
+        # cmd exist
+        if cmd in cmds:
+            m_module_name = f"m_{cmd}"
+
+            cmd_module = importlib.import_module(m_module_name)
+            clsmembers = inspect.getmembers(
+                cmd_module,
+                lambda cls: inspect.isclass(cls)
+                and cls.__module__ == m_module_name
+                and issubclass(cls, m_base.Base),
+            )
+
+            assert (
+                len(clsmembers) == 1
+            ), f"{m_module_name} exports more than 1 m_base.Base. Found {clsmembers}"
+
+            _, cls = clsmembers[0]
+
+            if not subcommands:
+                cls().print_cmds()
+            else:
+                self.exec_m_module_command(cls(), subcommands, *args, **kwargs)
+        else:
+            logger.error(f"{cmd} not found")
+
+    def print_m_modules(self):
+        sa.print_commands(self.list_m_modules())
 
     def noop(self):
         """
@@ -42,7 +72,7 @@ class M2:
         """
         return
 
-    def update(self):
+    def update(self, pip_install_only=False):
         """
         Updates the m tool
         """
@@ -52,14 +82,14 @@ class M2:
         import fs_util
         import git_util
 
-        logger.info("updating m tool by rebasing...")
-
-        with fs_util.Cwd(M_ROOT):
-            git_util.stash()
-            git_util.rebase()
-            git_util.stash_pop()
-            _, stdout, _ = git_util.log("--pretty=oneline --abbrev-commit -1")
-            logger.info("m updated:: %s", stdout.decode("utf-8").strip())
+        if not pip_install_only:
+            logger.info("updating m tool by rebasing...")
+            with fs_util.Cwd(M_ROOT):
+                git_util.stash()
+                git_util.rebase()
+                git_util.stash_pop()
+                _, stdout, _ = git_util.log("--pretty=oneline --abbrev-commit -1")
+                logger.info("m updated:: %s", stdout.decode("utf-8").strip())
 
         # also install dependency
         subprocess.check_call(
@@ -75,4 +105,10 @@ class M2:
 
 
 if __name__ == "__main__":
-    fire.Fire(M2())
+    import sys
+
+    pos, named = sa.parse(sys.argv[1:])
+    if not pos:
+        sys.exit(M2().print_m_modules())
+    else:
+        M2().exec_m_modules(pos[0], *pos[1:], **named)
