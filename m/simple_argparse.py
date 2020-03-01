@@ -30,5 +30,5 @@ def print_commands(options, top_lv="M"):
     logger.debug(options)
 
     cmds = f"\n{TAB}".join(sorted(options))
-    header = f"Commands under [{top_lv}]"
+    header = f"\nCommands under [{top_lv}]"
     print(f"{header}: \n\n{TAB}{cmds}\n")
