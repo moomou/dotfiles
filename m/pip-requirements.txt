@@ -22,3 +22,6 @@ markdown2
 
 # m_pipe
 redis
+
+# m_zarr
+zarr==2.4.0
