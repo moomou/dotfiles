@@ -12,11 +12,17 @@ class MZarr(Base):
         pprint = self._module("pprint")
 
         if not path or not path.endswith("zarr"):
-            self._logger.info("Requires a single path ending in zarr")
+            self._logger.warn("Requires a single path ending in zarr")
+            return
 
         arr = zarr.open(path, mode="r")
         if key is not None:
             for k in key.split("/"):
                 arr = arr[k]
 
-        pprint.pprint(list(arr.keys()))
+        if isinstance(arr, zarr.hierarchy.Group):
+            pprint.pprint(list(arr.keys()))
+        elif isinstance(arr, zarr.core.Array):
+            pprint.pprint(arr.shape())
+        else:
+            self._logger.warn(f"Unsupported type:: [{arr.__class__.__name__}]")
