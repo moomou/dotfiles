@@ -110,5 +110,7 @@ if __name__ == "__main__":
     pos, named = sa.parse(sys.argv[1:])
     if not pos:
         sys.exit(M2().print_m_modules())
+    elif pos[0] == "update":
+        M2().update(*pos[1:], **named)
     else:
         M2().exec_m_modules(pos[0], *pos[1:], **named)
