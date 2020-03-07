@@ -8,7 +8,7 @@ class MZarr(Base):
         super(MZarr, self).__init__(["zarr"])
 
     def ls(self, path, key=None):
-        zarr = self._module("jinja2")
+        zarr = self._module("zarr")
 
         if not path or path.endswith("zarr"):
             self._logger.info("Requires a single path ending in zarr")
