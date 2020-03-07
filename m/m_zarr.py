@@ -21,8 +21,10 @@ class MZarr(Base):
                 arr = arr[k]
 
         if isinstance(arr, zarr.hierarchy.Group):
+            self._logger.info("Keys")
             pprint.pprint(list(arr.keys()))
         elif isinstance(arr, zarr.core.Array):
-            pprint.pprint(arr.shape())
+            self._logger.info("Array shape")
+            pprint.pprint(arr.shape)
         else:
             self._logger.warn(f"Unsupported type:: [{arr.__class__.__name__}]")
