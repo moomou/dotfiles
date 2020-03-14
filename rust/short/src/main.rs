@@ -27,21 +27,32 @@ async fn router(
         .filter(|s| !s.is_empty())
         .collect();
 
+    if path.len() == 0 {
+        return Ok(Response::builder().status(404).body(Body::empty())?);
+    }
+
+    let key;
+    let uri;
+    match path.len() {
+        3 => {
+            uri = Some(path[2]);
+            key = link::new_with_ns(path[0], path[1]);
+        }
+        2 => {
+            uri = None;
+            key = link::new_with_ns(path[0], path[1]);
+        }
+        1 => {
+            uri = None;
+            key = link::new(path[0]);
+        }
+        _ => {
+            return Ok(Response::builder().status(404).body(Body::empty())?);
+        }
+    };
+
     match req.method() {
         &Method::GET => {
-            let key = if path.len() == 1 {
-                link::new(path[0])
-            } else if path.len() == 2 {
-                match path[1].parse::<i32>() {
-                    // if last part is a number, we interprete as version
-                    Ok(v) => link::new(path[0]).with_version(v),
-                    // otherwise, we treat it as ns/key
-                    Err(_) => link::new_with_ns(path[0], path[1]),
-                }
-            } else {
-                link::new_with_ns(path[0], path[1]).with_version(path[2].parse()?)
-            };
-
             let authorized = if key.key.starts_with("_") {
                 req.headers()
                     .get("authorization")
@@ -78,21 +89,13 @@ async fn router(
                     .body(Body::empty())?),
             }
         }
-        &Method::POST => {
-            let uri;
-            let key = if path.len() == 3 {
-                uri = path[2];
-                link::new_with_ns(path[0], path[1])
-            } else {
-                uri = path[1];
-                link::new(path[0])
-            };
-
-            match store.write().unwrap().write(&key.to_string(), uri) {
+        &Method::POST => match uri {
+            Some(v) => match store.write().unwrap().write(&key.to_string(), v) {
                 Ok(_) => Ok(Response::builder().status(200).body(Body::empty())?),
                 Err(_) => Ok(Response::builder().status(500).body(Body::empty())?),
-            }
-        }
+            },
+            _ => Ok(Response::builder().status(404).body(Body::empty())?),
+        },
         _ => Ok(Response::builder().status(404).body(Body::empty())?),
     }
 }
