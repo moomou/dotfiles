@@ -18,7 +18,7 @@ type Result<T> = std::result::Result<T, GenericError>;
 async fn router(
     req: Request<Body>,
     store: Arc<RwLock<impl db::ShortDb>>,
-    secret: Arc<u64>,
+    secret: Arc<String>,
 ) -> Result<Response<Body>> {
     let path: Vec<&str> = req
         .uri()
@@ -58,13 +58,8 @@ async fn router(
                     .get("authorization")
                     .map(|auth| {
                         let auth = auth.to_str().expect("invalid auth header");
-                        let decoded_bytes = data_encoding::BASE64
-                            .decode(auth.as_bytes())
-                            .unwrap_or_default();
-                        let decoded = std::str::from_utf8(&decoded_bytes).unwrap_or_default();
-                        let hex_secret = format!("{:#x?}", secret);
-                        // check the password is valid
-                        decoded.ends_with(&hex_secret)
+                        // check the password is valid by assuming a constant username
+                        auth.ends_with(secret.as_str())
                     })
                     .unwrap_or_default()
             } else {
@@ -129,7 +124,9 @@ pub async fn main() {
     let mut secret = [0u8; 8];
     f.read_exact(&mut secret).unwrap();
     let secret = u64::from_be_bytes(secret.try_into().expect("invalid slice"));
-    println!("Secret is {:#x?}", secret);
+
+    println!("Secret is {:#x}", secret);
+    let secret = data_encoding::BASE64.encode(format!("m:{:#x}", secret).as_bytes());
 
     let arc_secret = Arc::new(secret);
     let store = Arc::new(RwLock::new({
