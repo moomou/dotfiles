@@ -14,7 +14,7 @@ By default, all created links are public. However, you can protect sensitive lin
 
 
 ## Namespaced short links
-Every link by default lives under the `default` namespace. To avoid conflict, you can create more links under a different namespace via 
+Every link by default lives under the `default` namespace. To avoid conflict, you can create more links under a different namespace via
 
     $  curl -XPOST -L -k http://go/<NS>/<SHORT_LINK>/<FULL_LINK>
 
@@ -24,7 +24,7 @@ Anything without a namespace will automatically be placed under `default`
 
 
 ## [ TODO ] String expansions
-You can save a url with `<s>` for string expansion when visiting short links. 
+You can save a url with `<s>` for string expansion when visiting short links.
 
 First, save a URL with `<s>`
 
@@ -33,7 +33,8 @@ First, save a URL with `<s>`
 Now try visiting
 
     # this will expand to http://google.com/?q=hello
-    $  curl -L -k http://go/g/hello 
+    $  curl -L -k http://go/g/hello
 
     # this will expand to http://google.com/?q=
     $  curl -L -k http://go/g
+

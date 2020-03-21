@@ -39,8 +39,8 @@ async fn router(
             key = link::new_with_ns(path[0], path[1]);
         }
         2 => {
-            uri = None;
-            key = link::new_with_ns(path[0], path[1]);
+            uri = Some(path[1]);
+            key = link::new(path[0])
         }
         1 => {
             uri = None;

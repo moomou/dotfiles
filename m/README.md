@@ -19,5 +19,5 @@ It was originally using `python-fire` but I decided to write a minimal command l
 ## Ease of Use
 Adding a new command to `m` is easy. Simply create a python module starting `m_` and inherit from `Base` class inside `m_base.py`.
 
-Upgrading `m` is also easy. Because it's python, we can simply download the latest script files. This is supported via `m upgrade`
+Upgrading `m` is also easy. Because it's python, we can simply download the latest script files. This is supported via `m update`
 
