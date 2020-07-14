@@ -7,7 +7,7 @@ class MZarr(Base):
     def __init__(self):
         super(MZarr, self).__init__(["zarr", "pprint"])
 
-    def ls(self, path, key=None):
+    def ls(self, path, key=None, cat=False):
         zarr = self._module("zarr")
         pprint = self._module("pprint")
 
@@ -26,5 +26,8 @@ class MZarr(Base):
         elif isinstance(arr, zarr.core.Array):
             self._logger.info("Array shape")
             pprint.pprint(arr.shape)
+
+            if cat:
+                pprint.pprint(arr[:])
         else:
             self._logger.warn(f"Unsupported type:: [{arr.__class__.__name__}]")
