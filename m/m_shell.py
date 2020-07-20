@@ -7,6 +7,7 @@ from collections import defaultdict
 
 import deco
 import requests
+
 from m_base import Base
 from shell_util import shell
 
@@ -101,3 +102,18 @@ class Shell(Base):
 
         if len(dup):
             self._logger.warning("Dup files: %s", dup)
+
+    def fix_names(self):
+        import shutil
+        import re
+
+        for entry in os.scandir("."):
+            if not entry.is_file():
+                continue
+
+            clean = entry.name.lower()
+            clean = clean.replace("-", "_")
+            clean, _ = re.subn(r"([^(0-9a-z\._)])", "", clean)
+
+            if clean != entry.name:
+                shutil.move(entry.name, clean)
