@@ -18,3 +18,4 @@ go/pkg/
 .m_pipe_log/
 .vscode/
 target/
+*.pem

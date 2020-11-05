@@ -1,6 +1,7 @@
 # connect to your server
 alias bx='gcloud compute --project ppymou ssh mini -- "/usr/bin/ssh -i ~/moomoutu_rsa moomou@localhost -p 2222"'
 alias ctags='/usr/local/bin/ctags'
+alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 
 # git alias
 alias gshort="git rev-parse --short"
@@ -25,6 +26,12 @@ alias tl="tmux list-session"
 alias tk="tmux kill-session -t"
 alias ta="tmux attach-session -t"
 alias ts="tmux new-session -s"
+
+# background port-forward
+# local to remote
+alias lpf='ssh -fNTM local_moomoutu -L'
+# remote to local
+alias rpf='ssh -fNTM local_moomoutu -R'
 
 # use neovim if installed
 if hash nvim 2>/dev/null; then

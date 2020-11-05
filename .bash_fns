@@ -87,3 +87,13 @@ function rebase() {
     branch=${1:-master}
     git pull --rebase origin $branch && git sub update --init --jobs 4
 }
+
+# watch and list changed files
+function list-change() {
+    fswatch --batch-marker=EOF -xn . | while read file event;
+        do echo $file $event;
+        if [ $file = "EOF" ]; then
+            echo TRIGGER;
+        fi;
+    done
+}
