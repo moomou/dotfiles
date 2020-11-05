@@ -17,7 +17,7 @@ librosa==0.5.1
 pydub==0.20.0
 
 # m_www
-jinja2==2.9
+jinja2==2.10.1
 markdown2
 
 # m_pipe
