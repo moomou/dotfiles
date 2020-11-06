@@ -1,17 +1,19 @@
 #!/bin/sh
 
+set -euo pipefail
+
 # required for audiolab
-sudo apt-get install -y libsndfile1 libsndfile1-dev
+# sudo apt-get install -y libsndfile1 libsndfile1-dev
 
 FNAME=m_venv3
 M_VENV=/usr/local/bin/$FNAME
 
 if [ ! -d "$M_VENV" ]; then
-    (cd /usr/local/bin && python3.6 -m venv $FNAME)
+    (cd /usr/local/bin && python3 -m venv $FNAME)
 fi
 
 # idk why this complains about numpy
-$M_VENV/bin/pip install numpy
+$M_VENV/bin/pip install --no-cache-dir numpy
 $M_VENV/bin/pip install -r pip-requirements.txt
 
 rm -f /usr/local/bin/m

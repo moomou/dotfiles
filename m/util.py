@@ -38,7 +38,7 @@ def m_path(folder, root=constant.ROOT):
     return os.path.join(root, folder)
 
 
-@try_import("ruamel.yaml", "yaml")
+@try_import("pyyaml", "yaml")
 def read_yml(path):
     with open(path) as f:
         config_yml = yaml.safe_load(f)
@@ -51,7 +51,7 @@ def get_config_yml():
     return {}
 
 
-@try_import("ruamel.yaml", "yaml")
+@try_import("pyyaml", "yaml")
 def update_config_yml(obj):
     with open("./config.yml", "w") as f:
         yaml.round_trip_dump(obj, f, indent=4, block_seq_indent=2)
