@@ -97,3 +97,26 @@ function list-change() {
         fi;
     done
 }
+
+
+# copied & modified from https://stackoverflow.com/questions/20649783/pause-a-running-script-in-mac-terminal-and-then-resume-later
+suspend-proc() {
+  [[ -z $1 || $1 == '-h' || $1 == '--help' ]] && { echo "Usage: $FUNCNAME scriptFileName ..."$'\n'"Suspends the specified bash/sh script(s)."; return $(( ${#1} == 0 )); }
+  local ec=0
+  for p in "$@"; do
+    pkill -STOP -nf "$p" \
+      && echo "'$1' suspended." \
+      || { ec=$?; echo "ERROR: process not found: '$p'" 1>&2; }
+  done
+  return $ec
+}
+resume-proc() {
+  [[ -z $1 || $1 == '-h' || $1 == '--help' ]] && { echo "Usage: $FUNCNAME scriptFileName ..."$'\n'"Resumes the specified bash/sh script(s)."; return $(( ${#1} == 0 )); }
+  local ec=0
+  for p in "$@"; do
+    pkill -CONT -nf "$p" \
+     && echo "'$1' resumed." \
+     || { ec=$?; echo "ERROR: process not found: '$p'" 1>&2; }
+  done
+  return $ec
+}
