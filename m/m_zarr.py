@@ -24,8 +24,7 @@ class MZarr(Base):
             self._logger.info("Keys")
             pprint.pprint(list(arr.keys()))
         elif isinstance(arr, zarr.core.Array):
-            self._logger.info("Array shape")
-            pprint.pprint(arr.shape)
+            pprint.pprint(arr.info)
 
             if cat:
                 pprint.pprint(arr[:])
