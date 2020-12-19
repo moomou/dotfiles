@@ -106,6 +106,13 @@ class M2:
 
 if __name__ == "__main__":
     import sys
+    import gc
+    import atexit
+    gc.set_threshold(0)
+    # Suicide immediately after other atexit functions finishes.
+    # CPython will do a bunch of cleanups in Py_Finalize which
+    # will again cause Copy-on-Write, including a final GC
+    atexit.register(os._exit, 0)
 
     pos, named = sa.parse(sys.argv[1:])
     if not pos:

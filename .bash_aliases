@@ -27,11 +27,7 @@ alias tk="tmux kill-session -t"
 alias ta="tmux attach-session -t"
 alias ts="tmux new-session -s"
 
-# background port-forward
-# local to remote
-alias lpf='ssh -fNTM local_moomoutu -L'
-# remote to local
-alias rpf='ssh -fNTM local_moomoutu -R'
+alias yd="python3 $(which youtube-dl)"
 
 # use neovim if installed
 if hash nvim 2>/dev/null; then
