@@ -18,7 +18,8 @@ class Base(object):
         self._lazy_import = lazy_import
         self._renames = renames or {}
 
-        self._logger = logging.getLogger(type(self).__name__)
+        self._logger = logger = logging.getLogger(type(self).__name__)
+        self._logger.fatal = fatal_wrapper(logger.fatal)
         coloredlogs.install(level="INFO", fmt=FMT)
 
         self._debugging = False
@@ -65,3 +66,17 @@ class Base(object):
     def shell(self, cmd, timeout=None, **kwargs):
         self._logger.debug(f"running shell `{cmd}`")
         return shell_util.shell(cmd, timeout=timeout, **kwargs)
+
+    def shell_exec(self, cmd, **kwargs):
+        self._logger.debug(f"running shell `{cmd}`")
+        return shell_util.exec(cmd, **kwargs)
+
+
+def fatal_wrapper(fn):
+    import sys
+
+    def fatal(*args, **kwargs):
+        fn(*args, **kwargs)
+        sys.exit(1)
+
+    return fatal

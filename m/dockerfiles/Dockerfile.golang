@@ -1,0 +1,16 @@
+FROM golang:1.15 as build-env
+
+ARG APP
+# src directory must be of form `go/src/<GOMOD>`
+ARG GOMOD
+
+# build-env has `/go` by default
+WORKDIR /
+ADD go/src/$GOMOD go/src/$GOMOD
+
+WORKDIR /go/src/$GOMOD
+RUN go build -o /go/bin/app $GOMOD/cmd/$APP
+
+FROM gcr.io/distroless/base
+COPY --from=build-env /go/bin/app /app
+CMD ["/app"]

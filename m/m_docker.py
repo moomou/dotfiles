@@ -1,85 +1,72 @@
 import contextlib
 import logging
 import os
+import pathlib as pl
 import shutil
+from enum import Enum
+
+import yaml
 
 import constant
 from git_util import groot
 from m_base import Base
 from util import get_config_yml, m_path
 
-DEFAULT_GCR_TAG = "gcr.io/euraio/{img}:{tag}"
-
+DEFAULT_GCR_TAG = "gcr.io/mou.dev/{img}:{tag}"
 DOCKERIGNORE = ".dockerignore"
 DOCKERUNIGNORE = "dockerunignore"
+DOCKERFILE = "Dockerfile"
 
 
-class WithTempFile:
-    def __init__(self, existing_file, tmp_file, merge_fn=None):
-        self.existing_file = existing_file
-        self.merge_fn = merge_fn
-        self.tmp_file = tmp_file
-
-        self.logger = logging.getLogger(type(self).__name__)
-
-    def __bak_name(self, existing_name):
-        return os.path.join(existing_name + ".bak")
-
-    def __enter__(self):
-        if not os.path.exists(self.tmp_file):
-            self.logger.debug("__enter__ skipped due to missing %s" % self.tmp_file)
-            return
-
-        # mv the file
-        bak_path = self.__bak_name(self.existing_file)
-        shutil.move(self.existing_file, bak_path)
-
-        # create new file
-        if self.merge_fn:
-            with open(bak_path) as fbak:
-                with open(self.tmp_file) as tmpfile:
-                    with open(self.existing_file, "wb") as f:
-                        self.logger.debug("merged files to %s", self.existing_file)
-                        f.write(self.merge_fn(fbak.read(), tmpfile.read()))
-        else:
-            self.logger.debug("copied files to %s", self.existing_file)
-            shutil.copy(self.tmp_file, self.existing_file)
-
-        self.logger.debug("__enter__")
-
-    def __exit__(self, exception_type, exception_val, trc):
-        if not os.path.exists(self.tmp_file):
-            self.logger.debug("__exit__ skipped")
-            return
-
-        # mv back the file
-        shutil.move(self.__bak_name(self.existing_file), self.existing_file)
-        self.logger.debug("__exit__")
-
-
-def merge_ignore_unignore(ignore, unignore) -> bytes:
-    ignore = ignore.split("\n")
-    unignore = set(unignore.split("\n"))
-
-    merged = []
-    for line in ignore:
-        if line in unignore:
-            continue
-        merged.append(line)
-
-    return "\n".join(merged).encode("utf-8")
+class AppLang(Enum):
+    golang = 0
 
 
 class Docker(Base):
-    def build(self, app, build_args=""):
+    def build(
+        self,
+        app,
+        build_args="",
+    ):
         """
         Default docker build that works with $GROOT/app folder structure.
         Also supports serunignore files
         """
-        extra_args = []
+        apps_dir = pl.Path(os.path.curdir) / "app"
+        app_dir = apps_dir / app
+        if not app_dir.exists():
+            self._logger.fatal(f"app `{app}` not found")
 
+        app_dockerfile = app_dir / "Dockerfile"
+        app_cfg = {}
+        if not app_dockerfile.exists():
+            app_yml = app_dir / "app.yml"
+
+            if not app_yml.exists():
+                self._logger.fatal("Missing `app.yml`")
+
+            with open(app_yml) as f:
+                app_cfg = yaml.safe_load(f)
+
+            try:
+                lang = AppLang[app_cfg["lang"]]
+            except KeyError:
+                self._logger.fatal(f"`{app_cfg['lang']}` not supported")
+
+            df_path = constant.M_ROOT / "dockerfiles" / f"{DOCKERFILE}.{lang.name}"
+            app_dockerfile = df_path
+
+            self._logger.debug(f"Using dockerfile:: `{df_path}`")
+
+        extra_args = [f"--build-arg APP={app}"]
         if build_args:
             extra_args.extend(["--build-arg %s" % kv for kv in build_args.split(",")])
+        if app_cfg.get("config", None):
+            cfg_build_arg = app_cfg["config"].get("build_arg", "")
+            if cfg_build_arg:
+                extra_args.extend(
+                    ["--build-arg %s" % kv for kv in cfg_build_arg.split(",")]
+                )
 
         unignore_path = os.path.join(
             os.path.curdir, "app/{app}/{cfg}".format(app=app, cfg=DOCKERUNIGNORE)
@@ -90,12 +77,13 @@ class Docker(Base):
             merge_ignore_unignore,
         ):
             self._logger.info("Starting to build")
-            self.shell(
-                "docker build -t {tag} -f app/{app}/Dockerfile {extra} .".format(
+
+            self.shell_exec(
+                "docker build -t {tag} -f {df_path} {extra} .".format(
                     tag=DEFAULT_GCR_TAG.format(img=app, tag="latest"),
-                    app=app,
+                    df_path=str(app_dockerfile),
                     extra=" ".join(extra_args),
-                )
+                ),
             )
 
     def load(self, app):
@@ -152,3 +140,59 @@ class Docker(Base):
         with contextlib.suppress(FileNotFoundError):
             for f in remove_after:
                 os.remove(f)
+
+
+class WithTempFile:
+    def __init__(self, existing_file, tmp_file, merge_fn=None):
+        self.existing_file = existing_file
+        self.merge_fn = merge_fn
+        self.tmp_file = tmp_file
+
+        self.logger = logging.getLogger(type(self).__name__)
+
+    def __bak_name(self, existing_name):
+        return os.path.join(existing_name + ".bak")
+
+    def __enter__(self):
+        if not os.path.exists(self.tmp_file):
+            self.logger.debug("__enter__ skipped due to missing %s" % self.tmp_file)
+            return
+
+        # mv the file
+        bak_path = self.__bak_name(self.existing_file)
+        shutil.move(self.existing_file, bak_path)
+
+        # create new file
+        if self.merge_fn:
+            with open(bak_path) as fbak:
+                with open(self.tmp_file) as tmpfile:
+                    with open(self.existing_file, "wb") as f:
+                        self.logger.debug("merged files to %s", self.existing_file)
+                        f.write(self.merge_fn(fbak.read(), tmpfile.read()))
+        else:
+            self.logger.debug("copied files to %s", self.existing_file)
+            shutil.copy(self.tmp_file, self.existing_file)
+
+        self.logger.debug("__enter__")
+
+    def __exit__(self, exception_type, exception_val, trc):
+        if not os.path.exists(self.tmp_file):
+            self.logger.debug("__exit__ skipped")
+            return
+
+        # mv back the file
+        shutil.move(self.__bak_name(self.existing_file), self.existing_file)
+        self.logger.debug("__exit__")
+
+
+def merge_ignore_unignore(ignore, unignore) -> bytes:
+    ignore = ignore.split("\n")
+    unignore = set(unignore.split("\n"))
+
+    merged = []
+    for line in ignore:
+        if line in unignore:
+            continue
+        merged.append(line)
+
+    return "\n".join(merged).encode("utf-8")
