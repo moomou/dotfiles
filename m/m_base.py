@@ -67,10 +67,6 @@ class Base(object):
         self._logger.debug(f"running shell `{cmd}`")
         return shell_util.shell(cmd, timeout=timeout, **kwargs)
 
-    def shell_exec(self, cmd, **kwargs):
-        self._logger.debug(f"running shell `{cmd}`")
-        return shell_util.exec(cmd, **kwargs)
-
 
 def fatal_wrapper(fn):
     import sys

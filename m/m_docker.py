@@ -3,6 +3,7 @@ import logging
 import os
 import pathlib as pl
 import shutil
+import sys
 from enum import Enum
 
 import yaml
@@ -78,12 +79,13 @@ class Docker(Base):
         ):
             self._logger.info("Starting to build")
 
-            self.shell_exec(
+            self.shell(
                 "docker build -t {tag} -f {df_path} {extra} .".format(
                     tag=DEFAULT_GCR_TAG.format(img=app, tag="latest"),
                     df_path=str(app_dockerfile),
                     extra=" ".join(extra_args),
                 ),
+                stdout=sys.stdout,
             )
 
     def load(self, app):
