@@ -88,6 +88,11 @@ class Docker(Base):
                 stdout=sys.stdout,
             )
 
+    def clean(self):
+        self.shell(
+            "docker rmi $(docker images --filter 'dangling=true' -q --no-trunc)",
+        )
+
     def load(self, app):
         """Load a docker gz file into docker images"""
         self.shell("docker load < %s.gz" % app)
