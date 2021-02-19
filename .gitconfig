@@ -6,6 +6,7 @@
     st = status
     ci = commit
     bb = branch
+    bbc = branch --show-current
     co = checkout
     df = diff
     sub = submodule
@@ -23,9 +24,11 @@
     email = paul@cueb.io
 [core]
     editor = $EDITOR
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/moomou/.gitignore_global
+	attributesfile = ~/.gitattributes_global
 	fscache = true
 	preloadindex = true
+	autocrlf = input
 	;pager = diff-so-fancy | less --tabs=4 -RFX
 [grep]
     linenumber = true
