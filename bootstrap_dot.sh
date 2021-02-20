@@ -19,6 +19,7 @@ symlink ".vim" ".nvim"
 symlink ".tmux.conf"
 
 # Setup .ssh
+symlink ".ssh_rc" ".ssh/rc"
 # symlink ".ssh/config"
 # symlink ".ssh/cert"
 # symlink ".ssh/key"
