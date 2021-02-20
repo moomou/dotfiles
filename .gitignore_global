@@ -19,3 +19,4 @@ go/pkg/
 .vscode/
 target/
 *.pem
+.mypy_cache
