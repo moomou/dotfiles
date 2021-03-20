@@ -14,15 +14,8 @@ template '/etc/nginx/snippets/ssl-params.conf' do
 end
 
 # install certbot
-bash 'install certbot' do
-    user 'root'
-    code <<-EOH
-      add-apt-repository universe -y
-      add-apt-repository ppa:certbot/certbot -y
-    EOH
-end
 package 'certbot'
-package 'python-certbot-nginx'
+package 'python3-certbot-nginx'
 
 # generate 2048 bit dhparam.pepm
 bash 'generate dhparam' do

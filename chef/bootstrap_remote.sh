@@ -15,4 +15,4 @@ echo
 tar cj . | ssh -o 'StrictHostKeyChecking no' "$host" '
 cd $(mktemp -d) &&
     tar xj &&
-    sudo bash run_chef_role.sh ' "$role"
+    sudo GH_CR_RO_TOKEN='$(cat ~/.ssh/gh_cr_ro.token)' bash run_chef_role.sh ' "$role"

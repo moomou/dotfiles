@@ -13,7 +13,7 @@ from git_util import groot
 from m_base import Base
 from util import get_config_yml, m_path
 
-DEFAULT_GCR_TAG = "gcr.io/mou.dev/{img}:{tag}"
+DEFAULT_CR_TAG = "ghcr.io/mou-dev-org/{img}:{tag}"
 DOCKERIGNORE = ".dockerignore"
 DOCKERUNIGNORE = "dockerunignore"
 DOCKERFILE = "Dockerfile"
@@ -81,7 +81,7 @@ class Docker(Base):
 
             self.shell(
                 "docker build -t {tag} -f {df_path} {extra} .".format(
-                    tag=DEFAULT_GCR_TAG.format(img=app, tag="latest"),
+                    tag=DEFAULT_CR_TAG.format(img=app, tag="latest"),
                     df_path=str(app_dockerfile),
                     extra=" ".join(extra_args),
                 ),

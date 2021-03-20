@@ -1,6 +1,9 @@
-#!/bin/bash
+#!/bin/bash -xe
+set -euo pipefail
 
-RUBY_VERSION=2.5
+[ "${EUID:-$(id -u)}" -eq 0 ] || $(echo "Requires sudo" && exit 1)
+
+RUBY_VERSION=2.6
 CHEF_VERSION=14.13.11
 BERKSHELF_VERISON=7.0.7
 
@@ -25,11 +28,11 @@ if ! command -v $CHEF_BINARY >/dev/null 2>&1; then
             make \
             libgmp-dev \
             gcc &&
-        sudo gem$RUBY_VERSION install --no-rdoc --no-ri chef:$CHEF_VERSION berkshelf:$BERKSHELF_VERISON
+        gem$RUBY_VERSION install --no-doc chef:$CHEF_VERSION berkshelf:$BERKSHELF_VERISON
 fi
 
 echo Installing deps...
-sudo berks vendor ./vendor
+berks vendor ./vendor
 
 echo Starting chef run...
-sudo "$CHEF_BINARY" -c "$(pwd)/solo.rb" -j "$(pwd)/roles/${role}.json"
+"$CHEF_BINARY" -c "$(pwd)/solo.rb" -j "$(pwd)/roles/${role}.json"

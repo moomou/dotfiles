@@ -1,0 +1,6 @@
+{
+  "run_list": [
+    "recipe[basic::oracle]",
+    "recipe[basic::k3s]"
+  ]
+}

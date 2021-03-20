@@ -1,0 +1,38 @@
+{
+  "nginx": {
+    "domains": [
+      {
+        "no_root_cert": true,
+        "root_url": "mou.dev",
+        "servers": [
+          {
+            "name": "ckh",
+            "upstream": "ckh"
+          },
+          {
+            "name": "joey-api",
+            "upstream": "joey-api"
+          }
+        ],
+        "subdomains": [
+          "joey-api",
+          "ckh"
+        ],
+        "upstreams": [
+          {
+            "address": "localhost:39000",
+            "name": "ckh"
+          },
+          {
+            "address": "localhost:39001",
+            "name": "joey-api"
+          }
+        ]
+      }
+    ],
+    "user": "ppymou+letsencrypt@gmail.com"
+  },
+  "run_list": [
+    "recipe[nginx::default]"
+  ]
+}
