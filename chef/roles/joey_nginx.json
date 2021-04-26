@@ -20,11 +20,11 @@
         ],
         "upstreams": [
           {
-            "address": "localhost:39000",
+            "address": "localhost:30000",
             "name": "ckh"
           },
           {
-            "address": "localhost:39001",
+            "address": "localhost:30001",
             "name": "joey-api"
           }
         ]
