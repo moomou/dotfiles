@@ -114,6 +114,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.gd ] && source ~/.gd
 
 # PROFILING STOP
 #set +x

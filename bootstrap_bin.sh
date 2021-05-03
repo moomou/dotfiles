@@ -6,7 +6,7 @@ source "$(dirname $0)/shell_lib/lib.sh"
 # Random script for different os
 symlink_bin "gogo"
 symlink_bin "godep"
+symlink_bin "gd"
 
 if [ $(uname) = "Darwin" ]; then
-    symlink_bin "./extraBin/imgcat"
 fi

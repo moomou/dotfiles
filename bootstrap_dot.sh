@@ -42,12 +42,11 @@ symlink ".jshintrc"
 symlink ".sbtconfig"
 symlink ".prettierrc"
 
+symlink "gd" ".gd"
+
 # Random script for different os
 if [ $(uname) = "Darwin" ]; then
     symlink "vimGoWrapper.sh" ".govim.sh"
-    symlink "gogo" "gogo"
-    symlink "godep" "godep"
-    symlink "./extraBin/imgcat" "imgcat"
 fi
 
 symlink ".bashrc"

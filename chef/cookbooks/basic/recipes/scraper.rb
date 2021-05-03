@@ -4,4 +4,6 @@ package 'libgtk-3-dev'
 package 'libxss-dev'
 
 package 'xvfb'
+package 'nodejs'
+package 'npm'
 
