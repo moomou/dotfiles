@@ -34,18 +34,13 @@ function gd() {
         exit 1
     fi
 
-    dot_gd_content=$(cat $(dot_gd_path))
-
-    IFS='='
     key="$1"
-    for path_alias in "$dot_gd_content"; do
-        #Read the split words into an array based on comma delimiter
-        read -a key_value <<<"$path_alias"
+    while IFS='=' read -ra key_value; do
         if [ "${key_value[0]}" = "$key" ]; then
             cd ${key_value[1]}
             return 0
         fi
-    done
+    done <<< "$(cat $(dot_gd_path))"
 
     echo "$key not found"
     return 1
