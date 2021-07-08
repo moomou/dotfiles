@@ -6,26 +6,17 @@
         "root_url": "mou.dev",
         "servers": [
           {
-            "name": "ckh",
-            "upstream": "ckh"
-          },
-          {
-            "name": "joey-api",
-            "upstream": "joey-api"
+            "name": "morii-svc",
+            "upstream": "morii-svc"
           }
         ],
         "subdomains": [
-          "joey-api",
-          "ckh"
+          "morii-svc"
         ],
         "upstreams": [
           {
-            "address": "localhost:30000",
-            "name": "ckh"
-          },
-          {
-            "address": "localhost:30001",
-            "name": "joey-api"
+            "address": "10.43.167.243:9002",
+            "name": "morii-svc"
           }
         ]
       }

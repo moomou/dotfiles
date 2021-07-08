@@ -34,22 +34,6 @@ node['nginx']['domains'].each do |domain|
     if not domain["no_root_cert"]
       subdomains = "-d #{root_url} " + subdomains
     end
-
-    bash 'fetch letsencrypt cert' do
-        user 'root'
-        code <<-EOH
-        certbot certonly  \
-          --preferred-challenges http \
-          --email 'ppymou+letsencrypt@gmail.com' \
-          --agree-tos \
-          -n \
-          --nginx \
-          --cert-name #{root_url} \
-          #{subdomains}
-        EOH
-        not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
-    end
-
     # add nginx config
     template "/etc/nginx/snippets/ssl-#{root_url}.conf" do
         source 'ssl.conf.erb'
@@ -89,6 +73,28 @@ node['nginx']['domains'].each do |domain|
         end
     end
 
+    # Reload nginx at the end
+    bash 'reload nginx' do
+        code <<-EOH
+            systemctl reload nginx
+        EOH
+    end
+
+    bash 'fetch letsencrypt cert' do
+        user 'root'
+        code <<-EOH
+        certbot certonly  \
+          --preferred-challenges http \
+          --email 'ppymou+letsencrypt@gmail.com' \
+          --agree-tos \
+          -n \
+          --nginx \
+          --cert-name #{root_url} \
+          #{subdomains}
+        EOH
+        # TODO: this doesn't respect changed subdomains
+        not_if { File.exist?("/etc/letsencrypt/renewal/#{root_url}.conf") }
+    end
 end
 
 # Reload nginx at the end

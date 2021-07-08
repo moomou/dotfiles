@@ -1,0 +1,10 @@
+A Functor is a type that implements map and obeys some laws
+map(id) === id; // identity law
+compose(map(f), map(g)) === map(compose(f, g)); // composition
+A pointed functor is a functor with `of` method
+Monads are pointed functors that can flatten
+Applicative Functor is a pointed functor with an `ap` method
+`ap` method calls maps functor B with A, ie A.ap(B) => B.map(A)
+F.of(x).map(f) === F.of(f).ap(F.of(x));
+of/ap = map
+natural transformation := (Functor f, Functor g) => f a -> g a

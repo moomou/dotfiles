@@ -79,9 +79,11 @@ class Docker(Base):
         ):
             self._logger.info("Starting to build")
 
+            img_name = app.replace("_", "-")
+
             self.shell(
                 "docker build -t {tag} -f {df_path} {extra} .".format(
-                    tag=DEFAULT_CR_TAG.format(img=app, tag="latest"),
+                    tag=DEFAULT_CR_TAG.format(img=img_name, tag="latest"),
                     df_path=str(app_dockerfile),
                     extra=" ".join(extra_args),
                 ),
