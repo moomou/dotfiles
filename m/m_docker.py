@@ -21,6 +21,7 @@ DOCKERFILE = "Dockerfile"
 
 class AppLang(Enum):
     golang = 0
+    nodejs = 1
 
 
 class Docker(Base):
@@ -31,7 +32,7 @@ class Docker(Base):
     ):
         """
         Default docker build that works with $GROOT/app folder structure.
-        Also supports serunignore files
+        Also supports dockerunignore files
         """
         apps_dir = pl.Path(os.path.curdir) / "app"
         app_dir = apps_dir / app
@@ -86,8 +87,7 @@ class Docker(Base):
                     tag=DEFAULT_CR_TAG.format(img=img_name, tag="latest"),
                     df_path=str(app_dockerfile),
                     extra=" ".join(extra_args),
-                ),
-                stdout=sys.stdout,
+                )
             )
 
     def clean(self):

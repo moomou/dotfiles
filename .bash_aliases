@@ -27,8 +27,6 @@ alias tk="tmux kill-session -t"
 alias ta="tmux attach-session -t"
 alias ts="tmux new-session -s"
 
-alias yd="python3 $(which youtube-dl)"
-
 # use neovim if installed
 if hash nvim 2>/dev/null; then
     alias vi='nvim'

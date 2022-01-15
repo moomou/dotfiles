@@ -4,12 +4,19 @@ import sys
 from subprocess import PIPE, STDOUT
 
 
-def shell(cmd, timeout=None, throw=False, **kwargs):
+def shell(cmd,
+    timeout=None,
+    throw=False,
+    *,
+    stdout=sys.stdout,
+    stderr=sys.stderr,
+    **kwargs
+):
     if "quiet" in kwargs:
         logging.warning("quiet flag is deprecated")
 
     p = subprocess.Popen(
-        cmd, shell=True, stdout=kwargs.get("stdout", PIPE), stderr=PIPE
+        cmd, shell=True, stdout=stdout, stderr=stdout,
     )
     try:
         outs, errs = p.communicate()

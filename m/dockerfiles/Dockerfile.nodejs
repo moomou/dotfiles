@@ -1,0 +1,21 @@
+FROM node:14-alpine3.10 AS build1
+
+ARG APPDIR
+RUN apk --no-cache add git
+
+COPY $APPDIR /app
+WORKDIR /app
+RUN npm install && npm run build
+
+FROM node:14-alpine3.10 AS build2
+RUN apk --no-cache add git
+
+WORKDIR /app
+COPY --from=build1 /app/package*.json ./
+COPY --from=build1 /app/dist ./dist
+RUN npm install --only=production
+
+
+FROM gcr.io/distroless/nodejs:14
+COPY --from=build2 /app /app
+CMD ["app/dist/main.js"]

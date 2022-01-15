@@ -10,7 +10,7 @@ hex2rgb() {
 # https://gist.github.com/wadey/1140259
 tab-color() {
     colors=('e6194b' '3cb44b' 'ffe119' '4363d8' 'f58231' '911eb4' '46f0f0' 'f032e6' 'bcf60c' 'fabebe' '008080' 'e6beff' '9a6324' 'fffac8' '800000' 'aaffc3' '808000' 'ffd8b1' '000075' '808080' 'ffffff' '000000')
-    color=${colors[$RANDOM % ${#colors[@]} ]}
+    color=${colors[$RANDOM % ${#colors[@]}]}
     color=$(hex2rgb $color)
     R=${1:-$(echo $color | jq .[0])}
     G=${2:-$(echo $color | jq .[1])}
@@ -81,7 +81,6 @@ function color-ranger() {
 }
 alias ranger=color-ranger
 
-
 # git rebase
 function rebase() {
     branch=${1:-master}
@@ -90,33 +89,66 @@ function rebase() {
 
 # watch and list changed files
 function list-change() {
-    fswatch --batch-marker=EOF -xn . | while read file event;
-        do echo $file $event;
+    fswatch --batch-marker=EOF -xn . | while read file event; do
+        echo $file $event
         if [ $file = "EOF" ]; then
-            echo TRIGGER;
-        fi;
+            echo TRIGGER
+        fi
     done
 }
 
-
 # copied & modified from https://stackoverflow.com/questions/20649783/pause-a-running-script-in-mac-terminal-and-then-resume-later
 suspend-proc() {
-  [[ -z $1 || $1 == '-h' || $1 == '--help' ]] && { echo "Usage: $FUNCNAME scriptFileName ..."$'\n'"Suspends the specified bash/sh script(s)."; return $(( ${#1} == 0 )); }
-  local ec=0
-  for p in "$@"; do
-    pkill -STOP -nf "$p" \
-      && echo "'$1' suspended." \
-      || { ec=$?; echo "ERROR: process not found: '$p'" 1>&2; }
-  done
-  return $ec
+    [[ -z $1 || $1 == '-h' || $1 == '--help' ]] && {
+        echo "Usage: $FUNCNAME scriptFileName ..."$'\n'"Suspends the specified bash/sh script(s)."
+        return $((${#1} == 0))
+    }
+    local ec=0
+    for p in "$@"; do
+        pkill -STOP -nf "$p" &&
+            echo "'$1' suspended." ||
+            {
+                ec=$?
+                echo "ERROR: process not found: '$p'" 1>&2
+            }
+    done
+    return $ec
 }
 resume-proc() {
-  [[ -z $1 || $1 == '-h' || $1 == '--help' ]] && { echo "Usage: $FUNCNAME scriptFileName ..."$'\n'"Resumes the specified bash/sh script(s)."; return $(( ${#1} == 0 )); }
-  local ec=0
-  for p in "$@"; do
-    pkill -CONT -nf "$p" \
-     && echo "'$1' resumed." \
-     || { ec=$?; echo "ERROR: process not found: '$p'" 1>&2; }
-  done
-  return $ec
+    [[ -z $1 || $1 == '-h' || $1 == '--help' ]] && {
+        echo "Usage: $FUNCNAME scriptFileName ..."$'\n'"Resumes the specified bash/sh script(s)."
+        return $((${#1} == 0))
+    }
+    local ec=0
+    for p in "$@"; do
+        pkill -CONT -nf "$p" &&
+            echo "'$1' resumed." ||
+            {
+                ec=$?
+                echo "ERROR: process not found: '$p'" 1>&2
+            }
+    done
+    return $ec
+}
+
+function keychain_pwd() {
+    security find-generic-password -s $1 -w
+}
+
+# copied from https://superuser.com/questions/456803/create-ram-disk-mount-to-specific-folder-in-osx
+function mk_osx_ramdisk() {
+    ramfs_size_mb=2100
+    mount_point=/tmp/rdisk
+
+    ramfs_size_sectors=$((${ramfs_size_mb} * 1024 * 1024 / 512))
+    ramdisk_dev=$(hdid -nomount ram://${ramfs_size_sectors})
+
+    newfs_hfs -v 'ram disk' ${ramdisk_dev}
+    mkdir -p ${mount_point}
+    mount -o noatime -t hfs ${ramdisk_dev} ${mount_point}
+
+    echo
+    echo "remove with:"
+    echo "  umount ${mount_point}"
+    echo "  diskutil eject ${ramdisk_dev}"
 }

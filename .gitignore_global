@@ -20,3 +20,4 @@ go/pkg/
 target/
 *.pem
 .mypy_cache
+.env.bak
