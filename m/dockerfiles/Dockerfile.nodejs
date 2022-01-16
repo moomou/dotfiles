@@ -1,4 +1,4 @@
-FROM node:14-alpine3.10 AS build1
+FROM node:16-alpine3.15 AS build1
 
 ARG APPDIR
 RUN apk --no-cache add git
@@ -7,7 +7,7 @@ COPY $APPDIR /app
 WORKDIR /app
 RUN npm install && npm run build
 
-FROM node:14-alpine3.10 AS build2
+FROM node:16-alpine3.15 AS build2
 RUN apk --no-cache add git
 
 WORKDIR /app
