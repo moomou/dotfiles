@@ -22,6 +22,7 @@ DOCKERFILE = "Dockerfile"
 class AppLang(Enum):
     golang = 0
     nodejs = 1
+    rust = 2
 
 
 class Docker(Base):
