@@ -1,7 +1,0 @@
-Host spa
-    HostName spartan.ohsloth.com
-    User root
-    IdentityFile ~/.ssh/keys/droplet_rsa
-    ForwardAgent yes
-    User root
-    IdentityFile /root/.ssh/key/droplet_rsa
