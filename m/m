@@ -76,8 +76,8 @@ class M2:
         """
         Updates the m tool
         """
-        import sys
         import subprocess
+        import sys
 
         import fs_util
         import git_util
@@ -105,9 +105,9 @@ class M2:
 
 
 if __name__ == "__main__":
-    import sys
-    import gc
     import atexit
+    import gc
+    import sys
     gc.set_threshold(0)
     # Suicide immediately after other atexit functions finishes.
     # CPython will do a bunch of cleanups in Py_Finalize which

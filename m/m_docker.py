@@ -79,17 +79,17 @@ class Docker(Base):
             unignore_path,
             merge_ignore_unignore,
         ):
-            self._logger.info("Starting to build")
+            with WithCopySymlink(app_cfg.get("symlinks")):
+                self._logger.info("Starting to build")
+                img_name = app.replace("_", "-")
 
-            img_name = app.replace("_", "-")
-
-            self.shell(
-                "docker build -t {tag} -f {df_path} {extra} .".format(
-                    tag=DEFAULT_CR_TAG.format(img=img_name, tag="latest"),
-                    df_path=str(app_dockerfile),
-                    extra=" ".join(extra_args),
+                self.shell(
+                    "docker build -t {tag} -f {df_path} {extra} .".format(
+                        tag=DEFAULT_CR_TAG.format(img=img_name, tag="latest"),
+                        df_path=str(app_dockerfile),
+                        extra=" ".join(extra_args),
+                    )
                 )
-            )
 
     def clean(self):
         self.shell(
@@ -150,6 +150,41 @@ class Docker(Base):
         with contextlib.suppress(FileNotFoundError):
             for f in remove_after:
                 os.remove(f)
+
+
+class WithCopySymlink:
+    def __init__(self, links) -> None:
+        """
+        simple class to remember symlink and copy the target
+        over on __enter__ and restore on __exit__
+        """
+        self.symlinks = [link for link in links.split(",")]
+        self.symlink_target = {}
+
+    def __enter__(self):
+        for symlink in self.symlinks:
+            p = pl.Path(symlink)
+
+            if not p.is_symlink():
+                continue
+
+            resolved = self.symlink_target[symlink] = p.resolve()
+            p.unlink()
+
+            shutil.copytree(resolved, symlink)
+
+    def __exit__(self):
+        for symlink, resolved in self.symlink_target:
+            shutil.rmtree(symlink)
+
+            os.symlink(
+                symlink,
+                os.path.relpath(
+                    resolved,
+                    # we always assume we are the git root
+                    ".",
+                ),
+            )
 
 
 class WithTempFile:
