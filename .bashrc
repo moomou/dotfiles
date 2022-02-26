@@ -120,3 +120,4 @@ fi
 #set +x
 #exec 2>&3 3>&-
 # PROFILING STOP
+. "$HOME/.cargo/env"

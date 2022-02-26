@@ -79,7 +79,7 @@ class Docker(Base):
             unignore_path,
             merge_ignore_unignore,
         ):
-            with WithCopySymlink(app_cfg.get("symlinks")):
+            with WithCopySymlink(app_cfg["config"].get("symlinks", "")):
                 self._logger.info("Starting to build")
                 img_name = app.replace("_", "-")
 
@@ -173,17 +173,17 @@ class WithCopySymlink:
 
             shutil.copytree(resolved, symlink)
 
-    def __exit__(self):
-        for symlink, resolved in self.symlink_target:
+    def __exit__(self, exception_type, exception_val, trc):
+        for symlink, resolved in self.symlink_target.items():
             shutil.rmtree(symlink)
 
+            symlink_path = pl.Path(symlink)
             os.symlink(
-                symlink,
                 os.path.relpath(
                     resolved,
-                    # we always assume we are the git root
-                    ".",
+                    symlink_path.parent
                 ),
+                symlink,
             )
 
 

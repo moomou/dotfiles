@@ -5,9 +5,10 @@ ARG APP
 
 WORKDIR /app
 COPY $APPDIR /app
-RUN cargo build --release -p $APP
+RUN rustup component add rustfmt && cargo build --release -p $APP
 
 FROM gcr.io/distroless/cc
+ARG APP
 
 COPY --from=build-env /app/target/release/$APP /app
 CMD ["/app"]

@@ -41,7 +41,7 @@ fi
 export GOPATH=$HOME/go
 export PYENV_PATH=$HOME/.pyenv/
 export PROTOC_BIN=/usr/local/protoc/bin
-export CUDA_PATH=/usr/local/cuda-10.2
+export CUDA_PATH=/usr/local/cuda-11.2
 export LD_LIBRARY_PATH=/usr/local/cuda-10.2/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 export H5_BIN=~/dev/_opensrc/hdf5-1.10.1-patch1/hdf5/bin
 
@@ -72,7 +72,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export LC_COLLATE=C
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
-export PATH="$HOME/.cargo/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/path.bash.inc'; fi
@@ -90,3 +89,4 @@ tab-color
 set -o history -o histexpand
 
 export PATH="$HOME/.poetry/bin:$PATH"
+. "$HOME/.cargo/env"
