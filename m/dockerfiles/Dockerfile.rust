@@ -4,7 +4,7 @@ ARG APPDIR
 
 WORKDIR /app
 COPY $APPDIR /app
-RUN cargo build --release
+RUN cargo build --release -p $APP
 
 FROM gcr.io/distroless/cc
 
