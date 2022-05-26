@@ -108,6 +108,7 @@ if __name__ == "__main__":
     import atexit
     import gc
     import sys
+
     gc.set_threshold(0)
     # Suicide immediately after other atexit functions finishes.
     # CPython will do a bunch of cleanups in Py_Finalize which

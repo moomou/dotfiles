@@ -1,3 +1,5 @@
+from asyncio import subprocess
+
 from shell_util import shell
 
 
@@ -20,5 +22,4 @@ def rebase(branch="master"):
 
 
 def log(args):
-    return shell("git log %s" % args)
-
+    return shell("git log %s" % args, stdout=subprocess.PIPE)
