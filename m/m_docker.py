@@ -30,6 +30,7 @@ class Docker(Base):
         self,
         app,
         build_args="",
+        tag="latest",
     ):
         """
         Default docker build that works with $GROOT/app folder structure.
@@ -85,7 +86,7 @@ class Docker(Base):
 
                 self.shell(
                     "docker build -t {tag} -f {df_path} {extra} .".format(
-                        tag=DEFAULT_CR_TAG.format(img=img_name, tag="latest"),
+                        tag=DEFAULT_CR_TAG.format(img=img_name, tag=tag),
                         df_path=str(app_dockerfile),
                         extra=" ".join(extra_args),
                     )
