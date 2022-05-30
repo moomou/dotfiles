@@ -9,7 +9,7 @@ import pathlib as pl
 
 import m_base
 import simple_argparse as sa
-from constant import M_ROOT, TAB
+from constant import M_ROOT
 
 with open(os.path.join(M_ROOT, "./log.conf")) as conf:
     logging.config.dictConfig(json.load(conf))

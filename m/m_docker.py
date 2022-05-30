@@ -3,13 +3,11 @@ import logging
 import os
 import pathlib as pl
 import shutil
-import sys
 from enum import Enum
 
 import yaml
 
 import constant
-from git_util import groot
 from m_base import Base
 from util import get_config_yml, m_path
 
@@ -180,10 +178,7 @@ class WithCopySymlink:
 
             symlink_path = pl.Path(symlink)
             os.symlink(
-                os.path.relpath(
-                    resolved,
-                    symlink_path.parent
-                ),
+                os.path.relpath(resolved, symlink_path.parent),
                 symlink,
             )
 
