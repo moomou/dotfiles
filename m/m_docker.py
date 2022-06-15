@@ -40,7 +40,7 @@ class Docker(Base):
             self._logger.fatal(f"app `{app}` not found")
 
         app_dockerfile = app_dir / "Dockerfile"
-        app_cfg = {}
+        app_cfg = {"config":{}}
         if not app_dockerfile.exists():
             app_yml = app_dir / "app.yml"
 
