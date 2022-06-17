@@ -40,7 +40,7 @@ class Docker(Base):
             self._logger.fatal(f"app `{app}` not found")
 
         app_dockerfile = app_dir / "Dockerfile"
-        app_cfg = {"config":{}}
+        app_cfg = {"config": {}}
         if not app_dockerfile.exists():
             app_yml = app_dir / "app.yml"
 
@@ -73,6 +73,8 @@ class Docker(Base):
         unignore_path = os.path.join(
             os.path.curdir, "app/{app}/{cfg}".format(app=app, cfg=DOCKERUNIGNORE)
         )
+
+        container_tag_template = app_cfg.get("tag_template", DEFAULT_CR_TAG)
         with WithTempFile(
             os.path.join(os.path.curdir, DOCKERIGNORE),
             unignore_path,
@@ -84,7 +86,7 @@ class Docker(Base):
 
                 self.shell(
                     "docker build -t {tag} -f {df_path} {extra} .".format(
-                        tag=DEFAULT_CR_TAG.format(img=img_name, tag=tag),
+                        tag=container_tag_template.format(img=img_name, tag=tag),
                         df_path=str(app_dockerfile),
                         extra=" ".join(extra_args),
                     )
