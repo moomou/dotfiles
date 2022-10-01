@@ -62,7 +62,11 @@ class Docker(Base):
 
         extra_args = [f"--build-arg APP={app}"]
         if build_args:
-            extra_args.extend(["--build-arg %s" % kv for kv in build_args.split(",")])
+            if type(build_args) == str:
+                extra_args.extend(["--build-arg %s" % kv for kv in build_args.split(",")])
+            else:
+                extra_args.extend(["--build-arg %s" % kv for kv in build_args])
+
         if app_cfg.get("config", None):
             cfg_build_arg = app_cfg["config"].get("build_arg", "")
             if cfg_build_arg:

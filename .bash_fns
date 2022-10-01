@@ -4,7 +4,7 @@ random-255() {
 }
 
 hex2rgb() {
-    echo $(python -c 'import json; h = "'$1'"; print(json.dumps(tuple(int(h[i:i+2], 16) for i in (0, 2, 4))))')
+    echo $(python3 -c 'import json; h = "'$1'"; print(json.dumps(tuple(int(h[i:i+2], 16) for i in (0, 2, 4))))')
 }
 
 # https://gist.github.com/wadey/1140259
@@ -39,7 +39,7 @@ alias ssh=color-ssh
 
 ginit() {
     git init
-    lan=$(echo $1 | python -c "print raw_input().capitalize()")
+    lan=$(echo $1 | python3 -c "print raw_input().capitalize()")
     wget -q https://raw.githubusercontent.com/github/gitignore/master/${lan}.gitignore -O .gitignore
     git add .
     git ci -am 'init with .gitignore'

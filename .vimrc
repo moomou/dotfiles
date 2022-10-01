@@ -225,7 +225,7 @@ inoremap <4-MiddleMouse> <Nop>
 let @t = 'dwiimport wwxifromwdwds($'
 
 colorscheme monokai
-com! FormatJSON %!python -m json.tool
+com! FormatJSON %!python3 -m json.tool
 
 " Disable py2
 let g:loaded_python_provider = 1

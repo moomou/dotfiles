@@ -6,7 +6,8 @@
       "titleBar.inactiveBackground": "#f4677999",
       "titleBar.activeForeground": "#15202b",
       "titleBar.inactiveForeground": "#15202b99",
-      "sash.hoverBorder": "#f797a3"
+      "sash.hoverBorder": "#f797a3",
+      "commandCenter.border": "#15202b99"
     },
     "peacock.color": "#f46779"
 }
