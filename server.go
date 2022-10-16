@@ -82,14 +82,23 @@ func printLocationQR(port int) {
 }
 
 func main() {
-	fmt.Printf("Serving files in the current directory on port %d", PORT)
+	dir, err := os.Getwd()
+	if err != nil {
+		fmt.Printf("cannot list current dir:: %s\n", err)
+		os.Exit(1)
+	}
+
+	if len(os.Args) >= 2 {
+		dir = os.Args[1]
+	}
+
+	fmt.Printf("Serving files in the %s on port %d", dir, PORT)
 
 	printLocationQR(PORT)
 
-	http.Handle("/", http.FileServer(http.Dir(".")))
-	err := http.ListenAndServe(":8082", nil)
+	http.Handle("/", http.FileServer(http.Dir(dir)))
 
-	if err != nil {
+	if err := http.ListenAndServe(":8082", nil); err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
 

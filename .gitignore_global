@@ -21,3 +21,4 @@ target/
 *.pem
 .mypy_cache
 .env.bak
+**/IP2LOCATION-LITE-DB*

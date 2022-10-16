@@ -28,10 +28,9 @@ class Www(m_base.Base):
     def serve(self):
         import sys
 
-        if not pl.Path(M_ROOT / ".." / "www").exists():
-            self.shell("(cd %s/.. && go build" % M_ROOT, stdout=sys.stdout)
+        self.shell(f"(cd {M_ROOT}/.. && go run server.go {pl.Path.cwd()})",
+                stdout=sys.stdout)
 
-        self.shell("%s/../www" % M_ROOT, stdout=sys.stdout)
 
     def compile_template(self):
         """Find jinja2 template and build by using var in config.yaml"""

@@ -89,4 +89,9 @@ tab-color
 set -o history -o histexpand
 
 export PATH="$HOME/.poetry/bin:$PATH"
+
 . "$HOME/.cargo/env"
+
+# asdf
+. $HOME/.asdf/asdf.sh
+. $HOME/.asdf/completions/asdf.bash
