@@ -94,7 +94,7 @@ class Docker(Base):
                 img_name = app.replace("_", "-")
 
                 self.shell(
-                    "docker build -t {tag} -f {df_path} {extra} .".format(
+                    "docker build --rm -t {tag} -f {df_path} {extra} .".format(
                         tag=container_tag_template.format(img=img_name, tag=tag),
                         df_path=str(app_dockerfile),
                         extra=" ".join(extra_args),
