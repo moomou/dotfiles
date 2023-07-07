@@ -152,3 +152,16 @@ function mk_osx_ramdisk() {
     echo "  umount ${mount_point}"
     echo "  diskutil eject ${ramdisk_dev}"
 }
+
+function copy2() {
+    declare BUFFER=${1:-$(</dev/stdin)}
+    echo "$BUFFER" > /tmp/.shell_copy2_buffer
+}
+
+function paste2() {
+    if [ ! -f /tmp/.shell_copy2_buffer ]; then
+        echo
+    else
+        cat /tmp/.shell_copy2_buffer
+    fi
+}

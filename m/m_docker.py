@@ -39,26 +39,27 @@ class Docker(Base):
         if not app_dir.exists():
             self._logger.fatal(f"app `{app}` not found")
 
+        app_yml = app_dir / "app.yml"
         app_dockerfile = app_dir / "Dockerfile"
         app_cfg = {"config": {}}
-        if not app_dockerfile.exists():
-            app_yml = app_dir / "app.yml"
 
-            if not app_yml.exists():
-                self._logger.fatal("Missing `app.yml`")
+        if not app_yml.exists() and not app_dockerfile.exists():
+            self._logger.fatal("Missing `app.yml` and `Dockerfile`")
 
+        if app_yml.exists():
             with open(app_yml) as f:
                 app_cfg = yaml.safe_load(f)
 
-            try:
-                lang = AppLang[app_cfg["lang"]]
-            except KeyError:
-                self._logger.fatal(f"`{app_cfg['lang']}` not supported")
+            if not app_dockerfile.exists() and app_cfg.get("lang", None):
+                try:
+                    lang = AppLang[app_cfg["lang"]]
+                except KeyError:
+                    self._logger.fatal(f"`{app_cfg['lang']}` not supported")
 
-            df_path = constant.M_ROOT / "dockerfiles" / f"{DOCKERFILE}.{lang.name}"
-            app_dockerfile = df_path
+                df_path = constant.M_ROOT / "dockerfiles" / f"{DOCKERFILE}.{lang.name}"
+                app_dockerfile = df_path
 
-            self._logger.debug(f"Using dockerfile:: `{df_path}`")
+                self._logger.debug(f"Using dockerfile:: `{df_path}`")
 
         extra_args = [f"--build-arg APP={app}"]
         if build_args:
@@ -69,15 +70,15 @@ class Docker(Base):
 
         if app_cfg.get("config", None):
             cfg_build_arg = app_cfg["config"].get("build_arg", "")
+
             if cfg_build_arg:
-                if type(cfg_build_arg) is str:
-                    extra_args.extend(
-                        ["--build-arg %s" % kv for kv in cfg_build_arg.split(",")]
-                    )
-                else:
-                    extra_args.extend(
-                        ["--build-arg %s" % kv for kv in cfg_build_arg]
-                    )
+                for kv in cfg_build_arg.split(","):
+                    if '=' not in kv:
+                        if not os.environ.get(kv, ""):
+                            self._logger.fatal("Missing required envvar `%s`" % kv)
+                        kv = '%s=%s' % (kv, os.environ[kv])
+
+                extra_args.append("--build-arg %s" % kv)
 
         unignore_path = os.path.join(
             os.path.curdir, "app/{app}/{cfg}".format(app=app, cfg=DOCKERUNIGNORE)
