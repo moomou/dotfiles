@@ -36,6 +36,7 @@ class Docker(Base):
         """
         apps_dir = pl.Path(os.path.curdir) / "app"
         app_dir = apps_dir / app
+
         if not app_dir.exists():
             self._logger.fatal(f"app `{app}` not found")
 

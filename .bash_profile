@@ -48,6 +48,7 @@ export H5_BIN=~/dev/_opensrc/hdf5-1.10.1-patch1/hdf5/bin
 export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$MATLAB_HOME/bin:~/bin:$PROTOC_BIN:$PATH"
 export PATH=~/.local/bin:$PATH
 export PATH="~/.fz/bin:$PATH"
+export PATH="~/Library/Python/3.11/bin:$PATH"
 
 # Source the original
 source ~/.bashrc 2>/dev/null
@@ -71,6 +72,8 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 # make ls on linux simliar to osx
 export LC_COLLATE=C
 
+export CLOUDSDK_PYTHON=python3.9
+
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 # The next line updates PATH for the Google Cloud SDK.
@@ -81,17 +84,16 @@ if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Us
 
 tab-color
 
+export PATH="$HOME/.poetry/bin:$PATH"
+. "$HOME/.cargo/env"
+
 # PROFILING STOP
 #set +x
 #exec 2>&3 3>&-
 # PROFILING STOP
 
+
+# This line needs to be LAST
+# to prevent .bash_profile in history
+# including COMMENTS
 set -o history -o histexpand
-
-export PATH="$HOME/.poetry/bin:$PATH"
-
-. "$HOME/.cargo/env"
-
-# asdf
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash

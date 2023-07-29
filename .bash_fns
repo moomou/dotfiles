@@ -165,3 +165,9 @@ function paste2() {
         cat /tmp/.shell_copy2_buffer
     fi
 }
+
+function proxy-socks() {
+    HOST=$1
+    echo proxying $HOST on port 9093
+    ssh -D 9093 $HOST
+}
