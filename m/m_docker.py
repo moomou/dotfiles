@@ -65,7 +65,9 @@ class Docker(Base):
         extra_args = [f"--build-arg APP={app}"]
         if build_args:
             if type(build_args) is str:
-                extra_args.extend(["--build-arg %s" % kv for kv in build_args.split(",")])
+                extra_args.extend(
+                    ["--build-arg %s" % kv for kv in build_args.split(",")]
+                )
             else:
                 extra_args.extend(["--build-arg %s" % kv for kv in build_args])
 
@@ -79,13 +81,18 @@ class Docker(Base):
             cfg_build_arg = app_cfg["config"].get("build_arg", "")
 
             if cfg_build_arg:
-                for kv in cfg_build_arg.split(","):
-                    if '=' not in kv:
+                build_args = (
+                    cfg_build_arg.split(",")
+                    if type(cfg_build_arg) is str
+                    else cfg_build_arg
+                )
+
+                for kv in build_args:
+                    if "=" not in kv:
                         if not os.environ.get(kv, ""):
                             self._logger.fatal("Missing required envvar `%s`" % kv)
-                        kv = '%s=%s' % (kv, os.environ[kv])
-
-                extra_args.append("--build-arg %s" % kv)
+                        kv = "%s=%s" % (kv, os.environ[kv])
+                    extra_args.append("--build-arg %s" % kv)
 
         unignore_path = os.path.join(
             os.path.curdir, "app/{app}/{cfg}".format(app=app, cfg=DOCKERUNIGNORE)
