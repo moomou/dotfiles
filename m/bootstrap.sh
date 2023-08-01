@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set -euo pipefail
 
@@ -13,7 +13,7 @@ if [ ! -d "$M_VENV" ]; then
 fi
 
 # idk why this complains about numpy
-$M_VENV/bin/pip install --no-cache-dir numpy
+$M_VENV/bin/pip install --no-cache-dir numpy wheel
 $M_VENV/bin/pip install -r pip-requirements.txt
 
 rm -f /usr/local/bin/m
