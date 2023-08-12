@@ -68,10 +68,10 @@ export PROMPT_COMMAND='last_command_exit_code="${_}#${?}" && BashPrompt'
 export HOMEBREW_NO_AUTO_UPDATE=1
 export BASH_SILENCE_DEPRECATION_WARNING=1
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export APPLE_SSH_ADD_BEHAVIOR=macos
 
 # make ls on linux simliar to osx
 export LC_COLLATE=C
-
 export CLOUDSDK_PYTHON=python3.9
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
