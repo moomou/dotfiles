@@ -92,7 +92,8 @@ export PATH="$HOME/.poetry/bin:$PATH"
 #exec 2>&3 3>&-
 # PROFILING STOP
 
-. "$HOME/.cargo/env"
+[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
+[[ -f "$HOME/.asdf/asdf.sh" ]] && source "$HOME/.asdf/asdf.sh"
 
 # This line needs to be LAST
 # to prevent .bash_profile in history
