@@ -41,3 +41,4 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 
 alias rg='rg -S'
+alias python='python3'
