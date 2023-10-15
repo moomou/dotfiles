@@ -71,12 +71,6 @@ class Docker(Base):
             else:
                 extra_args.extend(["--build-arg %s" % kv for kv in build_args])
 
-        if lang == "golang":
-            extra_args.extend([
-                "-v", "$(go env GOCACHE):/go/cache",
-                "-e", "GOCACHE=/go/cache",
-            ])
-
         if app_cfg.get("config", None):
             cfg_build_arg = app_cfg["config"].get("build_arg", "")
 
@@ -108,18 +102,13 @@ class Docker(Base):
                 self._logger.info("Starting to build")
                 img_name = app.replace("_", "-")
 
-                cmd = [
-                    "docker",
-                    "build",
-                    "--rm",
-                    "-t" , 
-                    container_tag_template.format(img=img_name, tag=tag),
-                    "-f",
-                    str(app_dockerfile),
-                ]
-                cmd.extend(extra_args)
-
-                self.shell(" ".joinn(cmd))
+                self.shell(
+                    "docker build --rm -t {tag} -f {df_path} {extra} .".format(
+                        tag=container_tag_template.format(img=img_name, tag=tag),
+                        df_path=str(app_dockerfile),
+                        extra=" ".join(extra_args),
+                    )
+                )
 
     def clean(self):
         self.shell(
