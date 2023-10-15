@@ -10,6 +10,8 @@ WORKDIR /
 ADD go/src/$GOMOD go/src/$GOMOD
 
 WORKDIR /go/src/$GOMOD
+RUN --mount=type=cache,target=/go/pkg/mod \
+    go mod download -x
 RUN go build $TAGS -o /go/bin/app $GOMOD/cmd/$APP
 
 FROM gcr.io/distroless/base
