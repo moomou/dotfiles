@@ -24,3 +24,4 @@ target/
 **/IP2LOCATION-LITE-DB*
 *.sqlite
 research/nbs/lesson/
+__*
