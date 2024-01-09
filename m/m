@@ -1,4 +1,4 @@
-#!/usr/local/bin/m_venv3/bin/python
+#!/home/moomou/.local/bin/m_venv3/bin/python
 import glob
 import importlib
 import inspect

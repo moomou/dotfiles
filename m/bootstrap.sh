@@ -4,19 +4,20 @@ set -euo pipefail
 
 # required for audiolab
 # sudo apt-get install -y libsndfile1 libsndfile1-dev
+DST=~/.local/bin
 
 FNAME=m_venv3
-M_VENV=/usr/local/bin/$FNAME
+M_VENV=$DST/$FNAME
 
 if [ ! -d "$M_VENV" ]; then
-    (cd /usr/local/bin && python3 -m venv $FNAME)
+    (cd $DST && python3 -m venv $FNAME)
 fi
 
 # idk why this complains about numpy
-$M_VENV/bin/pip install --no-cache-dir numpy wheel
-$M_VENV/bin/pip install -r pip-requirements.txt
+$M_VENV/bin/python3 -m pip install --no-cache-dir numpy wheel
+$M_VENV/bin/python3 -m pip install -r pip-requirements.txt
 
-rm -f /usr/local/bin/m
-ln -s $(pwd)/m /usr/local/bin/m
+rm -f $DST/m
+ln -s $(pwd)/m $DST/m
 
 echo "m setup complete"

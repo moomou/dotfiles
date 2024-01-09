@@ -41,11 +41,13 @@ fi
 export GOPATH=$HOME/go
 export PYENV_PATH=$HOME/.pyenv/
 export PROTOC_BIN=/usr/local/protoc/bin
-export CUDA_PATH=/usr/local/cuda-12.1
-export LD_LIBRARY_PATH=/usr/local/cuda-12.1/lib64:$LD_LIBRARY_PATH
-export H5_BIN=~/dev/_opensrc/hdf5-1.10.1-patch1/hdf5/bin
+# export CUDA_PATH=/usr/local/cuda-12.1
+# export LD_LIBRARY_PATH=/usr/local/cuda-12.1/lib64:$LD_LIBRARY_PATH
+export CUDA_PATH=/usr/local/cuda
+export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+# export H5_BIN=~/dev/_opensrc/hdf5-1.10.1-patch1/hdf5/bin
 
-export PATH="$H5_BIN:/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$MATLAB_HOME/bin:~/bin:$PROTOC_BIN:$PATH"
+export PATH="/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$MATLAB_HOME/bin:~/bin:$PROTOC_BIN:$PATH"
 export PATH=~/.local/bin:$PATH
 export PATH="~/.fz/bin:$PATH"
 export PATH="~/Library/Python/3.11/bin:$PATH"
@@ -89,8 +91,7 @@ tab-color
 export PATH="$HOME/.poetry/bin:$PATH"
 . "$HOME/.cargo/env"
 
-[[ -f "$HOME/.cargo/env" ]] && source "$HOME/.cargo/env"
-[[ -f "$HOME/.asdf/asdf.sh" ]] && source "$HOME/.asdf/asdf.sh"
+[[ -f "$HOME/.cargo/env" ]] && [[ -f "$HOME/.asdf/asdf.sh" ]] && source "$HOME/.asdf/asdf.sh"
 # Blindly limit gpu:0 power to 300 for now
 [[ $(command -v nvidia-smi) ]] && sudo nvidia-smi -pl 300 &>/dev/null
 

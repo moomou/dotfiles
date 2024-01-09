@@ -1,0 +1,2 @@
+*/5 * * * * /bin/touch /dev/sdb &>/dev/null
+@reboot /home/moomou/dev/dotfiles/cron/on_reboot.sh
