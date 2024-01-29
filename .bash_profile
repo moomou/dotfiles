@@ -95,14 +95,13 @@ export PATH="$HOME/.poetry/bin:$PATH"
 # Blindly limit gpu:0 power to 300 for now
 [[ $(command -v nvidia-smi) ]] && sudo nvidia-smi -pl 300 &>/dev/null
 
-# This line needs to be LAST
-# to prevent .bash_profile in history
-# including COMMENTS
-set -o history -o histexpand
 
 # <PROFILING STOP>
 #set +x
 #exec 2>&3 3>&-
 # </PROFILING STOP>
 
-
+# This line needs to be LAST
+# to prevent .bash_profile in history
+# including COMMENTS
+set -o history -o histexpand
