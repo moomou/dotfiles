@@ -43,3 +43,4 @@ fi
 alias rg='rg -S'
 alias python='python3'
 alias fd='fdfind'
+alias tv='tidy-viewer'

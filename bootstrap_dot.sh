@@ -41,7 +41,6 @@ symlink ".gitatributes_global"
 symlink ".jshintrc"
 symlink ".sbtconfig"
 symlink ".prettierrc"
-
 symlink "gd" ".gd"
 
 # Random script for different os

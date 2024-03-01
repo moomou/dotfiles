@@ -38,6 +38,17 @@ function gd() {
     gd_path=$(dot_gd_path)
     gd_dir=$(dirname $gd_path)
     key="$1"
+
+    if [ $# -eq 2 ]; then
+        dst_abs_path=$(realpath "$2")
+        rm_prefix="$gd_dir/"
+        dst_relative_path="${dst_abs_path#$rm_prefix}"
+        entry="$key=$dst_relative_path"
+        echo $entry >> $gd_path
+        echo Saved $entry
+        return
+    fi
+
     while IFS='=' read -ra key_value; do
         if [ "${key_value[0]}" = "$key" ]; then
             cd $gd_dir/${key_value[1]}
