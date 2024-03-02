@@ -39,7 +39,10 @@ function gd() {
     gd_dir=$(dirname $gd_path)
     key="$1"
 
-    if [ $# -eq 2 ]; then
+    if [ $# -eq 0 ]; then
+        cat "$gd_path"
+        return
+    elif [ $# -eq 2 ]; then
         dst_abs_path=$(realpath "$2")
         rm_prefix="$gd_dir/"
         dst_relative_path="${dst_abs_path#$rm_prefix}"
