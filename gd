@@ -62,3 +62,4 @@ function gd() {
     echo "$key not found"
     return 1
 }
+app=dev/regle/mono/ts/app
