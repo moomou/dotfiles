@@ -35,7 +35,7 @@ fi
 
 # osx alias
 if [ "$(uname)" == "Darwin" ]; then
-    alias ls='gls -X --color=auto --group-directories-first'
+    # alias ls='gls -X --color=auto --group-directories-first'
     alias shred='gshred'
     alias canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --remote-debugging-port=9222"
 fi

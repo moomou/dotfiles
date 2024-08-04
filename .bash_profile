@@ -45,12 +45,14 @@ export PROTOC_BIN=/usr/local/protoc/bin
 # export LD_LIBRARY_PATH=/usr/local/cuda-12.1/lib64:$LD_LIBRARY_PATH
 export CUDA_PATH=/usr/local/cuda
 export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
-# export H5_BIN=~/dev/_opensrc/hdf5-1.10.1-patch1/hdf5/bin
 
 export PATH="/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$MATLAB_HOME/bin:~/bin:$PROTOC_BIN:$PATH"
 export PATH=~/.local/bin:$PATH
 export PATH="~/.fz/bin:$PATH"
 export PATH="~/Library/Python/3.11/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/usr/local/go/bin:$PATH"
+export PATH="~/google-cloud-sdk/bin:$PATH"
 # skip git lfs by default
 export GIT_LFS_SKIP_SMUDGE=1
 
@@ -76,15 +78,15 @@ export APPLE_SSH_ADD_BEHAVIOR=macos
 
 # make ls on linux simliar to osx
 export LC_COLLATE=C
-export CLOUDSDK_PYTHON=python3.9
+export CLOUDSDK_PYTHON=python3
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/moomou/google-cloud-sdk/path.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/path.bash.inc'; fi
+if [ -f "~/google-cloud-sdk/path.bash.inc" ]; then source "~/google-cloud-sdk/path.bash.inc"; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/moomou/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/moomou/google-cloud-sdk/completion.bash.inc'; fi
+if [ -f "~/google-cloud-sdk/completion.bash.inc" ]; then source "~/google-cloud-sdk/completion.bash.inc"; fi
 
 tab-color
 
