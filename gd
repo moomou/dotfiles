@@ -4,9 +4,9 @@ DOT_GD=".gd"
 
 function dot_gd_path() {
     cur_dir=${1:-$(pwd)}
-    GROOT=$(git rev-parse --show-toplevel)
+    groot=$(git rev-parse --show-toplevel)
 
-    while [ "$cur_dir" != "$GROOT" ]; do
+    while [ "$cur_dir" != "$groot" ]; do
         if [ -e "$cur_dir/$DOT_GD" ]; then
             break
         fi
@@ -24,6 +24,7 @@ function gd() {
         return 1
     fi
 
+    groot=$(git rev-parse --show-toplevel)
     # gd_path is an abs path
     gd_path=$(dot_gd_path)
 
@@ -39,6 +40,8 @@ function gd() {
         # cat out gd content when no args specified
         # ex `gd`
         cat "$gd_path"
+
+        # TODO: cat all gds recursively upwards
         return
     elif [ $# -eq 2 ]; then
         # save mapping when 2 args specified
@@ -61,6 +64,11 @@ function gd() {
         done <<<"$(cat $gd_path)"
 
         gd_dir=$(dirname $gd_path)
+        if [[ "$gd_dir" == "$groot" ]]; then
+            echo "$key not found"
+            return 1
+        fi
+
         gd_parent_dir=$(dirname $gd_dir)
         next_gd_path=$(dot_gd_path "$gd_parent_dir")
 
