@@ -16,7 +16,7 @@ x_*
 vendor/
 go/pkg/
 .m_pipe_log/
-.vscode/
+**/.vscode/
 target/
 *.pem
 .mypy_cache
