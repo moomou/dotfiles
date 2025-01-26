@@ -17,7 +17,7 @@
     email = p@mou.dev
 [core]
     editor = $EDITOR
-	excludesfile = ~/.gitignore_global
+	excludesfile = /home/moomou/.gitignore_global
     attributesfile = ~/.gitattributes_global
     fscache = true
     preloadindex = true

@@ -26,7 +26,7 @@ else
 fi
 
 ## Make vim the default
-export EDITOR=nvim
+export EDITOR=vim
 
 ## Bash Completion
 if [ -f /etc/bash_completion ]; then
