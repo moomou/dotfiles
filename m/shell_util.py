@@ -15,6 +15,10 @@ def shell(cmd,
     if "quiet" in kwargs:
         logging.warning("quiet flag is deprecated")
 
+    if kwargs.get("sudo", False):
+        if not cmd.startswith("sudo"):
+            cmd = "sudo " + cmd
+
     p = subprocess.Popen(
         cmd, shell=True, stdout=stdout, stderr=stdout,
     )

@@ -24,6 +24,9 @@ class AppLang(Enum):
 
 
 class Docker(Base):
+    def __init__(self):
+        super().__init__(shell_sudo=True)
+
     def build(
         self,
         app,

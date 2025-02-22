@@ -13,7 +13,7 @@ FMT = "[%(asctime)s %(filename)s:%(lineno)d %(levelname)s] %(message)s"
 
 
 class Base(object):
-    def __init__(self, lazy_import=[], renames=None):
+    def __init__(self, *, lazy_import=[], renames=None, shell_sudo=False):
         self._modules_cache = {}
         self._lazy_import = lazy_import
         self._renames = renames or {}
@@ -22,6 +22,7 @@ class Base(object):
         self._logger.fatal = fatal_wrapper(logger.fatal)
         coloredlogs.install(level="INFO", fmt=FMT)
 
+        self._shell_sudo = shell_sudo
         self._debugging = False
         if os.environ.get("DEBUG", None):
             self._debugging = True
@@ -65,7 +66,12 @@ class Base(object):
 
     def shell(self, cmd, timeout=None, **kwargs):
         self._logger.debug(f"running shell `{cmd}`")
-        return shell_util.shell(cmd, timeout=timeout, **kwargs)
+
+        if "sudo" not in kwargs:
+            kwargs["sudo"] = self._shell_sudo
+
+        return shell_util.shell(cmd, timeout=timeout,
+                **kwargs)
 
 
 def fatal_wrapper(fn):
