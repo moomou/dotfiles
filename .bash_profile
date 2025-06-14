@@ -62,13 +62,36 @@ source ~/.bashrc 2>/dev/null
 # source files if exists
 # [[ -s "~/.cuebenv/activate.sh" ]] && source ". ~/.cuebenv/activate.sh"
 
-source ~/.git-prompt.sh
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWCOLORHINTS=1
+# Function to check if we are in a Git LFS directory
+is_git_lfs_directory() {
+  # Check if the .git directory and .gitattributes file exist
+  if [ -d .git ] && git config -l | grep -q 'filter.lfs'; then
+    return 0  # It's a Git LFS directory
+  else
+    return 1  # It's not a Git LFS directory
+  fi
+}
 
-export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
-export PROMPT_COMMAND='last_command_exit_code="${_}#${?}" && BashPrompt'
+# Modify the Git prompt behavior based on whether we're in a Git LFS directory
+if is_git_lfs_directory; then
+  export GIT_PROMPT_ONLY_IN_REPO=1
+else
+  # Normal Git prompt configuration here
+  export GIT_PROMPT_ONLY_IN_REPO=0
+  export GIT_PS1_SHOWDIRTYSTATE=1
+  export GIT_PS1_SHOWSTASHSTATE=1
+  export GIT_PS1_SHOWCOLORHINTS=1
+  export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
+  export PROMPT_COMMAND='last_command_exit_code="${_}#${?}" && BashPrompt'
+fi
+
+source ~/.git-prompt.sh
+#export GIT_PS1_SHOWDIRTYSTATE=1
+#export GIT_PS1_SHOWSTASHSTATE=1
+#export GIT_PS1_SHOWCOLORHINTS=1
+
+#export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
+#export PROMPT_COMMAND='last_command_exit_code="${_}#${?}" && BashPrompt'
 
 # fuck homebrew & mac
 export HOMEBREW_NO_AUTO_UPDATE=1
