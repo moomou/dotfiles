@@ -1,7 +1,11 @@
 #!/bin/sh
 
-DEV=/dev/sda1
-MNT=hdd
+IMAGE="$1"
+MAPPER_NAME="secure_disk"
+MOUNT_POINT="/mnt/secure_mount"
 
-cryptsetup luksOpen "$DEV" "$MNT"
-mount "/dev/mapper/$MNT" "/media/$MNT"
+sudo cryptsetup luksOpen "$IMAGE" "$MAPPER_NAME"
+sudo mkdir -p "$MOUNT_POINT"
+sudo mount "/dev/mapper/$MAPPER_NAME" "$MOUNT_POINT"
+echo "Disk mounted at $MOUNT_POINT"
+
