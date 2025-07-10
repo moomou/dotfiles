@@ -23,7 +23,7 @@ def compile_context(mk2, context):
 
 class Www(m_base.Base):
     def __init__(self):
-        super(Www, self).__init__(["jinja2", "requests", "markdown2"])
+        super(Www, self).__init__(lazy_import=["jinja2", "requests", "markdown2"])
 
     def serve(self):
         import sys
