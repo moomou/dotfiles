@@ -45,4 +45,4 @@ alias python='python3'
 [ -x "$(command -v fdfind)" ] && alias fd='fdfind'
 
 alias tv='tidy-viewer'
-alias sd='sudo docker'
+alias dk='sudo docker'

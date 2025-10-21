@@ -116,7 +116,8 @@ tab-color
 export PATH="$HOME/.poetry/bin:$PATH"
 . "$HOME/.cargo/env"
 
-[[ -f "$HOME/.cargo/env" ]] && [[ -f "$HOME/.asdf/asdf.sh" ]] && source "$HOME/.asdf/asdf.sh"
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+[[ -f "$HOME/.asdf/asdf.sh" ]] && source "$HOME/.asdf/asdf.sh"
 # Blindly limit gpu:0 power to 300 for now
 [[ $(command -v nvidia-smi) ]] && sudo nvidia-smi -pl 300 &>/dev/null
 

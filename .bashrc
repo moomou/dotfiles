@@ -123,8 +123,11 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
-# claude
-[ -f ~/.cargo/env ] && source "$HOME/.claude/env"
+[ -f ~/.claude/env ] && source "$HOME/.claude/env"
+
+if [ -f /home/moomou/.claude/local/claude ]; then
+    alias claude="/home/moomou/.claude/local/claude"
+fi
 
 # PROFILING STOP
 #set +x

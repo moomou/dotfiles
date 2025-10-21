@@ -20,9 +20,10 @@ fi
 iw dev "$IFACE" set power_save off
 
 # Clear existing rules
-tc qdisc del dev "$IFACE" root 2>/dev/null
+#tc qdisc del dev "$IFACE" root 2>/dev/null
 
 # Root HTB qdisc
+## Root HTB qdisc
 #tc qdisc add dev "$IFACE" root handle 1: htb default 20
 
 ## Classes: High (10) for prioritized traffic, Default (20) for others
