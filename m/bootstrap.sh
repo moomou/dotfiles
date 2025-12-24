@@ -2,24 +2,17 @@
 
 set -euo pipefail
 
-SCRIPT_DIR=$(dirname "$(realpath "$0")")
-
 # required for audiolab
 # sudo apt-get install -y libsndfile1 libsndfile1-dev
 DST=~/.local/bin
-FNAME=m_venv3
 
-pushd $DST
-
-uv venv $FNAME
-source $FNAME/bin/activate
-
-# idk why this complains about numpy
-uv pip install -r $SCRIPT_DIR/pip-requirements.txt
-
-popd
+if ! command -v uv &> /dev/null; then
+    echo "uv is not installed. Installing..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
 
 rm -f $DST/m
-ln -s $SCRIPT_DIR/m $DST/m
+ln -s $(pwd)/m $DST/m
+chmod +x $DST/m
 
 echo "m setup complete"

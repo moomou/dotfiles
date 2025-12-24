@@ -130,3 +130,6 @@ export PATH="$HOME/.poetry/bin:$PATH"
 # to prevent .bash_profile in history
 # including COMMENTS
 set -o history -o histexpand
+
+# Added by Antigravity
+export PATH="/Users/moomou/.antigravity/antigravity/bin:$PATH"

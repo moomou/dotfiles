@@ -116,15 +116,17 @@ fi
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f ~/.gd ] && source ~/.gd
 
-# PROFILING STOP
-#set +x
-#exec 2>&3 3>&-
-# PROFILING STOP
-
-. "$HOME/.cargo/env"
+# Rust
+[ -f ~/.cargo/env ] && source "$HOME/.cargo/env"
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
-source "$HOME/.claude/env"
+# claude
+[ -f ~/.cargo/env ] && source "$HOME/.claude/env"
+
+# PROFILING STOP
+#set +x
+#exec 2>&3 3>&-
+# PROFILING STOP
