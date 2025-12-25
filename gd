@@ -50,8 +50,25 @@ function gd() {
         rm_prefix="$gd_dir/"
         dst_relative_path="${dst_abs_path#$rm_prefix}"
         entry="$key=$dst_relative_path"
-        echo $entry >> $gd_path
-        echo Saved $entry
+        
+        # Check if key already exists and replace it
+        if grep -q "^$key=" "$gd_path"; then
+            # Replace existing entry
+            temp_file=$(mktemp)
+            while IFS='=' read -ra key_value; do
+                if [ "${key_value[0]}" = "$key" ]; then
+                    echo "$entry" >> "$temp_file"
+                else
+                    echo "${key_value[0]}=${key_value[1]}" >> "$temp_file"
+                fi
+            done <"$gd_path"
+            mv "$temp_file" "$gd_path"
+            echo Replaced $entry
+        else
+            # Add new entry
+            echo "$entry" >> "$gd_path"
+            echo Saved $entry
+        fi
         return
     fi
 
