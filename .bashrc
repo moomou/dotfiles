@@ -125,10 +125,6 @@ export PATH=$BUN_INSTALL/bin:$PATH
 
 [ -f ~/.claude/env ] && source "$HOME/.claude/env"
 
-if [ -f /home/moomou/.claude/local/claude ]; then
-    alias claude="/home/moomou/.claude/local/claude"
-fi
-
 # PROFILING STOP
 #set +x
 #exec 2>&3 3>&-
