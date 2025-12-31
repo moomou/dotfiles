@@ -17,6 +17,7 @@ symlink ".vim" ".nvim"
 
 # tmux
 symlink ".tmux.conf"
+symlink ".tmux_color.sh"
 
 # Setup .ssh
 symlink ".ssh_rc" ".ssh/rc"
