@@ -2,10 +2,13 @@
 
 PROJECT_DIR=$(pwd)
 ASDF_DATA_DIR="${ASDF_DATA_DIR:-$HOME/.asdf}"
-CLAUD_DIR="${CLAUD_DIR:-$HOME/.claude}"
 USER_ID=$(id -u)
 GROUP_ID=$(id -g)
 USERNAME="$(whoami)"
+
+CLAUD_DIR="${CLAUD_DIR:-$HOME/.claude}"
+CLAUD_BIND_DIR="/home/$USERNAME/.local/bin"
+CLAUD_SHARE_DIR="/home/$USERNAME/.local/share/claude/"
 
 bwrap \
   --ro-bind /usr /usr \
@@ -21,7 +24,9 @@ bwrap \
   --ro-bind /etc/ssl /etc/ssl \
   --ro-bind /etc/pki /etc/pki \
   --ro-bind /etc/hosts /etc/hosts \
+  --ro-bind $CLAUD_BIND_DIR $CLAUD_BIND_DIR \
   --ro-bind-try /etc/ca-certificates /etc/ca-certificates \
+  --bind $CLAUD_SHARE_DIR $CLAUD_SHARE_DIR \
   --setenv HOME "/home/$USERNAME" \
   --setenv PATH "$PATH" \
   --setenv USER "$USERNAME" \
@@ -39,5 +44,5 @@ bwrap \
   -- /bin/bash -c "
     [ -f \"$HOME/.claude_ro/settings.json\" ] && cp \"$HOME/.claude_ro/settings.json\" \"/home/$USERNAME/.claude/settings.json\"
     unset command_not_found_handle
-    exec /home/$USERNAME/.asdf/shims/claude \"\$@\"
+    exec $CLAUD_BIND_DIR/claude \"\$@\"
   " -- --permission-mode plan --dangerously-skip-permissions "$@"
