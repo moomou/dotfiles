@@ -129,3 +129,4 @@ export PATH=$BUN_INSTALL/bin:$PATH
 #set +x
 #exec 2>&3 3>&-
 # PROFILING STOP
+alias t2i="T2I_ORIGINAL_CWD=\"$PWD\" uv run --directory /home/moomou/dev/mono/t2i t2i"

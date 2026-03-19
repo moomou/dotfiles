@@ -7,7 +7,7 @@ alias vlc='/Applications/VLC.app/Contents/MacOS/VLC'
 alias gshort="git rev-parse --short"
 # if rev-parse is non empty string (obtained via `xargs`), then cd to top level dir
 alias groot='cd $(git rev-parse --show-toplevel)'
-alias grootdir='git rev-parse --show-toplevel'
+alias ggroot='git rev-parse --show-toplevel'
 alias gmendq='(groot; sleep 0 && git add . && git ci --amend --no-edit)'
 alias gmend='(groot; sleep 0 && git add . && git ci --amend)'
 #alias rebase='git pull --rebase origin master && git sub update --init --jobs 4'
@@ -16,8 +16,8 @@ alias gnames='git log --name-status'
 alias gnap='git ci -am "checkpoint" && gpo'
 
 ## quick folder jmp
+alias oss='cd ~/dev/_oss'
 alias dev='cd ~/dev'
-alias study='cd ~/study'
 alias sep='yes hr | head -n 20 | bash'
 alias vpnw='ssh -C2qTnN -D 8081 vpn -C'
 
@@ -46,3 +46,4 @@ alias python='python3'
 
 alias tv='tidy-viewer'
 alias dk='sudo docker'
+alias t2i="uv run --directory /home/moomou/dev/mono/t2i t2i"

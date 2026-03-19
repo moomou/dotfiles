@@ -1,4 +1,4 @@
-FROM golang:1.18-stretch as build-env
+FROM golang:1.25-bookworm as build-env
 
 ARG APP
 # src directory must be of form `go/src/<GOMOD>`
