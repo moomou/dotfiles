@@ -46,4 +46,5 @@ alias python='python3'
 
 alias tv='tidy-viewer'
 alias dk='sudo docker'
-alias t2i="uv run --directory /home/moomou/dev/mono/t2i t2i"
+alias t2i="uv run --directory ~/dev/mono/t2i t2i"
+alias a2t="uv run --directory ~/dev/mono/a2t a2t"
