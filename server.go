@@ -6,11 +6,13 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/mdp/qrterminal"
 )
 
-const PORT = 8082
+const DEFAULT_PORT = 8082
+const MAX_PORT_SCAN = 100
 
 var privateIPBlocks []*net.IPNet
 
@@ -81,6 +83,16 @@ func printLocationQR(port int) {
 
 }
 
+func listenFromPort(start int) (net.Listener, int, error) {
+	for p := start; p < start+MAX_PORT_SCAN; p++ {
+		ln, err := net.Listen("tcp", fmt.Sprintf(":%d", p))
+		if err == nil {
+			return ln, p, nil
+		}
+	}
+	return nil, 0, fmt.Errorf("no available port in range %d-%d", start, start+MAX_PORT_SCAN-1)
+}
+
 func main() {
 	dir, err := os.Getwd()
 	if err != nil {
@@ -92,14 +104,34 @@ func main() {
 		dir = os.Args[1]
 	}
 
-	fmt.Printf("Serving files in the %s on port %d", dir, PORT)
+	var ln net.Listener
+	var port int
 
-	printLocationQR(PORT)
+	if len(os.Args) >= 3 {
+		port, err = strconv.Atoi(os.Args[2])
+		if err != nil {
+			fmt.Printf("invalid port %q: %s\n", os.Args[2], err)
+			os.Exit(1)
+		}
+		ln, err = net.Listen("tcp", fmt.Sprintf(":%d", port))
+		if err != nil {
+			log.Fatalf("cannot bind port %d: %s", port, err)
+		}
+	} else {
+		ln, port, err = listenFromPort(DEFAULT_PORT)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	fmt.Printf("Serving files in the %s on port %d", dir, port)
+
+	printLocationQR(port)
 
 	http.Handle("/", http.FileServer(http.Dir(dir)))
 
-	if err := http.ListenAndServe(":8082", nil); err != nil {
-		log.Fatal("ListenAndServe: ", err)
+	if err := http.Serve(ln, nil); err != nil {
+		log.Fatal("Serve: ", err)
 	}
 
 }
