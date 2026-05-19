@@ -25,10 +25,11 @@ class Www(m_base.Base):
     def __init__(self):
         super(Www, self).__init__(lazy_import=["jinja2", "requests", "markdown2"])
 
-    def serve(self):
+    def serve(self, port=None):
         import sys
 
-        self.shell(f"(cd {M_ROOT}/.. && go run server.go {pl.Path.cwd()})",
+        port_arg = f" {port}" if port else ""
+        self.shell(f"(cd {M_ROOT}/.. && go run server.go {pl.Path.cwd()}{port_arg})",
                 stdout=sys.stdout)
 
 
