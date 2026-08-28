@@ -1,0 +1,72 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "moomoutu3/Qwen3.8-27B",
+  "small_model": "moomoutu3/Qwen3.8-27B",
+  "autoupdate": false,
+  "enabled_providers": [
+    "moomoutu3"
+  ],
+  "share": "disabled",
+  "experimental": {
+    "openTelemetry": false,
+    "policies": [
+      {
+        "effect": "deny",
+        "action": "provider.use",
+        "resource": "*"
+      },
+      {
+        "effect": "allow",
+        "action": "provider.use",
+        "resource": "moomoutu3"
+      }
+    ]
+  },
+  "provider": {
+    "moomoutu3": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "moomoutu3 OpenAI",
+      "options": {
+        "baseURL": "http://moomoutu3:9701/v1",
+        "timeout": false,
+        "chunkTimeout": 180000
+      },
+      "models": {
+        "Qwen3.8-27B": {
+          "name": "Qwen3.8-27B",
+          "attachment": true,
+          "reasoning": true,
+          "tool_call": true,
+          "temperature": true,
+          "limit": {
+            "context": 98304,
+            "output": 16384
+          },
+          "modalities": {
+            "input": [
+              "text",
+              "image"
+            ],
+            "output": [
+              "text"
+            ]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low"
+            },
+            "medium": {
+              "reasoningEffort": "medium"
+            },
+            "high": {
+              "disabled": true
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh"
+            }
+          }
+        }
+      }
+    }
+  }
+}
