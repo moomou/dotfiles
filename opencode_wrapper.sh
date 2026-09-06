@@ -3,9 +3,12 @@
 set -eu
 
 this_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)
+custom_bin="$HOME/.local/lib/opencode-custom/opencode"
 opencode_bin="$this_dir/opencode.real"
 
-if [ ! -x "$opencode_bin" ]; then
+if [ -x "$custom_bin" ]; then
+    opencode_bin="$custom_bin"
+elif [ ! -x "$opencode_bin" ]; then
     filtered_path=
     while IFS= read -r path_entry; do
         if [ -d "$path_entry" ] && [ "$(cd "$path_entry" && pwd -P)" = "$this_dir" ]; then
@@ -22,6 +25,10 @@ if [ -z "$opencode_bin" ] || [ ! -x "$opencode_bin" ]; then
 fi
 
 export OPENCODE_DISABLE_SHARE=1
+export OPENCODE_DISABLE_MODELS_FETCH=1
+export OPENCODE_DISABLE_CHANNEL_DB=1
+export OPENCODE_DEBUG_LLM_TRANSPORT=1
+export OPENCODE_EXPERIMENTAL_NATIVE_LLM=1
 export OPENCODE_CONFIG_CONTENT='{"enabled_providers":["moomoutu3"],"experimental":{"openTelemetry":false,"policies":[{"effect":"deny","action":"provider.use","resource":"*"},{"effect":"allow","action":"provider.use","resource":"moomoutu3"}]}}'
 unset OPENCODE_AUTO_SHARE
 unset OTEL_EXPORTER_OTLP_ENDPOINT

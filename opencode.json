@@ -22,12 +22,15 @@
       }
     ]
   },
+  "compaction": {
+    "prune": true
+  },
   "provider": {
     "moomoutu3": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "moomoutu3 OpenAI",
       "options": {
-        "baseURL": "http://moomoutu3:9701/v1",
+        "baseURL": "http://moomoutu3:9702/v1",
         "timeout": false,
         "chunkTimeout": 180000
       },
@@ -39,7 +42,7 @@
           "tool_call": true,
           "temperature": true,
           "limit": {
-            "context": 98304,
+            "context": 150000,
             "output": 16384
           },
           "modalities": {

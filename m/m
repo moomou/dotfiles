@@ -132,15 +132,36 @@ if __name__ == "__main__":
     import sys
 
     gc.set_threshold(0)
-    # Suicide immediately after other atexit functions finishes.
-    # CPython will do a bunch of cleanups in Py_Finalize which
-    # will again cause Copy-on-Write, including a final GC
-    atexit.register(os._exit, 0)
+    exit_status = [0]
 
-    pos, named = sa.parse(sys.argv[1:])
-    if not pos:
-        sys.exit(M2().print_m_modules())
-    elif pos[0] == "update":
-        M2().update(*pos[1:], **named)
-    else:
-        M2().exec_m_modules(pos[0], *pos[1:], **named)
+    def fast_exit():
+        sys.stdout.flush()
+        sys.stderr.flush()
+        os._exit(exit_status[0])
+
+    # Skip CPython's remaining finalization after later atexit callbacks while
+    # preserving the command's actual exit status.
+    atexit.register(fast_exit)
+
+    try:
+        pos, named = sa.parse(sys.argv[1:])
+        if not pos:
+            sys.exit(M2().print_m_modules())
+        elif pos[0] == "update":
+            M2().update(*pos[1:], **named)
+        else:
+            M2().exec_m_modules(pos[0], *pos[1:], **named)
+    except SystemExit as exc:
+        if exc.code is None:
+            exit_status[0] = 0
+        elif isinstance(exc.code, int):
+            exit_status[0] = exc.code
+        else:
+            exit_status[0] = 1
+        raise
+    except KeyboardInterrupt:
+        exit_status[0] = 130
+        raise
+    except BaseException:
+        exit_status[0] = 1
+        raise
