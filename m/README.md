@@ -15,6 +15,10 @@ Features
 
 It was originally using `python-fire` but I decided to write a minimal command line parser to reduce the startup latency.
 
+The launcher only installs its small shared logging dependency. `uv` resolves
+larger dependencies on demand for the command groups that use them, so core
+commands do not install the audio, scientific, web, or storage stacks.
+
 
 ## Ease of Use
 Adding a new command to `m` is easy. Simply create a python module starting `m_` and inherit from `Base` class inside `m_base.py`.

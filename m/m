@@ -4,19 +4,6 @@
 # requires-python = ">=3.12"
 # dependencies = [
 #     "coloredlogs",
-#     "deco==0.5.2",
-#     "h5py",
-#     "jinja2==2.11.3",
-#     "librosa==0.10.2",
-#     "markdown2",
-#     "matplotlib",
-#     "pydub==0.20.0",
-#     "pyyaml",
-#     "redis",
-#     "requests",
-#     "scipy>=0.19.0",
-#     "tqdm==4.43.0",
-#     "zarr==2.4.0",
 # ]
 # ///
 
@@ -31,6 +18,50 @@ import pathlib as pl
 import m_base
 import simple_argparse as sa
 from constant import M_ROOT
+
+DEPENDENCIES_BY_MODULE = {
+    "audio": (
+        "deco==0.5.2",
+        "h5py",
+        "librosa==0.10.2",
+        "matplotlib",
+        "pydub==0.20.0",
+        "scipy>=0.19.0",
+        "tqdm==4.43.0",
+    ),
+    "dedup": ("tqdm==4.43.0",),
+    "docker": ("pyyaml",),
+    "pipe": (
+        "deco==0.5.2",
+        "librosa==0.10.2",
+        "redis",
+        "requests",
+        "tqdm==4.43.0",
+    ),
+    "shell": ("deco==0.5.2", "requests"),
+    "www": ("jinja2==2.11.3", "markdown2", "pyyaml", "requests"),
+    "zarr": ("zarr==2.4.0",),
+}
+DEPENDENCIES_READY_ENV = "_M_DEPENDENCIES_READY"
+
+
+def ensure_command_dependencies(command):
+    dependencies = DEPENDENCIES_BY_MODULE.get(command.partition(".")[0], ())
+    ready_value = "\n".join(dependencies)
+    if not dependencies or os.environ.get(DEPENDENCIES_READY_ENV) == ready_value:
+        return
+
+    import sys
+
+    env = os.environ.copy()
+    env[DEPENDENCIES_READY_ENV] = ready_value
+
+    uv_args = ["uv", "run"]
+    for dependency in dependencies:
+        uv_args.extend(("--with", dependency))
+    uv_args.extend(("--script", os.path.realpath(__file__), *sys.argv[1:]))
+    os.execvpe(uv_args[0], uv_args, env)
+
 
 with open(os.path.join(M_ROOT, "./log.conf")) as conf:
     logging.config.dictConfig(json.load(conf))
@@ -95,35 +126,22 @@ class M2:
 
     def update(self, pip_install_only=False):
         """
-        Updates the m tool
+        Updates the m tool. uv installs command dependencies on demand.
         """
-        import subprocess
-        import sys
-
         import fs_util
         import git_util
 
-        if not pip_install_only:
-            logger.info("updating m tool by rebasing...")
-            with fs_util.Cwd(M_ROOT):
-                git_util.stash()
-                git_util.rebase()
-                git_util.stash_pop()
-                _, stdout, _ = git_util.log("--pretty=oneline --abbrev-commit -1")
-                logger.info("m updated:: %s", stdout.decode("utf-8").strip())
+        if pip_install_only:
+            logger.info("dependencies are managed by uv and installed on demand")
+            return
 
-        # also install dependency
-        subprocess.check_call(
-            [
-                "uv",
-                "pip",
-                "install",
-                "-r",
-                os.path.join(M_ROOT, "pip-requirements.txt"),
-                "--python",
-                sys.executable,
-            ]
-        )
+        logger.info("updating m tool by rebasing...")
+        with fs_util.Cwd(M_ROOT):
+            git_util.stash()
+            git_util.rebase()
+            git_util.stash_pop()
+            _, stdout, _ = git_util.log("--pretty=oneline --abbrev-commit -1")
+            logger.info("m updated:: %s", stdout.decode("utf-8").strip())
 
 
 if __name__ == "__main__":
@@ -150,6 +168,7 @@ if __name__ == "__main__":
         elif pos[0] == "update":
             M2().update(*pos[1:], **named)
         else:
+            ensure_command_dependencies(pos[0])
             M2().exec_m_modules(pos[0], *pos[1:], **named)
     except SystemExit as exc:
         if exc.code is None:
