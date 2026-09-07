@@ -126,22 +126,34 @@ class M2:
 
     def update(self, pip_install_only=False):
         """
-        Updates the m tool. uv installs command dependencies on demand.
+        Updates the m tool and its shared dependency.
         """
+        import subprocess
+        import sys
+
         import fs_util
         import git_util
 
-        if pip_install_only:
-            logger.info("dependencies are managed by uv and installed on demand")
-            return
+        if not pip_install_only:
+            logger.info("updating m tool by rebasing...")
+            with fs_util.Cwd(M_ROOT):
+                git_util.stash()
+                git_util.rebase()
+                git_util.stash_pop()
+                _, stdout, _ = git_util.log("--pretty=oneline --abbrev-commit -1")
+                logger.info("m updated:: %s", stdout.decode("utf-8").strip())
 
-        logger.info("updating m tool by rebasing...")
-        with fs_util.Cwd(M_ROOT):
-            git_util.stash()
-            git_util.rebase()
-            git_util.stash_pop()
-            _, stdout, _ = git_util.log("--pretty=oneline --abbrev-commit -1")
-            logger.info("m updated:: %s", stdout.decode("utf-8").strip())
+        subprocess.check_call(
+            [
+                "uv",
+                "pip",
+                "install",
+                "-r",
+                os.path.join(M_ROOT, "pip-requirements.txt"),
+                "--python",
+                sys.executable,
+            ]
+        )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,3 @@
+# Kept for older m update processes that read this file after pulling new code.
+# Optional command dependencies belong in DEPENDENCIES_BY_MODULE in m.
+coloredlogs
