@@ -34,7 +34,7 @@ if hash nvim 2>/dev/null; then
 fi
 
 # osx alias
-if [ "$(uname)" == "Darwin" ]; then
+if [[ $OSTYPE == darwin* ]]; then
     # alias ls='gls -X --color=auto --group-directories-first'
     alias shred='gshred'
     alias canary="/Applications/Google\ Chrome\ Canary.app/Contents/MacOS/Google\ Chrome\ Canary --remote-debugging-port=9222"
@@ -42,7 +42,7 @@ fi
 
 alias rg='rg -S'
 alias python='python3'
-[ -x "$(command -v fdfind)" ] && alias fd='fdfind'
+command -v fdfind >/dev/null 2>&1 && alias fd='fdfind'
 
 alias tv='tidy-viewer'
 alias dk='sudo docker'

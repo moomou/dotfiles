@@ -9,10 +9,10 @@ set +o history
 complete -d cd
 
 ## shortcut for commands
-if [ "$(uname)" == "Darwin" ]; then
+if [[ $OSTYPE == darwin* ]]; then
     export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_102.jdk/Contents/Home
     # set power status on osx
-    if [[ $(pmset -g ps | head -1) =~ "AC Power" ]]; then
+    if [[ $(/usr/bin/pmset -g ps) == *"AC Power"* ]]; then
         export ACPOWER=1
     else
         export ACPOWER=0
@@ -20,7 +20,7 @@ if [ "$(uname)" == "Darwin" ]; then
 fi
 
 if [ -f ~/.prompt_prefix ]; then
-    PROMPT_PREFIX=$(cat ~/.prompt_prefix)
+    PROMPT_PREFIX=$(< ~/.prompt_prefix)
 else
     PROMPT_PREFIX=''
 fi
@@ -28,31 +28,65 @@ fi
 ## Make vim the default
 export EDITOR=vim
 
-## Bash Completion
-if [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-fi
 ## Git auto complete
-if [ -f ~/.git-completion.bash ]; then
+if [[ $- == *i* ]] && [ -f ~/.git-completion.bash ]; then
     . ~/.git-completion.bash
 fi
 
 # Some generic env var
 export GOPATH=$HOME/go
-export PYENV_PATH=$HOME/.pyenv/
+export PYENV_PATH=$HOME/.pyenv
 export PROTOC_BIN=/usr/local/protoc/bin
 # export CUDA_PATH=/usr/local/cuda-12.1
 # export LD_LIBRARY_PATH=/usr/local/cuda-12.1/lib64:$LD_LIBRARY_PATH
 export CUDA_PATH=/usr/local/cuda
-export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH="/usr/local/cuda/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
-export PATH="/usr/local/sbin:$PYENV_PATH/bin:$CUDA_PATH/bin:$GOPATH/bin:$MATLAB_HOME/bin:~/bin:$PROTOC_BIN:$PATH"
-export PATH=~/.local/bin:$PATH
-export PATH="~/.fz/bin:$PATH"
-export PATH="~/Library/Python/3.11/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH="/usr/local/go/bin:$PATH"
-export PATH="~/google-cloud-sdk/bin:$PATH"
+_configure_path() {
+    local entry old_ifs
+    local new_path=
+    local -a entries existing
+
+    entries=(
+        "$HOME/.antigravity/antigravity/bin"
+        "${ASDF_DATA_DIR:-$HOME/.asdf}/shims"
+        "${ASDF_DIR:-$HOME/.asdf}/bin"
+        "$HOME/.poetry/bin"
+        "$HOME/.bun/bin"
+        "$HOME/.cargo/bin"
+        "$HOME/google-cloud-sdk/bin"
+        /usr/local/go/bin
+        /opt/homebrew/bin
+        "$HOME/Library/Python/3.11/bin"
+        "$HOME/.fz/bin"
+        "$HOME/.local/bin"
+        /usr/local/sbin
+        "$PYENV_PATH/bin"
+        "$CUDA_PATH/bin"
+        "$GOPATH/bin"
+    )
+    [[ -n ${MATLAB_HOME:-} ]] && entries+=("$MATLAB_HOME/bin")
+    entries+=("$HOME/bin" "$PROTOC_BIN")
+
+    old_ifs=$IFS
+    IFS=:
+    read -ra existing <<< "$PATH"
+    IFS=$old_ifs
+    entries+=("${existing[@]}")
+
+    for entry in "${entries[@]}"; do
+        [[ -n $entry && $entry != '~/'* ]] || continue
+        case ":$new_path:" in
+            *":$entry:"*) ;;
+            *) new_path="${new_path:+$new_path:}$entry" ;;
+        esac
+    done
+
+    PATH=$new_path
+}
+
+_configure_path
+export PATH
 # skip git lfs by default
 export GIT_LFS_SKIP_SMUDGE=1
 
@@ -105,7 +139,7 @@ export APPLE_SSH_ADD_BEHAVIOR=macos
 export LC_COLLATE=C
 export CLOUDSDK_PYTHON=python3
 
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+[[ $- == *i* ]] && test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "~/google-cloud-sdk/path.bash.inc" ]; then source "~/google-cloud-sdk/path.bash.inc"; fi
@@ -113,15 +147,10 @@ if [ -f "~/google-cloud-sdk/path.bash.inc" ]; then source "~/google-cloud-sdk/pa
 # The next line enables shell command completion for gcloud.
 if [ -f "~/google-cloud-sdk/completion.bash.inc" ]; then source "~/google-cloud-sdk/completion.bash.inc"; fi
 
-tab-color
+[[ $- == *i* && -n $ITERM_SESSION_ID ]] && tab-color
 
-export PATH="$HOME/.poetry/bin:$PATH"
-. "$HOME/.cargo/env"
-
-export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
-[[ -f "$HOME/.asdf/asdf.sh" ]] && source "$HOME/.asdf/asdf.sh"
-# Blindly limit gpu:0 power to 300 for now
-[[ $(command -v nvidia-smi) ]] && sudo nvidia-smi -pl 300 &>/dev/null
+[[ -f "$HOME/.asdf/asdf.sh" ]] && ASDF_FORCE_PREPEND=no source "$HOME/.asdf/asdf.sh"
+unset -f _configure_path
 
 
 # <PROFILING STOP>
@@ -133,6 +162,3 @@ export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
 # to prevent .bash_profile in history
 # including COMMENTS
 set -o history -o histexpand
-
-# Added by Antigravity
-export PATH="/Users/moomou/.antigravity/antigravity/bin:$PATH"

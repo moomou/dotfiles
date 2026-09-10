@@ -109,11 +109,13 @@ fi
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
+if [[ $- == *i* ]]; then
+    if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+        . /etc/bash_completion
+    fi
+    [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f ~/.gd ] && source ~/.gd
 
 # Rust
@@ -121,7 +123,10 @@ fi
 
 # bun
 export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
+case ":$PATH:" in
+    *":$BUN_INSTALL/bin:"*) ;;
+    *) export PATH="$BUN_INSTALL/bin:$PATH" ;;
+esac
 
 [ -f ~/.claude/env ] && source "$HOME/.claude/env"
 
