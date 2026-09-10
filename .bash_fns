@@ -1,23 +1,36 @@
-random-255() {
-    RANDOM=$$$(date +%s)
-    echo $((RANDOM % 255))
-}
-
-hex2rgb() {
-    echo $(python3 -c 'import json; h = "'$1'"; print(json.dumps(tuple(int(h[i:i+2], 16) for i in (0, 2, 4))))')
-}
-
 # https://gist.github.com/wadey/1140259
 tab-color() {
-    colors=('e6194b' '3cb44b' 'ffe119' '4363d8' 'f58231' '911eb4' '46f0f0' 'f032e6' 'bcf60c' 'fabebe' '008080' 'e6beff' '9a6324' 'fffac8' '800000' 'aaffc3' '808000' 'ffd8b1' '000075' '808080' 'ffffff' '000000')
-    color=${colors[$RANDOM % ${#colors[@]}]}
-    color=$(hex2rgb $color)
-    R=${1:-$(echo $color | jq .[0])}
-    G=${2:-$(echo $color | jq .[1])}
-    B=${3:-$(echo $color | jq .[2])}
-    echo -ne "\033]6;1;bg;red;brightness;$R\a"
-    echo -ne "\033]6;1;bg;green;brightness;$G\a"
-    echo -ne "\033]6;1;bg;blue;brightness;$B\a"
+    local colors=('e6194b' '3cb44b' 'ffe119' '4363d8' 'f58231' '911eb4' '46f0f0' 'f032e6' 'bcf60c' 'fabebe' '008080' 'e6beff' '9a6324' 'fffac8' '800000' 'aaffc3' '808000' 'ffd8b1' '000075' '808080' 'ffffff' '000000')
+    local host directory key color red green blue char
+    local hash=5381 code i
+    local LC_ALL=C
+
+    if (( $# == 3 )); then
+        red=$1
+        green=$2
+        blue=$3
+    else
+        host=${1:-$HOSTNAME}
+        [[ -n "$host" ]] || host=$(hostname)
+        directory=${2:-${PWD##*/}}
+        [[ -n "$directory" ]] || directory=/
+        key="$host:$directory"
+
+        # DJB2 avoids spawning a checksum process on every invocation.
+        for ((i = 0; i < ${#key}; i++)); do
+            char=${key:i:1}
+            printf -v code '%d' "'$char"
+            hash=$(( ((hash << 5) + hash + code) & 0x7fffffff ))
+        done
+
+        color=${colors[$((hash % ${#colors[@]}))]}
+        red=$((16#${color:0:2}))
+        green=$((16#${color:2:2}))
+        blue=$((16#${color:4:2}))
+    fi
+
+    printf '\033]6;1;bg;red;brightness;%s\a\033]6;1;bg;green;brightness;%s\a\033]6;1;bg;blue;brightness;%s\a' \
+        "$red" "$green" "$blue"
 }
 tab-reset() {
     echo -ne "\033]6;1;bg;*;default\a"
