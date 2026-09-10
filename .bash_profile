@@ -62,30 +62,32 @@ source ~/.bashrc 2>/dev/null
 # source files if exists
 # [[ -s "~/.cuebenv/activate.sh" ]] && source ". ~/.cuebenv/activate.sh"
 
-# Function to check if we are in a Git LFS directory
+# Check whether Git LFS filters are configured at a repository root.
 is_git_lfs_directory() {
-  # Check if the .git directory and .gitattributes file exist
-  if [ -d .git ] && git config -l | grep -q 'filter.lfs'; then
+  if [ -d .git ] && git config --get-regexp '^filter\.lfs\.' >/dev/null 2>&1; then
     return 0  # It's a Git LFS directory
   else
     return 1  # It's not a Git LFS directory
   fi
 }
 
-# Modify the Git prompt behavior based on whether we're in a Git LFS directory
-if is_git_lfs_directory; then
-  export GIT_PROMPT_ONLY_IN_REPO=1
-else
-  # Normal Git prompt configuration here
-  export GIT_PROMPT_ONLY_IN_REPO=0
-  export GIT_PS1_SHOWDIRTYSTATE=1
-  export GIT_PS1_SHOWSTASHSTATE=1
-  export GIT_PS1_SHOWCOLORHINTS=1
-  export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
-  export PROMPT_COMMAND='last_command_exit_code="${_}#${?}" && BashPrompt'
+# Configure the prompt only for interactive shells.
+if [[ $- == *i* ]]; then
+    if is_git_lfs_directory; then
+        export GIT_PROMPT_ONLY_IN_REPO=1
+    else
+        export GIT_PROMPT_ONLY_IN_REPO=0
+        export GIT_PS1_SHOWDIRTYSTATE=1
+        export GIT_PS1_SHOWSTASHSTATE=1
+        export GIT_PS1_SHOWCOLORHINTS=1
+        if [ -f ~/.git-prompt.sh ]; then
+            source ~/.git-prompt.sh
+            export PS1=$PS1'$(__git_ps1 "\[\e[0;32m\](%s) \[\e[0m\]")\n$ '
+        fi
+        PROMPT_COMMAND=BashPrompt
+    fi
 fi
 
-source ~/.git-prompt.sh
 #export GIT_PS1_SHOWDIRTYSTATE=1
 #export GIT_PS1_SHOWSTASHSTATE=1
 #export GIT_PS1_SHOWCOLORHINTS=1
