@@ -43,7 +43,7 @@
           "temperature": true,
           "limit": {
             "context": 150000,
-            "output": 16384
+            "output": 32768
           },
           "modalities": {
             "input": [
